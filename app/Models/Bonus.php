@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Bonus extends Model
+{
+    use HasFactory;
+    use SoftDeletes;
+
+    protected $table ='bonus';
+    protected $fillable =['id','payroll_id','name','month','amount','description','created_by','updated_by'];
+    
+    public function payroll(){
+        return $this->belongsTo('App\Models\PayrollInformation','payroll_id','id')->with('employee');
+    }
+}

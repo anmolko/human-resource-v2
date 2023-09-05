@@ -1,0 +1,151 @@
+
+  h1,
+  .h1,
+  h2,
+  .h2,
+  h3,
+  .h3,
+  h4,
+  .h4,
+  h5,
+  .h5,
+  h6,
+  .h6 {
+    color: #292929;
+    font-weight: bold;
+  }
+  .cv-main-container a.theme-link {
+    color: #292929;
+    text-decoration: underline;
+    -webkit-text-decoration-color: rgba(41, 41, 41, 0.3);
+    text-decoration-color: rgba(41, 41, 41, 0.3);
+  }
+  .cv-main-container a.theme-link:hover {
+    color: #54b689;
+    -webkit-text-decoration-color: rgba(84, 182, 137, 0.8);
+    text-decoration-color: rgba(84, 182, 137, 0.8);
+  }
+  .cv-main-container .btn {
+    font-weight: bold;
+    padding: 0.375rem 1rem;
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+  .cv-main-container .btn:focus,
+.cv-main-container .btn.focus {
+    box-shadow: none !important;
+  }
+  .cv-main-container .btn-primary {
+    color: #fff;
+  }
+  .cv-main-container .demo-btn-on-bg {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .cv-main-container .demo-btn-on-bg:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .cv-main-container .resume-wrapper {
+    border: 1px solid rgba(0, 0, 0, 0.025);
+  }
+  .cv-main-container .resume-section-heading {
+    position: relative;
+    padding-left: 1rem;
+    font-size: 1.125rem;
+    letter-spacing: 0.15rem;
+    color: #54b689;
+  }
+  .resume-section-heading:before {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 100%;
+    background: #54b689;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .resume-name {
+    font-size: 2.75rem;
+    font-weight: 900;
+    letter-spacing: 0.4rem;
+    color: #54b689;
+  }
+  .resume-tagline {
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+  .resume-contact {
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    font-size: 0.75rem;
+  }
+  a.resume-link {
+    color: #4f4f4f;
+  }
+  a.resume-link:hover {
+    color: #54b689;
+  }
+  .resume-profile-image {
+    max-width: 120px;
+  }
+  .resume-intro {
+    font-size: 0.875rem;
+  }
+  .resume-main .item-title {
+    font-size: 1rem;
+  }
+  .resume-main .item-meta {
+    font-size: 0.75rem;
+  }
+  .resume-main .item-content {
+    font-size: 0.875rem;
+  }
+  .resume-aside {
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .resume-aside .item {
+    font-size: 0.875rem;
+  }
+  .resume-aside .item-title {
+    font-size: 1rem;
+  }
+  .resume-education-list,
+  .resume-awards-list {
+    font-size: 0.875rem;
+  }
+  .resume-degree-time-org,
+  .resume-degree-time {
+    font-size: 0.75rem;
+  }
+  .resume-lang-list,
+  .resume-interests-list {
+    font-size: 0.875rem;
+  }
+  .resume-social-list {
+    font-size: 0.75rem;
+  }
+
+  .sectionContent.skill-list ul,.sectionContent.skill-list ol {
+    margin-left: -15px;
+}
+
+.declaration{
+    font-size: 1.125rem;
+    letter-spacing: 0.15rem;
+    color: #54b689;
+    text-transform: uppercase!important;
+}
+
+  .fa-heart {
+    color: #fb866a;
+  }
+  @media (max-width: 991.98px) {
+    .resume-aside {
+      border-left: 0;
+    }
+  }
+  @media (max-width: 767.98px) {
+    .resume-contact {
+      border-left: 0;
+    }
+  }
+  
