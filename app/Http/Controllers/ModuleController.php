@@ -22,10 +22,10 @@ class ModuleController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
-        $modules = Module::all();
+        $modules = Module::latest()->get();
         return view('admin.module.index', compact('modules'));
     }
 
@@ -83,7 +83,7 @@ class ModuleController extends Controller
      */
     public function edit($id)
     {
-      
+
         $editmodule = Module::find($id);
 
         return response()->json($editmodule);
@@ -127,7 +127,7 @@ class ModuleController extends Controller
     {
         $deletemodule = Module::find($id);
         $rid             = $deletemodule->id;
-    
+
         $checkroles    = $deletemodule->roles()->get();
         $checkperissions = $deletemodule->permissions()->get();
         if ($checkroles->count() > 0 || $checkperissions->count() > 0) {
@@ -160,7 +160,7 @@ class ModuleController extends Controller
         $checkroles    = $module->roles()->get();
         $checkperissions = $module->permissions()->get();
         if ($checkroles->count() > 0 || $checkperissions->count() > 0) {
-        
+
             return 0;
         } else {
             Module::onlyTrashed()->where('id', $id)->forceDelete();
@@ -199,5 +199,5 @@ class ModuleController extends Controller
         return response()->json($data_arr);
     }
 
-    
+
 }

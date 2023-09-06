@@ -27,7 +27,7 @@ class RoleController extends Controller
 
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::latest()->get();
         return view('admin.role.index',compact('roles'));
     }
 
@@ -63,7 +63,7 @@ class RoleController extends Controller
         }
 
         return redirect()->back();
-        //this is route method of redirect. another one is by URL 
+        //this is route method of redirect. another one is by URL
         //eg: return redirect('/name-of-url');
 
     }
@@ -153,13 +153,13 @@ class RoleController extends Controller
     }
 
     public function deletetrash($id){
-        
+
         $role            = Role::onlyTrashed()->where('id', $id)->get();
         $rid             = $role[0]->id;
         $checkmodules    = $role[0]->modules()->get();
         $checkperissions = $role[0]->permissions()->get();
         if ($checkmodules->count() > 0 || $checkperissions->count() > 0) {
-        
+
             return 0;
         } else {
             Role::onlyTrashed()->where('id', $id)->forceDelete();
@@ -235,7 +235,7 @@ class RoleController extends Controller
                                         ->get();
 
             }
-        }   
+        }
 
         foreach($main_remove_permission_data as $remove_permission_data){
             foreach($remove_permission_data as $remove){

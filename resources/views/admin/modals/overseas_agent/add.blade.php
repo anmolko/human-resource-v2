@@ -61,8 +61,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Company Address <span class="text-danger">*</span></label>
-                    <input class="form-control"  name="company_address" type="text" required>
+                    <label>Company Address </label>
+                    <input class="form-control"  name="company_address" type="text">
                     <div class="invalid-feedback">
                         Please enter Company Address.
                     </div>
@@ -76,8 +76,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="col-form-label">Country <span class="text-danger">*</span></label>
-                            <select class="custom-select" name="country" id="country" required>
+                            <label class="col-form-label">Country </label>
+                            <select class="custom-select" name="country" id="country">
                                 <option value disabled selected> Select Country</option>
                                 @foreach($countries as $key => $value)
                                     <option value="{{$key}}">{{ucwords($value)}} </option>
@@ -95,8 +95,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="col-form-label">State <span class="text-danger">*</span></label>
-                            <select class="custom-select" name="state" id="state" required>
+                            <label class="col-form-label">State </label>
+                            <select class="custom-select" name="state" id="state">
                                 <option value disabled selected> Select State</option>
 
                             </select>
@@ -216,8 +216,8 @@
                     <h4 class="modal-sub-title"><i class="lar la-id-badge"></i>Personal Information</h4>
                 </div>
                 <div class="form-group">
-                    <label>Full Name </label>
-                    <input class="form-control"  name="fullname" type="text" >
+                    <label>Full Name <span class="text-danger">*</span></label>
+                    <input class="form-control"  name="fullname" type="text" required>
                     <div class="invalid-feedback">
                         Please enter Full Name.
                     </div>

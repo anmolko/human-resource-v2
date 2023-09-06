@@ -25,8 +25,8 @@
                     @endif
                 </div>
                 <div class="form-group">
-                    <label>Description <span class="text-danger">*</span></label>
-                    <textarea class="form-control updatedescription" name="description" id="description" rows="4" required></textarea>
+                    <label>Description </label>
+                    <textarea class="form-control updatedescription" name="description" id="description" rows="4"></textarea>
                     <div class="invalid-feedback">
                         Please enter a Job Category.
                     </div>

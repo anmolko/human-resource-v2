@@ -26,7 +26,7 @@ class PermissionController extends Controller
 
     public function index()
     {
-        $permissions = Permission::all();
+        $permissions = Permission::latest()->get();
         $modulevalue       = Module::select('id','name')->get();
         // $modulevalue     = [];
         // $modulevalue[''] ='Select Module';
@@ -173,7 +173,7 @@ class PermissionController extends Controller
         $rid             = $trashremoval[0]->id;
         $checkroles    = $trashremoval[0]->roles()->get();
         if ($checkroles->count() > 0 ) {
-        
+
             return 0;
         } else {
             Permission::onlyTrashed()->where('id', $id)->forceDelete();
@@ -211,5 +211,5 @@ class PermissionController extends Controller
         }
         return response()->json($data_arr);
     }
- 
+
 }

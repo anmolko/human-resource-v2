@@ -100,12 +100,12 @@
                         @foreach($demand_info as $demand)
                             <tr data-child-value="{{$demand}}">
                                 <td class="details-control"><i class="fa fa-plus-square" aria-hidden="true"></i></td>
-                                <td>{{$demand->ref_no}} </td>
-                                <td>{{ucwords(@$demand->company_name)}}</td>
-                                <td>{{ucwords(@$demand->countryState->country)}} -
-                                               {{ucwords(@$demand->countryState->state)}} </td>
-                                <td>{{\Carbon\Carbon::parse($demand->expired_date)->isoFormat('MMMM Do, YYYY')}}</td>
-                                <td>{{ucwords(App\Models\OverseasAgent::find($demand->overseas_agent_id)->fullname)}}</td>
+                                <td>{{$demand->ref_no ?? ''}} </td>
+                                <td>{{ucwords(@$demand->company_name ?? '')}}</td>
+                                <td>{{ucwords(@$demand->countryState->country ?? '')}}
+                                               {{@$demand->countryState ? ' - '.$demand->countryState->state:'' }} </td>
+                                <td>{{ $demand->expired_date ? \Carbon\Carbon::parse($demand->expired_date)->isoFormat('MMMM Do, YYYY'):''}}</td>
+                                <td>{{ $demand->overseas_agent_id ? ucwords(App\Models\OverseasAgent::find($demand->overseas_agent_id)->fullname) :''}}</td>
                                 <td>
                                     <div class="dropdown">
                                         <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -548,26 +548,30 @@
                     $('#company_name').attr('value',dataResult.demand_info_agent.company_name);
                     $('select[name="overseas_agent_id"] option[value="'+dataResult.demand_info_agent.overseas_agent_id+'"]').prop('selected', true);
                     $('#country option[value="'+dataResult.demand_info_agent.country+'"]').prop('selected', true);
-                    var state;
-                    state += '<option value disabled selected> Select State</option>';
 
-                    $('#select2-country-container').text(dataResult.demand_info_agent.country_state.country);
-                    var actionn = "{{ route('overseas-agent.state') }}?country_code=" + dataResult.demand_info_agent.country_state.country_code;
-                    $.ajax({
-                        url: actionn,
-                        type: "GET",
-                        success: function(dataRes){
-                            $.each(dataRes, function (indexx, valuee) {
-                                if(indexx==dataResult.demand_info_agent.country_state_id){
-                                    state +=  '<option value="'+indexx+'" selected>'+valuee+'</option>';
-                                }else{
-                                    state +=  '<option value="'+indexx+'">'+valuee+'</option>';
-                                }
-                            })
-                            $('#state').html(state);
-                        },
-                        error: function(error){}
-                    });
+                   if (dataResult.demand_info_agent.country_state){
+                       var state;
+                       state += '<option value disabled selected> Select State</option>';
+
+                       $('#select2-country-container').text(dataResult.demand_info_agent.country_state.country);
+                       var actionn = "{{ route('overseas-agent.state') }}?country_code=" + dataResult.demand_info_agent.country_state.country_code;
+                       $.ajax({
+                           url: actionn,
+                           type: "GET",
+                           success: function(dataRes){
+                               $.each(dataRes, function (indexx, valuee) {
+                                   if(indexx==dataResult.demand_info_agent.country_state_id){
+                                       state +=  '<option value="'+indexx+'" selected>'+valuee+'</option>';
+                                   }else{
+                                       state +=  '<option value="'+indexx+'">'+valuee+'</option>';
+                                   }
+                               })
+                               $('#state').html(state);
+                           },
+                           error: function(error){}
+                       });
+                   }
+
 
                     $('#address').attr('value',dataResult.demand_info_agent.address);
                     $('#telephone').attr('value',dataResult.demand_info_agent.telephone);

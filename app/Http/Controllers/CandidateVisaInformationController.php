@@ -37,11 +37,11 @@ class CandidateVisaInformationController extends Controller
                 $query->where('status','visa-received');
             })->get();
 
-        $sub_status                  =  SubStatus::all();
-        $airline_detail              =  AirlineDetail::all();
-        $ticketing_agents            =  TicketingAgent::all();
-        $demand_info                 =  DemandInformation::all();
-        $job_category                =  JobCategory::all();
+        $sub_status                  =  SubStatus::latest()->get();
+        $airline_detail              =  AirlineDetail::latest()->get();
+        $ticketing_agents            =  TicketingAgent::latest()->get();
+        $demand_info                 =  DemandInformation::latest()->get();
+        $job_category                =  JobCategory::latest()->get();
         $data                        = getCompanySortedData($visa_candidates);
         return view('admin.candidate.processing.visa_received.index',compact('airline_detail','ticketing_agents','data','visa_candidates','sub_status','demand_info','job_category'));
     }

@@ -65,8 +65,8 @@
                                     @foreach($trashed as $trash)
                                     <tr>
                                         <td> {{$i++}}          </td>
-                                        <td> {{ucwords($trash->fullname)}}  </td>
-                                        <td>{{ucwords($trash->client_no)}}</td>
+                                        <td> {{ucwords($trash->fullnamevv ?? '')}}  </td>
+                                        <td>{{ucwords($trash->client_no ?? '')}}</td>
                                         <td> @if ($trash->status=='continued')
                                             <i class="fa fa-dot-circle-o text-success"></i> Continued
                                             @else

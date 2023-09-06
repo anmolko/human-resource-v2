@@ -25,7 +25,7 @@ class SubStatusController extends Controller
 
     public function index()
     {
-         $substatus = SubStatus::all();
+         $substatus = SubStatus::latest()->get();
         return view('admin.sub_status.index',compact('substatus'));
     }
 
@@ -36,7 +36,7 @@ class SubStatusController extends Controller
      */
     public function create()
     {
-       
+
     }
 
     /**

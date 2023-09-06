@@ -52,7 +52,7 @@ class CandidatePersonalInformationController extends Controller
     public function index()
     {
         $candidate_personal = CandidatePersonalInformation::with('professionalInfo')->get();
-        $reference = ReferenceInformation::all();
+        $reference = ReferenceInformation::latest()->get();
         $countries = CountryState::getCountries();
         return view('admin.candidate.index',compact('candidate_personal','reference','countries'));
 
@@ -572,7 +572,7 @@ class CandidatePersonalInformationController extends Controller
             return abort(404);
         }
         $document_info      = CandidateDocumentInformation::where('candidate_personal_information_id',$candidate_personal->id)->get();
-        $reference          = ReferenceInformation::all();
+        $reference          = ReferenceInformation::latest()->get();
         $professional_info  = CandidateProfessionalInformation::with('personalInfo')->where('candidate_personal_information_id',$candidate_personal->id)->get();
         $medical_info       = CandidateMedicalReport::with('personalInfo')->where('candidate_personal_information_id',$candidate_personal->id)->first();
         $training_info      = CandidateProfessionalTraining::where('candidate_personal_information_id',$candidate_personal->id)->get();
@@ -585,7 +585,7 @@ class CandidatePersonalInformationController extends Controller
         $license_info       = CandidateLicenseInformation::where('candidate_personal_information_id',$candidate_personal->id)->get();
         $demand_job_info    = CandidateDemandJobInformation::where('candidate_personal_information_id',$candidate_personal->id)->first();
         $countries          = CountryState::getCountries();
-        $clinic_detail      = HealthClinicInformation::all();
+        $clinic_detail      = HealthClinicInformation::latest()->get();
         $applied_info       = CandidateSubStatusHistory::where('candidate_personal_information_id',$candidate_personal->id)->where('status','applied')->get();
         $selected_info      = CandidateSubStatusHistory::where('candidate_personal_information_id',$candidate_personal->id)->where('status','selected')->get();
         $under_info         = CandidateSubStatusHistory::where('candidate_personal_information_id',$candidate_personal->id)->where('status','under-process')->get();
@@ -604,12 +604,12 @@ class CandidatePersonalInformationController extends Controller
     public function addalldetails($id){
         $candidate_personal = CandidatePersonalInformation::with('referenceInfo')->find($id);
         $countries          = CountryState::getCountries();
-        $substatus          = SubStatus::all();
-        $reference          = ReferenceInformation::all();
-        $jobcategory        = JobCategory::all();
-        $overseasagent      = OverseasAgent::all();
-        $demandinfo         = DemandInformation::all();
-        $clinic_detail      = HealthClinicInformation::all();
+        $substatus          = SubStatus::latest()->get();
+        $reference          = ReferenceInformation::latest()->get();
+        $jobcategory        = JobCategory::latest()->get();
+        $overseasagent      = OverseasAgent::latest()->get();
+        $demandinfo         = DemandInformation::latest()->get();
+        $clinic_detail      = HealthClinicInformation::latest()->get();
         $professional_info  = CandidateProfessionalInformation::with('personalInfo')->where('candidate_personal_information_id',$candidate_personal->id)->get();
         $medical_info       = CandidateMedicalReport::with('personalInfo')->where('candidate_personal_information_id',$candidate_personal->id)->first();
         $training_info      = CandidateProfessionalTraining::where('candidate_personal_information_id',$candidate_personal->id)->get();

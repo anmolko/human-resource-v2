@@ -40,7 +40,7 @@ class HomeController extends Controller
         $contra_voucher = ContraVoucher::with('contraParticulars')->orderBy('created_at','desc')->limit(5)->get();
         $payment_voucher = PaymentVoucher::with('PaymentParticulars')->orderBy('created_at','desc')->limit(3)->get();
         $receipt_voucher = ReceiptVoucher::with('receiptParticulars')->orderBy('created_at','desc')->limit(3)->get();
-        $all_roles = Role::all();
+        $all_roles = Role::latest()->get();
         $journal_total = JournalEntry::count();
         $receipt_total = ReceiptVoucher::count();
         $payment_total = PaymentVoucher::count();
@@ -57,7 +57,7 @@ class HomeController extends Controller
         $payment_voucher = PaymentVoucher::with('PaymentParticulars')->orderBy('created_at','desc')->limit(3)->get();
         $receipt_voucher = ReceiptVoucher::with('receiptParticulars')->orderBy('created_at','desc')->limit(3)->get();
         $journal_entry = JournalEntry::with('journalParticulars')->orderBy('created_at','desc')->limit(3)->get();
-        $all_roles = Role::all();
+        $all_roles = Role::latest()->get();
         $journal_total = JournalEntry::count();
         $receipt_total = ReceiptVoucher::count();
         $payment_total = PaymentVoucher::count();
@@ -72,7 +72,7 @@ class HomeController extends Controller
         $demand_information = DemandInformation::orderBy('created_at','desc')->limit(3)->get();
         $candidate_information = CandidatePersonalInformation::orderBy('created_at','desc')->limit(3)->get();
         $reference_information = ReferenceInformation::orderBy('created_at','desc')->limit(3)->get();
-        $all_roles = Role::all();
+        $all_roles = Role::latest()->get();
         $reference_total = ReferenceInformation::count();
         $candidate_total = CandidatePersonalInformation::count();
         $demand_total = DemandInformation::count();
@@ -89,7 +89,7 @@ class HomeController extends Controller
         $demand_information = DemandInformation::orderBy('created_at','desc')->limit(3)->get();
         $candidate_information = CandidatePersonalInformation::orderBy('created_at','desc')->limit(3)->get();
         $reference_information = ReferenceInformation::orderBy('created_at','desc')->limit(3)->get();
-        $all_roles = Role::all();
+        $all_roles = Role::latest()->get();
         $reference_total = ReferenceInformation::count();
         $candidate_total = CandidatePersonalInformation::count();
         $demand_total = DemandInformation::count();
@@ -104,7 +104,7 @@ class HomeController extends Controller
         $demand_information = DemandInformation::orderBy('created_at','desc')->limit(3)->get();
         $candidate_information = CandidatePersonalInformation::orderBy('created_at','desc')->limit(3)->get();
         $reference_information = ReferenceInformation::orderBy('created_at','desc')->limit(3)->get();
-        $all_roles = Role::all();
+        $all_roles = Role::latest()->get();
         $reference_total = ReferenceInformation::count();
         $candidate_total = CandidatePersonalInformation::count();
         $demand_total = DemandInformation::count();
@@ -121,7 +121,7 @@ class HomeController extends Controller
         $contra_voucher = ContraVoucher::with('contraParticulars')->orderBy('created_at','desc')->limit(5)->get();
         $payment_voucher = PaymentVoucher::with('PaymentParticulars')->orderBy('created_at','desc')->limit(3)->get();
         $receipt_voucher = ReceiptVoucher::with('receiptParticulars')->orderBy('created_at','desc')->limit(3)->get();
-        $all_roles = Role::all();
+        $all_roles = Role::latest()->get();
         $journal_total = JournalEntry::count();
         $receipt_total = ReceiptVoucher::count();
         $payment_total = PaymentVoucher::count();

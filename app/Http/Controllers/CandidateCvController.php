@@ -29,7 +29,7 @@ class CandidateCvController extends Controller
     public function index()
     {
         $candidate_cvs = CandidateCV::with('personalInfo')->get();
-        $candidate_personals = CandidatePersonalInformation::all();
+        $candidate_personals = CandidatePersonalInformation::latest()->get();
         return view('admin.candidate_cv.index',compact('candidate_cvs','candidate_personals'));
     }
 
@@ -91,7 +91,7 @@ class CandidateCvController extends Controller
 
         $name = $candidate_personal->candidate_firstname." ".$candidate_personal->candidate_middlename." ".$candidate_personal->candidate_lastname;
 
-        $candidates       = CandidatePersonalInformation::all();
+        $candidates       = CandidatePersonalInformation::latest()->get();
 
         return response()->json(['edit'=>$edit,'candidates'=>$candidates,'name'=>$name]);
 
@@ -106,7 +106,7 @@ class CandidateCvController extends Controller
      */
     public function update(CandidateCvUpdateRequest $request, $id)
     {
-      
+
         $cv                                         =  CandidateCV::find($id);
         $cv->candidate_personal_information_id      =  $request->input('candidate_personal_information_id');
         $cv->profile                                =  $request->input('profile');
@@ -144,7 +144,7 @@ class CandidateCvController extends Controller
     public function trashindex()
     {
         $trashed = CandidateCV::onlyTrashed()->with('personalInfo')->get();
-        $candidate_personals = CandidatePersonalInformation::all();
+        $candidate_personals = CandidatePersonalInformation::latest()->get();
         return view('admin.candidate_cv.trash', compact('trashed','candidate_personals'));
 
     }

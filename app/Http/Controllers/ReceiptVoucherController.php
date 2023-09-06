@@ -39,7 +39,7 @@ class ReceiptVoucherController extends Controller
      */
     public function create()
     {
-        $all_attributes       = Attribute::all();
+        $all_attributes       = Attribute::latest()->get();
         $primaryvalue         = PrimaryGroup::select('id','name')->get();
         $secondaryvalue    = SecondaryGroup::with('primaryGroup')
             ->whereHas('primaryGroup',function($query){

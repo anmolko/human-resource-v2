@@ -86,23 +86,23 @@
                                     <ul class="list-unstyled">
                                     <li>{{ucwords(@$demand->company_name)}}</li>
                                     <li>
-                                    {{ucwords($demand->countryState->country)}} , {{ucwords($demand->countryState->state)}}
+                                    {{ucwords($demand->countryState->country ?? '')}}  {{ucwords($demand->countryState ? ','.$demand->countryState->state: '')}}
 
                                     </li>
-                                    <li>{{ucwords(@$demand->address)}},</li>
-                                    <li>{{@$demand->telephone}}</li>
-                                    <li>{{@$demand->fax_no}}</li>
+                                    <li>{{ucwords(@$demand->address ?? '')}}</li>
+                                    <li>{{@$demand->telephone ?? ''}}</li>
+                                    <li>{{@$demand->fax_no?? ''}}</li>
                                 </ul>
                             </div>
                             <div class="col-sm-6 m-b-20">
                                 <div class="invoice-details">
-                                    <h3 class="text-uppercase clientnumber">Client No. {{@$demand->serial_no}}</h3>
+                                    <h3 class="text-uppercase clientnumber">Client No. {{@$demand->serial_no ?? ''}}</h3>
                                     <ul class="list-unstyled">
-                                        <li>Email: <span>{{@$demand->email}}</span></li>
-                                        <li>Website: <span>{{@$demand->website}}</span></li>
-                                        <li>Category: <span>{{ucwords(@$demand->category)}}</span></li>
-                                        <li>Advertised: <span>{{ucwords(@$demand->advertised)}}</span></li>
-                                        <li>Status: <span>{{ucwords(@$demand->status)}}</span></li>
+                                        <li>Email: <span>{{@$demand->email ?? ''}}</span></li>
+                                        <li>Website: <span>{{@$demand->website ?? ''}}</span></li>
+                                        <li>Category: <span>{{ucwords(@$demand->category ?? '')}}</span></li>
+                                        <li>Advertised: <span>{{ucwords(@$demand->advertised ?? '')}}</span></li>
+                                        <li>Status: <span>{{ucwords(@$demand->status ?? '')}}</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -114,47 +114,47 @@
                                     <tbody>
                                         <tr>
                                             <th>Overseas Agent:</th>
-                                            <td class="text-right">{{ucwords(App\Models\OverseasAgent::find($demand->overseas_agent_id)->fullname)}}</td>
+                                            <td class="text-right">{{ $demand->overseas_agent_id ? ucwords(App\Models\OverseasAgent::find($demand->overseas_agent_id)->fullname):''}}</td>
                                         </tr>
                                         <tr>
                                             <th>Fulfill Date:</th>
-                                            <td class="text-right">{{\Carbon\Carbon::parse($demand->fulfill_date)->isoFormat('MMMM Do, YYYY')}}</td>
+                                            <td class="text-right">{{ $demand->fulfill_date ? \Carbon\Carbon::parse($demand->fulfill_date)->isoFormat('MMMM Do, YYYY'):""}}</td>
                                         </tr>
                                         <tr>
                                             <th>Issued Date: </th>
-                                            <td class="text-right">{{\Carbon\Carbon::parse($demand->issued_date)->isoFormat('MMMM Do, YYYY')}}</td>
+                                            <td class="text-right">{{$demand->issued_date ? \Carbon\Carbon::parse($demand->issued_date)->isoFormat('MMMM Do, YYYY'):''}}</td>
                                         </tr>
                                         <tr>
                                             <th>Expired Date:</th>
-                                            <td class="text-right"><h5>{{\Carbon\Carbon::parse($demand->expired_date)->isoFormat('MMMM Do, YYYY')}}</h5></td>
+                                            <td class="text-right"><h5>{{$demand->expired_date ? \Carbon\Carbon::parse($demand->expired_date)->isoFormat('MMMM Do, YYYY'):''}}</h5></td>
                                         </tr>
 
                                         <tr>
                                             <th>Document Status:</th>
-                                            <td class="text-right"><h5>{{@$demand->doc_status}}</h5></td>
+                                            <td class="text-right"><h5>{{@$demand->doc_status ?? ''}}</h5></td>
                                         </tr>
 
                                         <tr>
                                             <th>Number of PAX:</th>
-                                            <td class="text-right"><h5>{{@$demand->num_of_pax}}</h5></td>
+                                            <td class="text-right"><h5>{{@$demand->num_of_pax ?? ''}}</h5></td>
                                         </tr>
 
                                         <tr>
                                             <th>Document received date:</th>
-                                            <td class="text-right"><h5>{{@$demand->doc_received_date}}</h5></td>
+                                            <td class="text-right"><h5>{{@$demand->doc_received_date ?? ''}}</h5></td>
                                         </tr>
 
                                         <tr>
                                             <th>Document status remarks:</th>
-                                            <td class="text-right"><h5>{{@$demand->doc_status_remarks}}</h5></td>
+                                            <td class="text-right"><h5>{{@$demand->doc_status_remarks ?? ''}}</h5></td>
                                         </tr>
                                         <tr>
                                             <th>Image:</th>
                                             <td class="text-right">
                                                 <a class="thumbnail-order" href="#thumb">
-                                                    <img src="<?php if(!empty($demand->image)){ echo '/images/demandinfo/'.$demand->image; } else { echo '/images/profiles/others.png'; }  ?>" style="width:8rem;" alt="{{$demand->ref_no}}">
+                                                    <img src="<?php if(!empty($demand->image)){ echo '/images/demandinfo/'.$demand->image; } else { echo '/images/profiles/others.png'; }  ?>" style="width:8rem;" alt="{{$demand->ref_no ?? ''}}">
                                                     <span>
-                                                         <img src="<?php if(!empty($demand->image)){ echo '/images/demandinfo/'.$demand->image; } else { echo '/images/profiles/others.png'; }  ?>" style="height:15rem;" alt="{{$demand->ref_no}}">
+                                                         <img src="<?php if(!empty($demand->image)){ echo '/images/demandinfo/'.$demand->image; } else { echo '/images/profiles/others.png'; }  ?>" style="height:15rem;" alt="{{$demand->ref_no ?? ''}}">
                                                     </span>
                                                 </a>
 {{--                                                <img src="<?php if(!empty($demand->image)){ echo '/images/demandinfo/'.$demand->image; } else { echo '/images/profiles/others.png'; }  ?>" class="inv-logo" alt="">--}}

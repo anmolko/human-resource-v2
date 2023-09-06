@@ -31,7 +31,7 @@ class UserController extends Controller
     public function index()
     {
         $all_user = User::with('roles')->where('user_type','general')->orderBy('name','asc')->get();
-        $all_roles = Role::all();
+        $all_roles = Role::latest()->get();
         return view('admin.user_management.index',compact('all_user','all_roles'));
     }
 
@@ -211,7 +211,7 @@ class UserController extends Controller
 
     public function trashindex(){
         $trashed   = User::onlyTrashed()->with('roles')->orderBy('name','asc')->get();
-        $all_roles = Role::all();
+        $all_roles = Role::latest()->get();
         return view('admin.user_management.trash', compact('trashed','all_roles'));
     }
 

@@ -24,7 +24,7 @@ class CountrySettingController extends Controller
 
     public function index()
     {
-         $country_settings = CountrySetting::all();
+         $country_settings = CountrySetting::latest()->get();
         $countries = CountryState::getCountries();
 
         return view('admin.setting.country_setting',compact('countries','country_settings'));
@@ -63,14 +63,14 @@ class CountrySettingController extends Controller
             'currency'      =>$request->input('currency'),
             'created_by'    =>Auth::user()->id,
         ]);
-          
+
         if($countrystate){
             Session::flash('success','Country-State Created Successfully');
         }
         else{
             Session::flash('error','Country-State Creation Failed');
         }
-        return redirect()->back();    
+        return redirect()->back();
 
     }
 
@@ -115,7 +115,7 @@ class CountrySettingController extends Controller
             }
 
         }
-        
+
         $countrystate                        =  CountrySetting::find($id);
         $countrystate->country               =  $country;
         $countrystate->country_code          =  $request->input('country');
@@ -181,7 +181,7 @@ class CountrySettingController extends Controller
 
         //     return 0;
         // } else {
-           
+
             CountrySetting::onlyTrashed()->where('id', $id)->forceDelete();
 
         // }

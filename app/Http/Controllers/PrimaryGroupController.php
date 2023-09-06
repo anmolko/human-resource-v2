@@ -26,8 +26,8 @@ class PrimaryGroupController extends Controller
 
     public function index()
     {
-        $primary_groups = PrimaryGroup::all();
-        $all_attributes       = Attribute::all();
+        $primary_groups = PrimaryGroup::latest()->get();
+        $all_attributes       = Attribute::latest()->get();
 
         return view('admin.primary_group.index',compact('primary_groups','all_attributes'));
 
@@ -88,7 +88,7 @@ class PrimaryGroupController extends Controller
     public function edit($id)
     {
         $editprimarygroup     = PrimaryGroup::find($id);
-        $all_attributes       = Attribute::all();
+        $all_attributes       = Attribute::latest()->get();
         $selected    = [];
         foreach ($editprimarygroup->attributes as $attribute){
             array_push($selected,['id'=>$attribute->id]);
@@ -107,7 +107,7 @@ class PrimaryGroupController extends Controller
      */
     public function update(PrimaryGroupUpdateRequest $request, $id)
     {
-     
+
         if($request->input('classfication')=="capital account"){
             $nature = "liabilities";
         }else if($request->input('classfication')=="current liabilities"){
@@ -177,7 +177,7 @@ class PrimaryGroupController extends Controller
       $rid             = $trashremoval[0]->id;
       $checksecondary = $trashremoval[0]->secondaryGroups()->get();
         if ($checksecondary->count() > 0) {
-      
+
           return 0;
       } else {
         $checkdelete    = $trashremoval[0]->attributes()->detach();
@@ -200,7 +200,7 @@ class PrimaryGroupController extends Controller
       return redirect()->route('primary-groups.trash');
   }
 
-  
+
   public function viewsecondary($id){
     $primary_secondary = PrimaryGroup::find($id);
     $data_arr = [];

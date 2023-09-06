@@ -23,7 +23,7 @@ class AirlineDetailController extends Controller
 
     public function index()
     {
-        $airline_detail     = AirlineDetail::all();
+        $airline_detail     = AirlineDetail::latest()->get();
         $countries          = CountryState::getCountries();
 
         return view('admin.airline_details.index',compact('airline_detail','countries'));

@@ -23,8 +23,8 @@ class CounsellorController extends Controller
 
     public function index()
     {
-        $counsellors = Counsellor::all();
-        $agents = OverseasAgent::all();
+        $counsellors = Counsellor::latest()->get();
+        $agents = OverseasAgent::latest()->get();
 
         return view('admin.counsellor.index',compact('counsellors','agents'));
     }
@@ -124,7 +124,7 @@ class CounsellorController extends Controller
     {
         $deletecounsellor = Counsellor::find($id);
         $rid             = $deletecounsellor->id;
-       
+
         $deletecounsellor->delete();
 
         return '#counsellor'.$rid;
@@ -143,7 +143,7 @@ class CounsellorController extends Controller
 
          return  '#counsellor'.$rid;
 
-        
+
     }
 
     public function restoretrash($id){

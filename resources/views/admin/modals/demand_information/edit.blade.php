@@ -64,8 +64,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-form-label">Overseas Agent Name <span class="text-danger">*</span></label>
-                    <select class="custom-select" name="overseas_agent_id" id="overseas_agents_id" required>
+                    <label class="col-form-label">Overseas Agent Name </label>
+                    <select class="custom-select" name="overseas_agent_id" id="overseas_agents_id">
                         <option value disabled selected> Select Agent Name</option>
                         @foreach($agents as $agent)
                             <option value="{{$agent->id}}">{{ucwords($agent->fullname)}} </option>
@@ -84,8 +84,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="col-form-label">Country <span class="text-danger">*</span></label>
-                            <select class="custom-select country" name="country" id="country" required>
+                            <label class="col-form-label">Country</label>
+                            <select class="custom-select country" name="country" id="country" >
                                 <option value disabled selected> Select Country</option>
                                 @foreach($countries as $key => $value)
                                     <option value="{{$key}}">{{ucwords($value)}} </option>
@@ -103,8 +103,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="col-form-label">State <span class="text-danger">*</span></label>
-                            <select class="custom-select" name="state" id="state" required>
+                            <label class="col-form-label">State </label>
+                            <select class="custom-select" name="state" id="state" >
                                 <option value disabled selected> Select State</option>
 
                             </select>
@@ -123,8 +123,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Address <span class="text-danger">*</span></label>
-                            <input class="form-control" name="address" id="address" type="text" required>
+                            <label>Address </label>
+                            <input class="form-control" name="address" id="address" type="text" >
                             <div class="invalid-feedback">
                                 Please enter Address.
                             </div>
@@ -137,8 +137,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Telephone <span class="text-danger">*</span></label>
-                            <input class="form-control" id="telephone" name="telephone" type="text" required>
+                            <label>Telephone </label>
+                            <input class="form-control" id="telephone" name="telephone" type="text" >
                             <div class="invalid-feedback">
                                 Please enter telephone number.
                             </div>
@@ -154,8 +154,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Fax Number <span class="text-danger">*</span></label>
-                            <input class="form-control" name="fax_no" id="fax_no" type="number" required>
+                            <label>Fax Number </label>
+                            <input class="form-control" name="fax_no" id="fax_no" type="number" >
                             <div class="invalid-feedback">
                                 Please enter Fax Number.
                             </div>
@@ -168,8 +168,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Website <span class="text-danger">*</span></label>
-                            <input class="form-control" name="website" id="website" type="text" required>
+                            <label>Website </label>
+                            <input class="form-control" name="website" id="website" type="text" >
                             <div class="invalid-feedback">
                                 Please enter the Website.
                             </div>
@@ -186,8 +186,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Email <span class="text-danger">*</span></label>
-                            <input class="form-control" name="email" id="email" type="email" required>
+                            <label>Email </label>
+                            <input class="form-control" name="email" id="email" type="email" >
                             <div class="invalid-feedback">
                                 Please enter the Email.
                             </div>
@@ -200,8 +200,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Category  <span class="text-danger">*</span></label>
-                            <select class="custom-select select-height" name="category" id="category" required>
+                            <label>Category  </label>
+                            <select class="custom-select select-height" name="category" id="category" >
                                 <option value disabled selected> Select Category </option>
                                 <option value="basic"> Basic </option>
                                 <option value="normal"> Normal </option>
@@ -223,8 +223,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Fulfill date <span class="text-danger">*</span></label>
-                            <input class="form-control" name="fulfill_date" id="fulfill_date" type="text" required>
+                            <label>Fulfill date </label>
+                            <input class="form-control" name="fulfill_date" id="fulfill_date" type="text" >
                             <div class="invalid-feedback">
                                 Please enter Fulfill date.
                             </div>
@@ -237,8 +237,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Issued Date <span class="text-danger">*</span></label>
-                            <input class="form-control" name="issued_date" id="issued_date" type="text" required>
+                            <label>Issued Date </label>
+                            <input class="form-control" name="issued_date" id="issued_date" type="text" >
                             <div class="invalid-feedback">
                                 Please select a Issued Date.
                             </div>
@@ -254,8 +254,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Expired On <span class="text-danger">*</span></label>
-                            <input class="form-control" name="expired_date" id="expired_date" type="text" required>
+                            <label>Expired On </label>
+                            <input class="form-control" name="expired_date" id="expired_date" type="text" >
                             <div class="invalid-feedback">
                                 Please enter Expired date.
                             </div>
@@ -268,8 +268,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Advertised <span class="text-danger">*</span></label>
-                            <select class="custom-select select-height" name="advertised" id="advertised" required>
+                            <label>Advertised </label>
+                            <select class="custom-select select-height" name="advertised" id="advertised" >
                                 <option value disabled selected> Select Advertised </option>
                                 <option value="news-paper"> News Paper </option>
                                 <option value="local"> Local </option>
@@ -291,8 +291,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Status  <span class="text-danger">*</span></label>
-                            <select class="custom-select select-height" name="status" id="status" required>
+                            <label>Status  </label>
+                            <select class="custom-select select-height" name="status" id="status">
                                 <option value disabled selected> Select Status </option>
                                 <option value="new"> New </option>
                                 <option value="on-going"> On Going </option>
@@ -312,8 +312,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Doc Status <span class="text-danger">*</span></label>
-                            <input class="form-control" name="doc_status" id="doc_status" type="text" required>
+                            <label>Doc Status </label>
+                            <input class="form-control" name="doc_status" id="doc_status" type="text">
                             <div class="invalid-feedback">
                                 Please enter document status.
                             </div>
@@ -329,8 +329,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Num of PAX <span class="text-danger">*</span></label>
-                            <input class="form-control" name="num_of_pax" id="num_of_pax" type="number" required>
+                            <label>Num of PAX </label>
+                            <input class="form-control" name="num_of_pax" id="num_of_pax" type="number">
                             <div class="invalid-feedback">
                                 Please enter Number of PAX
                             </div>
@@ -343,8 +343,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Doc Received Date <span class="text-danger">*</span></label>
-                            <input class="form-control" name="doc_received_date" id="doc_received_date" type="text" required>
+                            <label>Doc Received Date </label>
+                            <input class="form-control" name="doc_received_date" id="doc_received_date" type="text">
                             <div class="invalid-feedback">
                                 Please enter the document received date.
                             </div>
@@ -358,8 +358,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Document Status Remarks <span class="text-danger">*</span></label>
-                    <textarea class="form-control" name="doc_status_remarks" id="doc_status_remarks" rows="4" required=""></textarea>
+                    <label>Document Status Remarks </label>
+                    <textarea class="form-control" name="doc_status_remarks" id="doc_status_remarks" rows="4" ></textarea>
                     <div class="invalid-feedback">
                         Please enter document status remarks
                     </div>

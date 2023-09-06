@@ -30,9 +30,9 @@ class SecondaryGroupController extends Controller
 
     public function index()
     {
-        $secondary_groups     = SecondaryGroup::all();
+        $secondary_groups     = SecondaryGroup::latest()->get();
         $primaryvalue         = PrimaryGroup::select('id','name')->get();
-        $all_attributes       = Attribute::all();
+        $all_attributes       = Attribute::latest()->get();
 
         return view('admin.secondary_group.index',compact('secondary_groups','primaryvalue','all_attributes'));
 
@@ -87,7 +87,7 @@ class SecondaryGroupController extends Controller
     {
         $editsecondarygroup        = SecondaryGroup::with('primaryGroup','secondaryAttributes')->find($id);
         $secondaryattribute_data   = SecondaryGroup::with('secondaryAttributes')->find($id);
-        $all_attributes            = Attribute::all();
+        $all_attributes            = Attribute::latest()->get();
         $selected                  = [];
         $selected_attributes       = [];
         foreach ($editsecondarygroup->attributes as $attribute){
@@ -120,7 +120,7 @@ class SecondaryGroupController extends Controller
 
         $sec_attr_id = $request->get('secondary_attributes_id');
         $count =0 ;
-     
+
         if(@$request->attr !== NULL){
         foreach(@$request->attr as $key => $value){
             if(isset($sec_attr_id[$count])){
@@ -132,7 +132,7 @@ class SecondaryGroupController extends Controller
                 $status =$secondarygroup->update();
                 if(isset($sec_attr_id)){
                     $this->deleteAttribute($secondarygroup->id,$sec_attr_id);
-                       
+
                    }
             }else{
                 // dd($value);
@@ -150,10 +150,10 @@ class SecondaryGroupController extends Controller
 
     }
 
-    
- 
-    
-      
+
+
+
+
 
         if($status){
             Session::flash('success','Secondary Group Updated Successfully');

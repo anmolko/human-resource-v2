@@ -43,7 +43,7 @@ class JournalEntryController extends Controller
     {
         $primaryvalue         = PrimaryGroup::select('id','name')->get();
         $secondaryvalue       = SecondaryGroup::select('id','name')->get();
-        $all_attributes       = Attribute::all();
+        $all_attributes       = Attribute::latest()->get();
         return view('admin.journal_entry.create',compact('secondaryvalue','primaryvalue','all_attributes'));
 
     }
@@ -63,8 +63,8 @@ class JournalEntryController extends Controller
             'total_amount'        =>$request->input('total_amount'),
             'created_by' =>Auth::user()->id,
         ]);
-        
-        
+
+
         $d_amount = $request->get('debit_amount');
         $c_amount = $request->get('credit_amount');
         $a_title = $request->get('account_title');
@@ -75,7 +75,7 @@ class JournalEntryController extends Controller
             if($length==1){
                $count_debit = $key;
             }
-           
+
         }
 
         $credit_index = $count_debit + 1 ;
@@ -88,7 +88,7 @@ class JournalEntryController extends Controller
                     'debit_amount' =>$d_amount[$key],
                     'credit_amount' =>$c_amount[$key],
                     'created_by' =>Auth::user()->id,
-                    
+
                 ]);
             }else{
                 $journary_particulars = JournalParticular::create([
@@ -98,10 +98,10 @@ class JournalEntryController extends Controller
                     'debit_amount' =>$d_amount[$key],
                     'credit_amount' =>$c_amount[$key],
                     'created_by' =>Auth::user()->id,
-                    
+
                 ]);
             }
-           
+
         }
 
 
@@ -112,9 +112,9 @@ class JournalEntryController extends Controller
             Session::flash('error','Journal Entry Creation Failed');
         }
         return redirect()->back();
-         
-        
-      
+
+
+
     }
 
     /**
@@ -131,7 +131,7 @@ class JournalEntryController extends Controller
     }
 
 
-   
+
 
     /**
      * Show the form for editing the specified resource.
@@ -167,7 +167,7 @@ class JournalEntryController extends Controller
         $c_amount = $request->get('credit_amount');
         $a_title = $request->get('account_title');
         $p_id = $request->get('particular_id');
-        
+
         $count_debit = 0;
         $credit_index =0;
         foreach($request->get('drcr') as $key => $length){
@@ -180,12 +180,12 @@ class JournalEntryController extends Controller
                 else{
                     $credit_account_initial =JournalParticular::where('id',$p_id[$key])->first();
                 }
-            } 
-           
+            }
+
         }
 
         $credit_index = $count_debit + 1 ;
-        
+
         foreach($request->get('drcr') as $key => $length){
             if(isset($p_id[$key])){
                     if($length==1){
@@ -198,7 +198,7 @@ class JournalEntryController extends Controller
                             'credit_amount' =>$c_amount[$key],
                             'created_by' =>Auth::user()->id,
                             'updated_by' =>Auth::user()->id,
-                            
+
                         ]
                     );
                     }else{
@@ -211,7 +211,7 @@ class JournalEntryController extends Controller
                             'credit_amount' =>$c_amount[$key],
                             'created_by' =>Auth::user()->id,
                             'updated_by' =>Auth::user()->id,
-                            
+
                         ]);
                     }
                 }else{
@@ -225,7 +225,7 @@ class JournalEntryController extends Controller
                             'credit_amount' =>$c_amount[$key],
                             'created_by' =>Auth::user()->id,
                             'updated_by' =>Auth::user()->id,
-                            
+
                         ]
                     );
                     }else{
@@ -238,11 +238,11 @@ class JournalEntryController extends Controller
                             'credit_amount' =>$c_amount[$key],
                             'created_by' =>Auth::user()->id,
                             'updated_by' =>Auth::user()->id,
-                            
+
                         ]);
                     }
                 }
-           
+
         }
 
 
@@ -290,7 +290,7 @@ class JournalEntryController extends Controller
 
     public function deletetrash($id){
         $trashremoval = JournalEntry::onlyTrashed()->where('id', $id)->get();
-  
+
         $rid             = $trashremoval[0]->id;
 
         $check = $trashremoval[0]->journalParticulars()->get();
@@ -302,14 +302,14 @@ class JournalEntryController extends Controller
         $checkdelete = $trashremoval[0]->journalParticulars()->forceDelete();
           if ($checkdelete) {
             JournalEntry::onlyTrashed()->where('id', $id)->forceDelete();
-        
+
         } else {
             return 0;
-  
+
         }
          return  '#journal_entry'.$rid;
-  
-        
+
+
     }
 
 

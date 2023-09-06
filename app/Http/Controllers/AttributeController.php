@@ -24,7 +24,7 @@ class AttributeController extends Controller
 
     public function index()
     {
-        $attributes = Attribute::all();
+        $attributes = Attribute::latest()->get();
         return view('admin.attribute.index',compact('attributes'));
 
     }
@@ -83,7 +83,7 @@ class AttributeController extends Controller
     public function edit($id)
     {
         $editattribute     = Attribute::find($id);
-      
+
         return response()->json($editattribute);
     }
 
@@ -145,7 +145,7 @@ class AttributeController extends Controller
         $rid             = $trashremoval[0]->id;
         $checkSecondary    = $trashremoval[0]->secondaryGroups()->get();
         if ($checkSecondary->count() > 0 ) {
-        
+
             return 0;
         } else {
             Attribute::onlyTrashed()->where('id', $id)->forceDelete();
@@ -153,7 +153,7 @@ class AttributeController extends Controller
         }
          return  '#attribute'.$rid;
 
-        
+
     }
 
     public function restoretrash($id){

@@ -29,7 +29,7 @@ class PayrollInformationController extends Controller
 
     public function index()
     {
-        $payrolls  = PayrollInformation::all();
+        $payrolls  = PayrollInformation::latest()->get();
         $employees = Employee::with('user')->get();
 
         return view('admin.payroll_details.payroll.index', compact('payrolls','employees'));
@@ -206,7 +206,7 @@ class PayrollInformationController extends Controller
         })->get();
 
         $payroll_info = PayrollInformation::find($id);
-    
+
         return view('admin.payroll_details.index',compact('payroll_info','deductions','bonuses','increments'));
     }
 

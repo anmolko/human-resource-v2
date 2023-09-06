@@ -27,10 +27,10 @@ class JobtoDemandController extends Controller
 
     public function index()
     {
-        $country_settings = CountrySetting::all();
-        $job_demand    = JobtoDemand::all();
-        $categories    = JobCategory::all();
-        $demands       = DemandInformation::all();
+        $country_settings = CountrySetting::latest()->get();
+        $job_demand    = JobtoDemand::latest()->get();
+        $categories    = JobCategory::latest()->get();
+        $demands       = DemandInformation::latest()->get();
         return view('admin.jobs_to_demand.index',compact('country_settings','job_demand','demands','categories'));
 
     }
@@ -126,8 +126,8 @@ class JobtoDemandController extends Controller
     public function edit($id)
     {
         $edit_job_demand = JobtoDemand::with('demandInformation')->find($id);
-        $categories    = JobCategory::all();
-        $demands       = DemandInformation::all();
+        $categories    = JobCategory::latest()->get();
+        $demands       = DemandInformation::latest()->get();
         return response()->json(['job_demand_edit'=>$edit_job_demand,'categories'=>$categories,'demands'=>$demands]);
     }
 
@@ -203,8 +203,8 @@ class JobtoDemandController extends Controller
 
     public function trashindex(){
         $trashed       = JobtoDemand::onlyTrashed()->get();
-        $categories    = JobCategory::all();
-        $demands       = DemandInformation::all();
+        $categories    = JobCategory::latest()->get();
+        $demands       = DemandInformation::latest()->get();
         return view('admin.jobs_to_demand.trash', compact('trashed','categories','demands'));
     }
 

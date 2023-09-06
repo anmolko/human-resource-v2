@@ -60,8 +60,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Company Address <span class="text-danger">*</span></label>
-                    <input class="form-control" id="company_address" name="company_address" type="text" required>
+                    <label>Company Address </label>
+                    <input class="form-control" id="company_address" name="company_address" type="text">
                     <div class="invalid-feedback">
                         Please enter Company Address.
                     </div>
@@ -76,8 +76,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="col-form-label">Country <span class="text-danger">*</span></label>
-                            <select class="custom-select updatecountry" name="country" id="editcountry" required>
+                            <label class="col-form-label">Country </label>
+                            <select class="custom-select updatecountry" name="country" id="editcountry">
                                 <option value disabled selected> Select Country</option>
                                 @foreach($countries as $key => $value)
                                     <option value="{{$key}}">{{ucwords($value)}} </option>
@@ -95,8 +95,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="col-form-label">State <span class="text-danger">*</span></label>
-                            <select class="custom-select" name="state" id="editstate" required>
+                            <label class="col-form-label">State</label>
+                            <select class="custom-select" name="state" id="editstate">
                                 <option value disabled selected> Select State</option>
 
                             </select>

@@ -26,7 +26,7 @@ class InsuranceAgentController extends Controller
 
     public function index()
     {
-        $insurances = InsuranceAgent::all();
+        $insurances = InsuranceAgent::latest()->get();
         $countries = CountryState::getCountries();
 
         return view('admin.insurance_agent.index',compact('insurances','countries'));
@@ -69,7 +69,7 @@ class InsuranceAgentController extends Controller
         $insuranceagent = InsuranceAgent::create($data);
 
         if($insuranceagent){
-            
+
             $slug = str_replace(" ","_",strtolower($request->input('company_name')));
             $secondarygroup = SecondaryGroup::create([
                 'primary_group_id' =>5,
@@ -146,7 +146,7 @@ class InsuranceAgentController extends Controller
         $agent->personal_mobile_num    =  $request->input('personal_mobile_num');
         $agent->personal_contact_num   =  $request->input('personal_contact_num');
         $agent->updated_by             = Auth::user()->id;
-       
+
 
         $status = $agent->update();
         if($status){

@@ -25,7 +25,7 @@ class HealthClinicController extends Controller
 
     public function index()
     {
-        $health_clinic  = HealthClinicInformation::all();
+        $health_clinic  = HealthClinicInformation::latest()->get();
         $countries      = CountryState::getCountries();
 
         return view('admin.health_clinic.index',compact('health_clinic','countries'));

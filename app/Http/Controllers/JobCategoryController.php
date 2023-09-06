@@ -25,7 +25,7 @@ class JobCategoryController extends Controller
 
     public function index()
     {
-        $categories = JobCategory::all();
+        $categories = JobCategory::latest()->get();
         return view('admin.job_category.index',compact('categories'));
 
     }

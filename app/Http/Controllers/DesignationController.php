@@ -19,7 +19,7 @@ class DesignationController extends Controller
      */
     public function index()
     {
-        $designations = Designation::all();
+        $designations = Designation::latest()->get();
         $departments = Department::where('status','1')->get();
         return view('admin.designation.index',compact('designations','departments'));
     }
@@ -138,7 +138,7 @@ class DesignationController extends Controller
         $rid             = $trashremoval[0]->id;
         // $checkEmployee    = $trashremoval[0]->employee()->get();
         // if ($checkEmployee->count() > 0 ) {
-        
+
         //     return 0;
         // } else {
             Designation::onlyTrashed()->where('id', $id)->forceDelete();
@@ -146,7 +146,7 @@ class DesignationController extends Controller
         // }
          return  '#designation'.$rid;
 
-        
+
     }
 
     public function restoretrash($id){

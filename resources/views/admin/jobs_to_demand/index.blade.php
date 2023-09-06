@@ -92,10 +92,10 @@
                             <tr>
                                 <td>{{ucwords(\App\Models\JobCategory::find(@$jd->job_category_id)->name)}} </td>
                                 <td>{{ucwords(\App\Models\DemandInformation::find(@$jd->demand_information_id)->ref_no)}}</td>
-                                <td>{{ucwords(@$jd->requirements)}}</td>
-                                <td>{{ucwords(@$jd->contact_period)}}</td>
-                                <td>{{ucwords(@$jd->salary)}}</td>
-                                <td>{{ucwords(@$jd->remarks)}}</td>
+                                <td>{{ucwords(@$jd->requirements ?? '')}}</td>
+                                <td>{{ucwords(@$jd->contact_period ?? '')}}</td>
+                                <td>{{ucwords(@$jd->salary ?? '')}}</td>
+                                <td>{{ucwords(@$jd->remarks ?? '')}}</td>
                                 <td>
                                     <div class="dropdown">
 

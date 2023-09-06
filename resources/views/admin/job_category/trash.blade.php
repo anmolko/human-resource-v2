@@ -65,8 +65,8 @@
                                     @foreach($trashed as $trash)
                                     <tr>
                                         <td> {{$i++}}          </td>
-                                        <td> {{ucwords($trash->name)}}  </td>
-                                        <td> {{ucwords($trash->description)}}  </td>
+                                        <td> {{ucwords($trash->name ? '')}}  </td>
+                                        <td> {{ucwords($trash->description ?? '')}}  </td>
 
                                         <td> @if ($trash->status==1)
                                             <i class="fa fa-dot-circle-o text-success"></i> Active

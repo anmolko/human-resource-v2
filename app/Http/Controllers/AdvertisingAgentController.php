@@ -24,7 +24,7 @@ class AdvertisingAgentController extends Controller
 
     public function index()
     {
-        $advertising_agent  = AdvertisingAgent::all();
+        $advertising_agent  = AdvertisingAgent::latest()->get();
         $countries          = CountryState::getCountries();
 
         return view('admin.advertising_agent.index',compact('advertising_agent','countries'));

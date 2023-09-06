@@ -39,8 +39,8 @@ class ProcessingController extends Controller
             ->whereHas('personalInfo',function($query){
                 $query->where('status','applied');
             })->get();
-        $sub_status             =  SubStatus::all();
-        $demand_info            =  DemandInformation::all();
+        $sub_status             =  SubStatus::latest()->get();
+        $demand_info            =  DemandInformation::latest()->get();
 
         $data = getCompanySortedData($applied);
 
@@ -92,8 +92,8 @@ class ProcessingController extends Controller
             ->whereHas('personalInfo',function($query){
                 $query->where('status','selected');
             })->get();
-        $sub_status             =  SubStatus::all();
-        $demand_info            =  DemandInformation::all();
+        $sub_status             =  SubStatus::latest()->get();
+        $demand_info            =  DemandInformation::latest()->get();
         $data = getCompanySortedData($selected_candidates);
         return view('admin.candidate.processing.selected.index',compact('sub_status','demand_info','data'));
 
@@ -139,9 +139,9 @@ class ProcessingController extends Controller
             ->whereHas('personalInfo',function($query){
                 $query->where('status','under-process');
             })->get();
-        $sub_status                  =  SubStatus::all();
-        $demand_info                 =  DemandInformation::all();
-        $job_category                =  JobCategory::all();
+        $sub_status                  =  SubStatus::latest()->get();
+        $demand_info                 =  DemandInformation::latest()->get();
+        $job_category                =  JobCategory::latest()->get();
         $data                        = getCompanySortedData($under_process_candidates);
 
         return view('admin.candidate.processing.underprocess.index',compact('under_process_candidates','data','sub_status','demand_info','job_category'));
@@ -154,12 +154,12 @@ class ProcessingController extends Controller
                 $query->where('status','ticket-received');
             })->get();
 //        dd($ticket_received_candidates);
-        $sub_status                  =  SubStatus::all();
-        $demand_info                 =  DemandInformation::all();
-        $job_category                =  JobCategory::all();
-        $ticketing_agents            =  TicketingAgent::all();
-        $airline_detail              =  AirlineDetail::all();
-        $clinic_detail               =  HealthClinicInformation::all();
+        $sub_status                  =  SubStatus::latest()->get();
+        $demand_info                 =  DemandInformation::latest()->get();
+        $job_category                =  JobCategory::latest()->get();
+        $ticketing_agents            =  TicketingAgent::latest()->get();
+        $airline_detail              =  AirlineDetail::latest()->get();
+        $clinic_detail               =  HealthClinicInformation::latest()->get();
         $data                        =  getCompanySortedData($ticket_received_candidates);
 
         return view('admin.candidate.processing.ticket_received.index',compact('ticket_received_candidates','ticketing_agents','data','sub_status','airline_detail','clinic_detail','demand_info','job_category'));
@@ -399,10 +399,10 @@ class ProcessingController extends Controller
             ->whereHas('personalInfo',function($query){
                 $query->where('status','deployed');
             })->get();
-        $sub_status                  =  SubStatus::all();
-        $demand_info                 =  DemandInformation::all();
-        $job_category                =  JobCategory::all();
-        $airline_detail              =  AirlineDetail::all();
+        $sub_status                  =  SubStatus::latest()->get();
+        $demand_info                 =  DemandInformation::latest()->get();
+        $job_category                =  JobCategory::latest()->get();
+        $airline_detail              =  AirlineDetail::latest()->get();
         $data                        =  getCompanySortedData($deployed_candidates);
 
         return view('admin.candidate.processing.deployed.index',compact('deployed_candidates','data','sub_status','airline_detail','demand_info','job_category'));
@@ -634,8 +634,8 @@ class ProcessingController extends Controller
             ->whereHas('personalInfo',function($query){
                 $query->where('status','rejected');
             })->get();
-        $sub_status             =  SubStatus::all();
-        $demand_info            =  DemandInformation::all();
+        $sub_status             =  SubStatus::latest()->get();
+        $demand_info            =  DemandInformation::latest()->get();
 
         $data = getCompanySortedData($rejected);
 
@@ -648,8 +648,8 @@ class ProcessingController extends Controller
             ->whereHas('personalInfo',function($query){
                 $query->where('status','cancelled');
             })->get();
-        $sub_status             =  SubStatus::all();
-        $demand_info            =  DemandInformation::all();
+        $sub_status             =  SubStatus::latest()->get();
+        $demand_info            =  DemandInformation::latest()->get();
 
         $data = getCompanySortedData($rejected);
 

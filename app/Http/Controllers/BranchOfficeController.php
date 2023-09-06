@@ -23,7 +23,7 @@ class BranchOfficeController extends Controller
 
     public function index()
     {
-        $branchoffices = BranchOffice::all();
+        $branchoffices = BranchOffice::latest()->get();
         return view('admin.branch_office.index',compact('branchoffices'));
 
     }
@@ -149,7 +149,7 @@ class BranchOfficeController extends Controller
         $rid             = $trashremoval[0]->id;
         $checkReference    = $trashremoval[0]->referenceInfo()->get();
         if ($checkReference->count() > 0 ) {
-        
+
             return 0;
         } else {
             BranchOffice::onlyTrashed()->where('id', $id)->forceDelete();
@@ -157,7 +157,7 @@ class BranchOfficeController extends Controller
         }
          return  '#branch'.$rid;
 
-        
+
     }
 
     public function restoretrash($id){

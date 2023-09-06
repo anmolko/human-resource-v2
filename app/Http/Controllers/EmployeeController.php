@@ -42,7 +42,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        $all_roles = Role::all();
+        $all_roles = Role::latest()->get();
         $departments = Department::where('status','1')->get();
 
         return view('admin.employee.create',compact('all_roles','departments'));
@@ -208,7 +208,7 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        $all_roles = Role::all();
+        $all_roles = Role::latest()->get();
         $departments = Department::where('status','1')->get();
         $editemployee    = Employee::with('user')->find($id);
         $designations = Designation::where('department_id',$editemployee->department_id)->select('id','name')->get();

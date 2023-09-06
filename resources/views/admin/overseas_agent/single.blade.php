@@ -52,22 +52,22 @@
                                     <ul class="list-unstyled">
                                     <li>{{ucwords(@$agent->company_name)}}</li>
                                     <li>
-                                        {{ucwords($agent->countryState->country)}} , {{ucwords($agent->countryState->state)}}
+                                        {{ucwords($agent->countryState->country)}} {{ucwords($agent->countryState ? ', '.$agent->countryState->state:'')}}
                                     </li>
-                                    <li>{{ucwords(@$agent->company_address)}},</li>
-                                    <li>{{@$agent->company_contact_num}}</li>
-                                    <li>{{@$agent->fax_num}}</li>
+                                    <li>{{ucwords(@$agent->company_address ?? '')}},</li>
+                                    <li>{{@$agent->company_contact_num ?? ''}}</li>
+                                    <li>{{@$agent->fax_num ?? ''}}</li>
                                 </ul>
                             </div>
                             <div class="col-sm-6 m-b-20">
                                 <div class="invoice-details">
-                                    <h3 class="text-uppercase clientnumber">Client No. {{@$agent->client_no}}</h3>
+                                    <h3 class="text-uppercase clientnumber">Client No. {{@$agent->client_no ?? ''}}</h3>
                                     <ul class="list-unstyled">
-                                        <li>Email: <span>{{@$agent->company_email}}</span></li>
-                                        <li>Website: <span>{{@$agent->website}}</span></li>
-                                        <li>Type of Company: <span>{{ucwords(@$agent->type_of_company)}}</span></li>
-                                        <li>Postal Address: <span>{{ucwords(@$agent->postal_address)}}</span></li>
-                                        <li>Status: <span>{{ucwords(@$agent->status)}}</span></li>
+                                        <li>Email: <span>{{@$agent->company_email ?? ''}}</span></li>
+                                        <li>Website: <span>{{@$agent->website ?? ''}}</span></li>
+                                        <li>Type of Company: <span>{{ucwords(@$agent->type_of_company ?? '')}}</span></li>
+                                        <li>Postal Address: <span>{{ucwords(@$agent->postal_address ?? '')}}</span></li>
+                                        <li>Status: <span>{{ucwords(@$agent->status ?? '')}}</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -79,25 +79,25 @@
                                     <tbody>
                                         <tr>
                                             <th>Fullname:</th>
-                                            <td class="text-right">{{ucwords(@$agent->fullname)}}</td>
+                                            <td class="text-right">{{ucwords(@$agent->fullname ?? '')}}</td>
                                         </tr>
                                         <tr>
                                             <th>Designation: </th>
-                                            <td class="text-right">{{ucwords(@$agent->designation)}}</td>
+                                            <td class="text-right">{{ucwords(@$agent->designation ?? '')}}</td>
                                         </tr>
                                         <tr>
                                             <th>Personal Email:</th>
-                                            <td class="text-right"><h5>{{@$agent->personal_email}}</h5></td>
+                                            <td class="text-right"><h5>{{@$agent->personal_email ?? ''}}</h5></td>
                                         </tr>
 
                                         <tr>
                                             <th>Personal Mobile:</th>
-                                            <td class="text-right"><h5>{{@$agent->personal_mobile}}</h5></td>
+                                            <td class="text-right"><h5>{{@$agent->personal_mobile ?? ''}}</h5></td>
                                         </tr>
 
                                         <tr>
                                             <th>Contact Number:</th>
-                                            <td class="text-right"><h5>{{@$agent->personal_contact_num}}</h5></td>
+                                            <td class="text-right"><h5>{{@$agent->personal_contact_num ?? ''}}</h5></td>
                                         </tr>
 
                                     </tbody>

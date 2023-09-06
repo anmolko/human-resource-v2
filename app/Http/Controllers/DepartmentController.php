@@ -24,7 +24,7 @@ class DepartmentController extends Controller
 
     public function index()
     {
-        $departments = Department::all();
+        $departments = Department::latest()->get();
         return view('admin.department.index',compact('departments'));
     }
 
@@ -140,7 +140,7 @@ class DepartmentController extends Controller
         $rid             = $trashremoval[0]->id;
         $checkDesignation    = $trashremoval[0]->designation()->get();
         if ($checkDesignation->count() > 0 ) {
-        
+
             return 0;
         } else {
             Department::onlyTrashed()->where('id', $id)->forceDelete();
@@ -148,7 +148,7 @@ class DepartmentController extends Controller
         }
          return  '#department'.$rid;
 
-        
+
     }
 
     public function restoretrash($id){

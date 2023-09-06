@@ -28,7 +28,7 @@ class OverseasAgentController extends Controller
 
     public function index()
     {
-        $overseas = OverseasAgent::all();
+        $overseas = OverseasAgent::latest()->get();
         $countries = CountryState::getCountries();
 
         return view('admin.overseas_agent.index',compact('overseas','countries'));
@@ -91,7 +91,7 @@ class OverseasAgentController extends Controller
 
 
         if($agent){
-             
+
             $lower = str_replace(" ","_",strtolower($request->input('company_name')));
             $slug     = $lower."_".$request->input('client_no');
             $secondarygroup = SecondaryGroup::create([

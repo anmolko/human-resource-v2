@@ -28,12 +28,12 @@ class DemandInformationController extends Controller
      */
     public function index()
     {
-        $demand_info = DemandInformation::with('jobs')->get();
-        $countries   = CountryState::getCountries();
-        $agents      = OverseasAgent::all();
-        $categories  = JobCategory::all();
-        $demands     = DemandInformation::all();
-        $country_settings = CountrySetting::all();
+        $demand_info        = DemandInformation::with('jobs')->get();
+        $countries          = CountryState::getCountries();
+        $agents      = OverseasAgent::latest()->get();
+        $categories  = JobCategory::latest()->get();
+        $demands     = DemandInformation::latest()->get();
+        $country_settings = CountrySetting::latest()->get();
 
         return view('admin.demand_informations.index',compact('demand_info','country_settings','countries','agents','categories','demands'));
     }
@@ -128,7 +128,7 @@ class DemandInformationController extends Controller
     {
         $demand_info_edit = DemandInformation::with('countryState')->find($id);
         $countries        = CountryState::getCountries();
-        $agents           = OverseasAgent::all();
+        $agents           = OverseasAgent::latest()->get();
         return response()->json(['demand_info_agent'=>$demand_info_edit,'countries'=>$countries,'agents'=>$agents]);
     }
 

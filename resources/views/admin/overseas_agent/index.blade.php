@@ -111,18 +111,18 @@
                                         <td>
                                             <h2 class="table-avatar">
                                                 <a href="#" class="avatar">
-                                                    <img alt="{{$agent->fullname}}" src="<?php if(!empty($agent->image)){ echo '/images/agent/'.$agent->image; } else { echo '/images/profiles/others.png'; }  ?>" />
+                                                    <img alt="{{$agent->fullname ?? ''}}" src="<?php if(!empty($agent->image)){ echo '/images/agent/'.$agent->image; } else { echo '/images/profiles/others.png'; }  ?>" />
                                                 </a>
-                                                <a href="#">{{ucfirst($agent->fullname)}}
+                                                <a href="#">{{ucfirst($agent->fullname) ?? ''}}
                                                     <span>
                                                            {{$agent->personal_email}}
                                                         </span></a>
                                             </h2>
                                         </td>
-                                        <td>{{ucwords($agent->client_no)}}</td>
-                                        <td>{{ucwords($agent->company_name)}}</td>
-                                        <td>{{ucwords($agent->countryState->country)}} -
-                                               {{ucwords($agent->countryState->state)}} </td>
+                                        <td>{{ucwords($agent->client_no ?? '')}}</td>
+                                        <td>{{ucwords($agent->company_name ?? '')}}</td>
+                                        <td>{{ucwords($agent->countryState->country ?? '')}}
+                                               {{ucwords($agent->countryState ? ' - '.$agent->countryState->state:'')}} </td>
                                         <td>
                                             <div class="dropdown">
 
@@ -154,7 +154,7 @@
                                                             <i class="fa fa-eye align-bottom me-2 text-muted"></i></a></li>
 
                                                     <li class="list-inline-item">
-                                                        <a class="action-restore" href="#"  hrm-update-action="{{route('overseas-agent.update',$agent->id)}}"  hrm-edit-action="{{route('overseas-agent.edit',$agent->id)}}" data-toggle="modal" data-target="#edit_agent">
+                                                        <a class="action-edit" href="#"  hrm-update-action="{{route('overseas-agent.update',$agent->id)}}"  hrm-edit-action="{{route('overseas-agent.edit',$agent->id)}}" data-toggle="modal" data-target="#edit_agent">
                                                             <i class="fa fa-pencil align-bottom me-2 text-muted"></i></a></li>
 
                                                     <li class="list-inline-item">
@@ -297,7 +297,7 @@
             });
             });
 
-            $(document).on('change','#editcountry', function (e) {
+        $(document).on('change','#editcountry', function (e) {
             e.preventDefault();
             var value=$(this).val();
             var action = "{{ route('overseas-agent.state') }}?country_code=" + $(this).val();
@@ -386,7 +386,7 @@
                 dataType: 'json',
                 success: function(dataResult){
                     // $('#id').val(data.id);
-                    // console.log(dataResult);
+                    console.log(dataResult);
                     $("#edit_agent").modal("toggle");
                     $('#client_no').attr('value',dataResult.editagent.client_no);
                     $('#company_name').attr('value',dataResult.editagent.company_name);
@@ -413,39 +413,36 @@
                     $('#edit-current-img').attr('src',src);
 
                     $('.updateoverseas').attr('action',action);
-                    var state;
-                    state += '<option value disabled selected> Select State</option>';
-                            $('#select2-editcountry-container').text(dataResult.editagent.country_state.country);
-                            var actionn = "{{ route('overseas-agent.state') }}?country_code=" + dataResult.editagent.country_state.country_code;
-                            $.ajax({
-                                url: actionn,
-                                type: "GET",
-                                success: function(dataRes){
-                                    $.each(dataRes, function (indexx, valuee) {
-                                        if(indexx==dataResult.editagent.country_state_id){
 
+                    if (dataResult.editagent.country_state){
+                        var state;
+                        state += '<option value disabled selected> Select State</option>';
+                        $('#select2-editcountry-container').text(dataResult.editagent.country_state.country);
+                        var actionn = "{{ route('overseas-agent.state') }}?country_code=" + dataResult.editagent.country_state.country_code;
+                        $.ajax({
+                            url: actionn,
+                            type: "GET",
+                            success: function(dataRes){
+                                $.each(dataRes, function (indexx, valuee) {
+                                    if(indexx==dataResult.editagent.country_state_id){
                                         state +=  '<option value="'+indexx+'" selected>'+valuee+'</option>';
-                                        }else{
+                                    }else{
                                         state +=  '<option value="'+indexx+'">'+valuee+'</option>';
+                                    }
+                                })
+                                $('#editstate').html(state);
 
-                                        }
-                                    })
-                                    $('#editstate').html(state);
-
-                                },
-                                error: function(error){
-
+                            },
+                            error: function(error){
+                                if(error.statusText=="Forbidden"){
+                                    $("#error-forbidden").modal("toggle");
                                 }
-                            });
-
-
-
-                },
-                error: function(error){
-                    if(error.statusText="Forbidden"){
-                        // $("#error-forbidden").modal("toggle");
-
+                            }
+                        });
                     }
+
+                },error: function(error){
+
                 }
             });
         });

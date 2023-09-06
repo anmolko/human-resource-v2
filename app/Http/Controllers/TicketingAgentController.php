@@ -28,8 +28,8 @@ class TicketingAgentController extends Controller
 
     public function index()
     {
-        $ticketing_agent    = TicketingAgent::all();
-        $airlines           = AirlineDetail::all();
+        $ticketing_agent    = TicketingAgent::latest()->get();
+        $airlines           = AirlineDetail::latest()->get();
         return view('admin.ticketing_agent.index',compact('ticketing_agent','airlines'));
 
     }

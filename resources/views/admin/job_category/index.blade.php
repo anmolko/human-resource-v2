@@ -90,7 +90,7 @@
                             <tr>
                                 <td> {{$i++}} </td>
                                 <td>{{ucwords(@$category->name)}}</td>
-                                <td>{{ucwords(@$category->description)}}</td>
+                                <td>{{ucwords(@$category->description ?? '')}}</td>
                                 <td> @if ($category->status==1)
                                         <i class="fa fa-dot-circle-o text-success"></i> Active
                                     @else
@@ -236,7 +236,7 @@
                     console.log(dataResult)
                     $("#edit_category").modal("toggle");
                     $('.updatename').attr('value',dataResult.name);
-                    $('.updatedescription').text(dataResult.description);
+                    $('.updatedescription').text('').text(dataResult.description);
                     $('input[name="status"]').filter('[value="'+dataResult.status+'"]').prop('checked', true);
                     $('.updatecategory').attr('action',action);
                 },

@@ -25,7 +25,7 @@ class ComplainManagerController extends Controller
     public function index()
     {
         $employees        = Employee::with('user')->get();
-        $candidate        = CandidatePersonalInformation::all();
+        $candidate        = CandidatePersonalInformation::latest()->get();
         $solved_complains = ComplainManager::where('solved_date', '!=' , null)->get();
         $pending_complain = ComplainManager::where('solved_date', null)->get();
 
@@ -156,7 +156,7 @@ class ComplainManagerController extends Controller
     {
         $trashed      = ComplainManager::onlyTrashed()->get();
         $employees    = Employee::with('user')->get();
-        $candidate    = CandidatePersonalInformation::all();
+        $candidate    = CandidatePersonalInformation::latest()->get();
 
         return view('admin.complain_manager.trash', compact('trashed','employees','candidate'));
 

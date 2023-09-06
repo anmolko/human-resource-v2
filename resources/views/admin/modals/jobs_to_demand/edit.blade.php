@@ -104,9 +104,9 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="col-form-label">Requirements <span class="text-danger">*</span></label>
+                            <label class="col-form-label">Requirements </label>
                             <div class="input-group">
-                                <input type="number" min="1" class="form-control" id="requirements" name="requirements" required />
+                                <input type="number" min="1" class="form-control" id="requirements" name="requirements" />
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2">per person</span>
                                 </div>
@@ -123,8 +123,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="col-form-label">Minimum Qualification <span class="text-danger">*</span></label>
-                            <select class="custom-select select-height" name="min_qualification" id="min_qualification" required>
+                            <label class="col-form-label">Minimum Qualification </label>
+                            <select class="custom-select select-height" name="min_qualification" id="min_qualification" >
                                 <option value disabled selected> Select Min Qualification.</option>
                                 <option value="primary-education">Primary Education </option>
                                 <option value="secondary-education">Secondary Education</option>
@@ -149,9 +149,9 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Contact Period <span class="text-danger">*</span></label>
+                            <label>Contact Period </label>
                             <div class="input-group">
-                                <input type="number" min="1" class="form-control" name="contact_period" id="contact_period" required />
+                                <input type="number" min="1" class="form-control" name="contact_period" id="contact_period"  />
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2">per Yr</span>
                                 </div>
@@ -168,9 +168,9 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Working <span class="text-danger">*</span></label>
+                            <label>Working </label>
                             <div class="input-group">
-                                <input type="number" min="1" class="form-control" name="working" id="working" required />
+                                <input type="number" min="1" class="form-control" name="working" id="working"  />
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2">per days/weeks</span>
                                 </div>
@@ -209,9 +209,9 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Hours <span class="text-danger">*</span></label>
+                            <label>Hours </label>
                             <div class="input-group">
-                                <input type="number" min="1" class="form-control" name="hours" id="hours" required />
+                                <input type="number" min="1" class="form-control" name="hours" id="hours" />
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2">per days</span>
                                 </div>
@@ -232,8 +232,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Overtime  <span class="text-danger">*</span></label>
-                            <select class="custom-select select-height" name="overtime" id="overtime" required>
+                            <label>Overtime </label>
+                            <select class="custom-select select-height" name="overtime" id="overtime" >
                                 <option value disabled selected> Select Overtime </option>
                                 <option value="yes"> Yes </option>
                                 <option value="no"> No </option>
@@ -272,8 +272,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Category  <span class="text-danger">*</span></label>
-                            <select class="custom-select select-height" name="currency" id="currency" required>
+                            <label>Category  </label>
+                            <select class="custom-select select-height" name="currency" id="currency" >
                                 <option value disabled selected> Select Currency </option>
                                 @foreach(@$country_settings as $country_setting)
 
@@ -292,8 +292,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Accommodation  <span class="text-danger">*</span></label>
-                            <select class="custom-select select-height" name="accommodation" id="accommodation" required>
+                            <label>Accommodation  </label>
+                            <select class="custom-select select-height" name="accommodation" id="accommodation">
                                 <option value disabled selected> Select accommodation </option>
                                 <option value="company"> Company </option>
                                 <option value="self"> Self </option>
@@ -313,8 +313,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Food Facilities  <span class="text-danger">*</span></label>
-                            <select class="custom-select select-height" name="food_facilities" id="food_facilities" required>
+                            <label>Food Facilities  </label>
+                            <select class="custom-select select-height" name="food_facilities" id="food_facilities" >
                                 <option value disabled selected> Select Food facilities </option>
                                 <option value="company"> Company </option>
                                 <option value="self"> Self </option>
@@ -331,8 +331,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Tickets  <span class="text-danger">*</span></label>
-                            <select class="custom-select select-height" name="ticket" id="ticket" required>
+                            <label>Tickets  </label>
+                            <select class="custom-select select-height" name="ticket" id="ticket" >
                                 <option value disabled selected> Select Tickets </option>
                                 <option value="company"> Company </option>
                                 <option value="self"> Self </option>
@@ -350,9 +350,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Salary <span class="text-danger">*</span></label>
+                    <label>Salary </label>
                     <div class="input-group">
-                        <input type="number" min="1" class="form-control" name="salary" id="salary" required />
+                        <input type="number" min="1" class="form-control" name="salary" id="salary"  />
                         <div class="input-group-append">
                             <span class="input-group-text" id="basic-addon2">per month</span>
                         </div>
@@ -397,8 +397,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Medical In  <span class="text-danger">*</span></label>
-                            <select class="custom-select select-height" name="medical_in" id="medical_in" required>
+                            <label>Medical In  </label>
+                            <select class="custom-select select-height" name="medical_in" id="medical_in" >
                                 <option value disabled selected> Select Medical In </option>
                                 <option value="company"> Company </option>
                                 <option value="self"> Self </option>
@@ -415,8 +415,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Medical Company <span class="text-danger">*</span></label>
-                            <select class="custom-select select-height" name="medical_company" id="medical_company" required>
+                            <label>Medical Company </label>
+                            <select class="custom-select select-height" name="medical_company" id="medical_company" >
                                 <option value disabled selected> Select Medical company </option>
                                 <option value="company"> Company </option>
                                 <option value="self"> Self </option>
@@ -436,8 +436,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Insurance In  <span class="text-danger">*</span></label>
-                            <select class="custom-select select-height" name="insurance_in" id="insurance_in" required>
+                            <label>Insurance In  </label>
+                            <select class="custom-select select-height" name="insurance_in" id="insurance_in" >
                                 <option value disabled selected> Select Insurance In </option>
                                 <option value="company"> Company </option>
                                 <option value="self"> Self </option>
@@ -454,8 +454,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Insurance Company <span class="text-danger">*</span></label>
-                            <select class="custom-select select-height" name="insurance_company" id="insurance_company" required>
+                            <label>Insurance Company</label>
+                            <select class="custom-select select-height" name="insurance_company" id="insurance_company" >
                                 <option value disabled selected> Select Medical company </option>
                                 <option value="company"> Company </option>
                                 <option value="self"> Self </option>

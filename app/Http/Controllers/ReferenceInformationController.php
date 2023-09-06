@@ -28,12 +28,12 @@ class ReferenceInformationController extends Controller
 
     public function index()
     {
-        $reference_info = ReferenceInformation::all();
-        $branchoffices = BranchOffice::all();
+        $reference_info = ReferenceInformation::latest()->get();
+        $branchoffices = BranchOffice::latest()->get();
         $countries   = CountryState::getCountries();
-       
+
         return view('admin.reference_informations.index',compact('branchoffices','reference_info','countries'));
-    
+
     }
 
     /**
@@ -84,7 +84,7 @@ class ReferenceInformationController extends Controller
             }
         }
         $reference = ReferenceInformation::create($data);
-        
+
         if($reference){
             $slug = str_replace(" ","_",strtolower($request->input('reference_name')));
             $secondarygroup = SecondaryGroup::create([
@@ -104,7 +104,7 @@ class ReferenceInformationController extends Controller
                 return redirect()->back();
             }
 
-            
+
         }
         else{
             Session::flash('error','Reference Entry Creation Failed');
@@ -231,7 +231,7 @@ class ReferenceInformationController extends Controller
         return view('admin.reference_informations.trash', compact('trashed'));
     }
 
-    
+
     public function restoretrash($id){
         $restoretrash =  ReferenceInformation::withTrashed()->where('id', $id)->restore();
         if($restoretrash){
@@ -250,7 +250,7 @@ class ReferenceInformationController extends Controller
 
         // $checkjob    = $trashremoval[0]->secondaryGroups()->get();
         // if ($checkjob->count() > 0 ) {
-        
+
         //     return 0;
         // } else {
             if (!empty($trashremoval[0]->image) && file_exists(public_path().'/images/referenceinfo/'.$trashremoval[0]->image)){
@@ -261,6 +261,6 @@ class ReferenceInformationController extends Controller
         // }
          return  '#reference_'.$rid;
 
-        
+
     }
 }
