@@ -172,6 +172,22 @@ Route::get('/overseas-agent/state', 'App\Http\Controllers\OverseasAgentControlle
 Route::patch('/overseas-agent-status/{id}/update', 'App\Http\Controllers\OverseasAgentController@statusupdate')->name('overseas-agent.status.update');
 //End Overseas Agent
 
+
+//Company
+Route::get('/company', 'App\Http\Controllers\DemandCompanyController@index')->name('company.index');
+Route::get('/company/create', 'App\Http\Controllers\DemandCompanyController@create')->name('company.create');
+Route::post('/company', 'App\Http\Controllers\DemandCompanyController@store')->name('company.store');
+Route::put('/company/{id}', 'App\Http\Controllers\DemandCompanyController@update')->name('company.update');
+Route::delete('/company/{company}', 'App\Http\Controllers\DemandCompanyController@destroy')->name('company.destroy');
+Route::get('/company/{company}/edit', 'App\Http\Controllers\DemandCompanyController@edit')->name('company.edit');
+Route::get('/company-trash','App\Http\Controllers\DemandCompanyController@trashindex')->name('company.trash');
+Route::delete('/remove-company-trash/{id}','App\Http\Controllers\DemandCompanyController@deletetrash')->name('company.remove');
+Route::get('/restore-company-trash/{id}','App\Http\Controllers\DemandCompanyController@restoretrash')->name('company.restore');
+Route::get('/company/{company}/single', 'App\Http\Controllers\DemandCompanyController@show')->name('company.show');
+Route::get('/company/state', 'App\Http\Controllers\OverseasAgentController@getState')->name('company.state');
+Route::patch('/company-status/{id}/update', 'App\Http\Controllers\DemandCompanyController@statusupdate')->name('company.status.update');
+//End Company
+
 //Demand Information
 Route::get('/demand-info', 'App\Http\Controllers\DemandInformationController@index')->name('demand-info.index');
 Route::get('/demand-info/create', 'App\Http\Controllers\DemandInformationController@create')->name('demand-info.create')->middleware('checkpermission:create_demand_info');
