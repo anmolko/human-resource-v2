@@ -238,18 +238,60 @@
         };
 
         $(document).ready(function () {
+            $( ".select2" ).select2({
+                width:'100%'
+            });
+            // Attach a change event listener to the radio buttons
+            $('.type_of_company_add').change(function() {
+                // Check the selected value
+                var selectedValue = $(this).val();
+
+                // Show or hide the div based on the selected value
+                if (selectedValue == 'individual') {
+                    $('.company-information').addClass('d-none');
+                    $('.country-group-personal').removeClass('d-none');
+                    $('.country-group-company').addClass('d-none');
+                    $('.remove-company-require').prop('required',false);
+                    $('.remove-personal-require').prop('required',true);
+                    // $('.personal-information').removeClass('d-none');
+                } else {
+                    // $('.personal-information').addClass('d-none');
+                    $('.company-information').removeClass('d-none');
+                    $('.country-group-personal').addClass('d-none');
+                    $('.country-group-company').removeClass('d-none');
+                    $('.remove-company-require').prop('required',true);
+                    $('.remove-personal-require').prop('required',false);
+                }
+
+            });
+
+            $('.type_of_company').change(function() {
+                // Check the selected value
+                var selectedValue = $(this).val();
+
+                // Show or hide the div based on the selected value
+                if (selectedValue == 'individual') {
+                    $('#company-information').addClass('d-none');
+                    $('#country-group-personal').removeClass('d-none');
+                    $('#country-group-company').addClass('d-none');
+                    $('#fullname').prop('required',true);
+                    $('.edit-require').prop('required',false);
+                } else {
+                    // $('#personal-information').addClass('d-none');
+                    $('#company-information').removeClass('d-none');
+                    $('#country-group-personal').addClass('d-none');
+                    $('#country-group-company').removeClass('d-none');
+                    $('#fullname').prop('required',false);
+                    $('.edit-require').prop('required',true);
+
+                }
+            });
+
             $.ajaxSetup({
                 headers:{
                     'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
                 }
             });
-            $( "select[name='state']" ).select2({
-                width: 'style',
-            });
-            $( "select[name='country']" ).select2({
-                width: 'style',
-            });
-
         });
         $(document).on('click','.status-update', function (e) {
             e.preventDefault();
@@ -273,50 +315,19 @@
         });
 
 
-        $(document).on('change','#country', function (e) {
+        $(document).on('change','#country,#country-personal', function (e) {
             e.preventDefault();
-            var value=$(this).val();
-            var action = "{{ route('overseas-agent.state') }}?country_code=" + $(this).val();
-            $.ajax({
-                url: action,
-                type: "GET",
-                success: function(dataResult){
-                    var state;
-                    // console.log(dataResult);
-                    state += '<option value disabled selected> Select State</option>';
+            var value = $(this).val();
+            var dataid = $(this).attr('data-id');
+            loadStateadd(value,dataid);
+        });
 
-                    $.each(dataResult, function (index, value) {
-                         state +=  '<option value="'+index+'">'+value+'</option>';
-                    })
-                    $('#state').html(state);
-
-                },
-                error: function(error){
-
-                }
-            });
-            });
-
-        $(document).on('change','#editcountry', function (e) {
+        $(document).on('change','#editcountry,#country2', function (e) {
             e.preventDefault();
-            var value=$(this).val();
-            var action = "{{ route('overseas-agent.state') }}?country_code=" + $(this).val();
-            $.ajax({
-                url: action,
-                type: "GET",
-                success: function(dataResult){
-                    var state;
-                    state += '<option value disabled selected> Select State</option>';
-                    $.each(dataResult, function (index, value) {
-                         state +=  '<option value="'+index+'">'+value+'</option>';
-                    })
-                    $('#editstate').html(state);
+            var value = $(this).val();
+            var dataid = $(this).attr('data-id');
+            loadStateUpdate(value,dataid);
 
-                },
-                error: function(error){
-
-                }
-            });
             });
 
         $(document).on('click','.action-delete', function (e) {
@@ -402,8 +413,26 @@
                     $('#personal_mobile').attr('value',dataResult.editagent.personal_mobile);
                     $('#personal_contact_num').attr('value',dataResult.editagent.personal_contact_num);
                     $('input[name="type_of_company"]').filter('[value="'+dataResult.editagent.type_of_company+'"]').prop('checked', true);
+
+                    if (dataResult.editagent.type_of_company == 'individual'){
+                        // Show or hide the div based on the selected value
+                        $('#company-information').addClass('d-none');
+                        $('#country-group-personal').removeClass('d-none');
+                        $('#country-group-company').addClass('d-none');
+                            // $('#personal-information').removeClass('d-none');
+                    }else{
+                        // $('#personal-information').addClass('d-none');
+                        $('#company-information').removeClass('d-none');
+                        $('#country-group-personal').addClass('d-none');
+                        $('#country-group-company').removeClass('d-none');
+                    }
                     $('select[name="status"] option[value="'+dataResult.editagent.status+'"]').prop('selected', true);
-                    $('.updatecountry option[value="'+dataResult.editagent.country+'"]').prop('selected', true);
+
+                    if (dataResult.editagent.type_of_company == 'individual') {
+                        $('.updatepersonalcountry option[value="'+dataResult.editagent.country+'"]').prop('selected', true);
+                    }else {
+                        $('.updatecountry option[value="'+dataResult.editagent.country+'"]').prop('selected', true);
+                    }
 
                     if(dataResult.editagent.image == null){
                         src = '/images/profiles/others.png';
@@ -417,7 +446,12 @@
                     if (dataResult.editagent.country_state){
                         var state;
                         state += '<option value disabled selected> Select State</option>';
-                        $('#select2-editcountry-container').text(dataResult.editagent.country_state.country);
+                        if (dataResult.editagent.type_of_company == 'individual') {
+                            $('#select2-country2-container').text(dataResult.editagent.country_state.country);
+                        }else {
+                            $('#select2-editcountry-container').text(dataResult.editagent.country_state.country);
+                        }
+
                         var actionn = "{{ route('overseas-agent.state') }}?country_code=" + dataResult.editagent.country_state.country_code;
                         $.ajax({
                             url: actionn,
@@ -430,8 +464,11 @@
                                         state +=  '<option value="'+indexx+'">'+valuee+'</option>';
                                     }
                                 })
-                                $('#editstate').html(state);
-
+                                if (dataResult.editagent.type_of_company == 'individual') {
+                                    $('#state2').html(state);
+                                }else {
+                                    $('#editstate').html(state);
+                                }
                             },
                             error: function(error){
                                 if(error.statusText=="Forbidden"){
@@ -488,6 +525,55 @@
                         closeOnConfirm: false,
                         showLoaderOnConfirm: true,
                     });
+                }
+            });
+        }
+
+        function loadStateadd(value,dataid){
+            var action = "{{ route('overseas-agent.state') }}?country_code=" + value;
+            $.ajax({
+                url: action,
+                type: "GET",
+                success: function(dataResult){
+                    var state;
+                    // console.log(dataResult);
+                    state += '<option value disabled selected> Select State</option>';
+
+                    $.each(dataResult, function (index, value) {
+                        state +=  '<option value="'+index+'">'+value+'</option>';
+                    })
+                    if (dataid == 'company'){
+                        $('#state').html(state);
+                    }else{
+                        $('#state-personal').html(state);
+                    }
+                },
+                error: function(error){
+
+                }
+            });
+        }
+
+        function loadStateUpdate(value,dataid){
+            var action = "{{ route('overseas-agent.state') }}?country_code=" + value;
+            $.ajax({
+                url: action,
+                type: "GET",
+                success: function(dataResult){
+                    var state;
+                    state += '<option value disabled selected> Select State</option>';
+                    $.each(dataResult, function (index, value) {
+                        state +=  '<option value="'+index+'">'+value+'</option>';
+                    })
+                    if (dataid == 'company-edits'){
+                        $('#editstate').html(state);
+                    }else{
+                        $('#state2').html(state);
+                    }
+
+                },
+                error: function(error){
+
                 }
             });
         }

@@ -14,12 +14,14 @@
 							<ul style="display: none;">
 						@foreach($client_group  as $client)
 
-								<li class="{{(\Request::is($client.'*')) ? 'active' : ''  }}"><a class="{{(\Request::is($client.'*')) ? 'active' : ''  }}" href="{{url('/'.$client)}}">
+								<li class="{{(\Request::is($client.'*')) ? 'active' : ''  }}">
+                                    <a class="{{(\Request::is($client.'*')) ? 'active' : ''  }}" href="{{url('/'.$client)}}">
 										@if($client=="job-category") Job Category
 										@elseif($client=="job-to-demand") Job to Demand
 										@elseif($client=="demand-info") Demand Information
 										@elseif($client=="overseas-agent") Overseas Agent
-										@elseif($client=="reference-info") Reference Information @endif </a></li>
+										@elseif($client=="reference-info") Reference Information @endif </a>
+                                </li>
 
 						@endforeach
 							</ul>
@@ -44,15 +46,15 @@
 						</li>
 					@endif
 
-				
+
 
 					<li class="submenu">
 							<a href="#"><i class="las la-id-card"></i> <span> CV Groups </span> <span class="menu-arrow"></span></a>
 
 							<ul style="display: none;">
-								<li class="{{(\Request::is('candidate-cv-info')) ? 'active' : ''  }}" ><a class="{{(\Request::is('generate-candidate-cv')) ? 'active' : ''  }}" 
+								<li class="{{(\Request::is('candidate-cv-info')) ? 'active' : ''  }}" ><a class="{{(\Request::is('generate-candidate-cv')) ? 'active' : ''  }}"
 									href="{{route('candidate-cv-info.index')}}"> Entry CV</a></li>
-								<li class="{{(\Request::is('generate-candidate-cv')) ? 'active' : ''  }}" ><a class="{{(\Request::is('generate-candidate-cv')) ? 'active' : ''  }}" 
+								<li class="{{(\Request::is('generate-candidate-cv')) ? 'active' : ''  }}" ><a class="{{(\Request::is('generate-candidate-cv')) ? 'active' : ''  }}"
 										href="{{route('generate-personal-info.cv')}}"> Generate CV</a></li>
 							</ul>
 						</li>

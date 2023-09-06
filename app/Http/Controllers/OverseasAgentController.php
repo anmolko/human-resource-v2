@@ -58,8 +58,6 @@ class OverseasAgentController extends Controller
             'type_of_company'       =>$request->input('type_of_company'),
             'company_name'          =>$request->input('company_name'),
             'company_address'       =>$request->input('company_address'),
-            'country'               =>$request->input('country'),
-            'country_state_id'      =>$request->input('state'),
             'company_contact_num'   =>$request->input('company_contact_num'),
             'fax_num'               =>$request->input('fax_num'),
             'company_email'         =>$request->input('company_email'),
@@ -73,6 +71,14 @@ class OverseasAgentController extends Controller
             'personal_contact_num'  =>$request->input('personal_contact_num'),
             'created_by'            =>Auth::user()->id,
         ];
+
+        if($request->input('type_of_company') == 'individual'){
+            $data["country"]           =  $request->input('country_personal');
+            $data["country_state_id"]  =  $request->input('country_personal');
+        }else{
+            $data["country"]           =  $request->input('country');
+            $data["country_state_id"]  =  $request->input('state');
+        }
 
         if(!empty($request->file('image'))) {
             $image = $request->file('image');
@@ -92,24 +98,24 @@ class OverseasAgentController extends Controller
 
         if($agent){
 
-            $lower = str_replace(" ","_",strtolower($request->input('company_name')));
-            $slug     = $lower."_".$request->input('client_no');
-            $secondarygroup = SecondaryGroup::create([
-                'primary_group_id' =>9,
-                'imported_from' => 'true',
-                'name'        =>$request->input('company_name'),
-                'status'      =>1,
-                'slug'        =>$slug,
-                'created_by'  => Auth::user()->id,
-            ]);
-
-            if($secondarygroup){
-                Session::flash('success','Overseas Agent Created Successfully');
-                return redirect()->back();
-            }else{
-                Session::flash('error','Secondary Group not created.');
-                return redirect()->back();
-            }
+//            $lower = str_replace(" ","_",strtolower($request->input('company_name')));
+//            $slug     = $lower."_".$request->input('client_no');
+//            $secondarygroup = SecondaryGroup::create([
+//                'primary_group_id' =>9,
+//                'imported_from' => 'true',
+//                'name'        =>$request->input('company_name'),
+//                'status'      =>1,
+//                'slug'        =>$slug,
+//                'created_by'  => Auth::user()->id,
+//            ]);
+//
+//            if($secondarygroup){
+//                Session::flash('success','Overseas Agent Created Successfully');
+//                return redirect()->back();
+//            }else{
+//                Session::flash('error','Secondary Group not created.');
+//                return redirect()->back();
+//            }
         }
         else{
             Session::flash('error','Overseas Agent Creation Failed');
@@ -159,14 +165,12 @@ class OverseasAgentController extends Controller
         $agent                         =  OverseasAgent::find($id);
 
         $old_c_name                 = $agent->company_name;
-        $old_c_no                  = $agent->client_no;
+        $old_c_no                   = $agent->client_no;
 
         $agent->client_no              =  $request->input('client_no');
         $agent->type_of_company        =  $request->input('type_of_company');
         $agent->company_name           =  $request->input('company_name');
         $agent->company_address        =  $request->input('company_address');
-        $agent->country                =  $request->input('country');
-        $agent->country_state_id       =  $request->input('state');
         $agent->company_contact_num    =  $request->input('company_contact_num');
         $agent->fax_num                =  $request->input('fax_num');
         $agent->company_email          =  $request->input('company_email');
@@ -178,8 +182,22 @@ class OverseasAgentController extends Controller
         $agent->personal_email         =  $request->input('personal_email');
         $agent->personal_mobile        =  $request->input('personal_mobile');
         $agent->personal_contact_num   =  $request->input('personal_contact_num');
+
+        if($request->input('type_of_company') == 'individual'){
+            $agent->country                =  $request->input('country_personal');
+            $agent->country_state_id       =  $request->input('state_personal');
+        }else{
+            $agent->country                =  $request->input('country');
+            $agent->country_state_id       =  $request->input('state');
+        }
+
+
+
+
+
         $agent->updated_by             = Auth::user()->id;
-        $oldimage                       = $agent->image;
+        $oldimage                      = $agent->image;
+
         if (!empty($request->file('image'))){
             $image =$request->file('image');
             $name1 = uniqid().'_'.$image->getClientOriginalName();
@@ -199,19 +217,19 @@ class OverseasAgentController extends Controller
         $status = $agent->update();
         if($status){
 
-            $lower           = str_replace(" ","_",strtolower($old_c_name));
-            $oldslug     = $lower."_".$old_c_no;
-
-            $secondarygroup     = SecondaryGroup::where("slug",$oldslug)->first();
-
-            $companynew = str_replace(" ","_",strtolower($request->input('company_name')));
-            $slug     = $companynew."_".$request->input('client_no');
-
-            $secondarygroup->name        = $request->input('company_name');
-            $secondarygroup->slug        = $slug;
-            $secondarygroup->updated_by  = Auth::user()->id;
-            $secondarygroup->update();
-
+//            $lower           = str_replace(" ","_",strtolower($old_c_name));
+//            $oldslug     = $lower."_".$old_c_no;
+//
+//            $secondarygroup     = SecondaryGroup::where("slug",$oldslug)->first();
+//
+//            $companynew = str_replace(" ","_",strtolower($request->input('company_name')));
+//            $slug     = $companynew."_".$request->input('client_no');
+//
+//            $secondarygroup->name        = $request->input('company_name');
+//            $secondarygroup->slug        = $slug;
+//            $secondarygroup->updated_by  = Auth::user()->id;
+//            $secondarygroup->update();
+//
 
 
             Session::flash('success','Overseas Agent Updated Successfully');
