@@ -227,7 +227,7 @@
                 success: function(dataResult){
                     var state;
                     // console.log(dataResult);
-                    state += '<option value disabled selected> Select State</option>';
+                    state += '';
 
                     $.each(dataResult, function (index, value) {
                          state +=  '<option value="'+index+'">'+value+'</option>';
@@ -250,7 +250,7 @@
                 type: "GET",
                 success: function(dataResult){
                     var state;
-                    state += '<option value disabled selected> Select State</option>';
+                    state += '';
                     $.each(dataResult, function (index, value) {
                          state +=  '<option value="'+index+'">'+value+'</option>';
                     })
@@ -315,52 +315,31 @@
                 cache: false,
                 dataType: 'json',
                 success: function(dataResult){
+
+                    let rendered_view = dataResult.rendered_view;
+                    $('#edit-content').html('').html(rendered_view);
+                    $( ".select2" ).select2({
+                        width:'100%'
+                    });
+
                     // $('#id').val(data.id);
-                    console.log(dataResult);
-                    $("#edit_agent").modal("toggle");
-                    $('#title').attr('value',dataResult.edit.title);
-                    $('#address').attr('value',dataResult.edit.address);
-                    $('#overseas_agent_id').attr('value',dataResult.edit.overseas_agent_id);
-                    $('#phone').attr('value',dataResult.edit.phone);
-                    $('#mobile').attr('value',dataResult.edit.mobile);
-                    $('#fax_number').attr('value',dataResult.edit.fax_number);
-                    $('#email').attr('value',dataResult.edit.email);
-                    $('#website').attr('value',dataResult.edit.website);
 
-                    $('select[name="status"] option[value="'+dataResult.edit.status+'"]').prop('selected', true);
+                    // $("#edit_agent").modal("toggle");
+                    // $('#title').attr('value',dataResult.edit.title);
+                    // $('#address').attr('value',dataResult.edit.address);
+                    // $('#overseas_agent_id').attr('value',dataResult.edit.overseas_agent_id);
+                    // $('#phone').attr('value',dataResult.edit.phone);
+                    // $('#mobile').attr('value',dataResult.edit.mobile);
+                    // $('#fax_number').attr('value',dataResult.edit.fax_number);
+                    // $('#email').attr('value',dataResult.edit.email);
+                    // $('#website').attr('value',dataResult.edit.website);
+                    //
+                    // $('select[name="status"] option[value="'+dataResult.edit.status+'"]').prop('selected', true);
+                    //
+                    // $('.updatecountry option[value="'+dataResult.edit.country+'"]').prop('selected', true);
 
-                    $('.updatecountry option[value="'+dataResult.edit.country+'"]').prop('selected', true);
 
 
-
-                    $('.updateoverseas').attr('action',action);
-
-                    if (dataResult.edit.country_state){
-                        var state;
-                        state += '<option value disabled selected> Select State</option>';
-                        $('#select2-country_state_id-container').text(dataResult.edit.country_state.country);
-                        var actionn = "{{ route('company.state') }}?country_code=" + dataResult.edit.country_state.country_code;
-                        $.ajax({
-                            url: actionn,
-                            type: "GET",
-                            success: function(dataRes){
-                                $.each(dataRes, function (indexx, valuee) {
-                                    if(indexx==dataResult.edit.country_state_id){
-                                        state +=  '<option value="'+indexx+'" selected>'+valuee+'</option>';
-                                    }else{
-                                        state +=  '<option value="'+indexx+'">'+valuee+'</option>';
-                                    }
-                                })
-                                $('#country_state_id').html(state);
-
-                            },
-                            error: function(error){
-                                if(error.statusText=="Forbidden"){
-                                    $("#error-forbidden").modal("toggle");
-                                }
-                            }
-                        });
-                    }
 
                 },error: function(error){
 

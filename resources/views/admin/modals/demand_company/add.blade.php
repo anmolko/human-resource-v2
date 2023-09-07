@@ -80,8 +80,8 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="col-form-label">State </label>
-                            <select class="custom-select select2" name="country_state_id" id="state">
-                                <option value disabled selected> Select State</option>
+                            <select class="custom-select select2" name="country_state_id[]" id="state" multiple>
+{{--                                <option value disabled selected> Select State</option>--}}
 
                             </select>
                             <div class="invalid-feedback">

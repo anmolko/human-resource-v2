@@ -14,7 +14,7 @@ class SensitiveComposer
     public function compose(View $view){
         $voucher_list = ['journal','receipt','payment-voucher','contra'];
         $account_list = ['attribute','primary','secondary'];
-        $client_list =  ['job-to','oversea','demand-info','job-category'];
+        $client_list =  ['job-to','oversea','company','demand-info','job-category'];
         $candidate_list =  ['branch-office','reference','candidate-personal','sub-status','candidate-all'];
         $setting_list = ['setting'];
         $employee_list = ['employee'];

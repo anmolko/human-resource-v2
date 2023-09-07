@@ -25,13 +25,13 @@
 									</div>
                                     @if($errors->has('module_id'))
                                     <div class="invalid-feedback">
-                                         {{$errors->first('module_id')}} 
+                                         {{$errors->first('module_id')}}
 									</div>
 
                                     @endif
                             </div>
 
-                               
+
                                 <div class="form-group">
                                     <label>Permission Name <span class="text-danger">*</span></label>
 									<input class="form-control" id="name" name="name" type="text" required>
@@ -53,19 +53,19 @@
 									</div>
 									@endif
 								</div>
-                           
+
                                 <div class="form-group">
 										{!! Form::label('status','Status:'); !!} &nbsp;&nbsp;
 										<label>
-											{!! Form::radio('status', 1) !!}  
+											{!! Form::radio('status', 1, true) !!}
 											Enable
 										</label>&nbsp;&nbsp;
 										<label>
-											{!! Form::radio('status', 0, true) !!}  
+											{!! Form::radio('status', 0) !!}
 											Disable
 										</label>
 									</div>
-                                
+
                                 <div class="submit-section">
                                     <button class="btn btn-primary submit-btn" id="submit-module">Submit</button>
                                 </div>

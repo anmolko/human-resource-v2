@@ -17,7 +17,8 @@
 								<li class="{{(\Request::is($client.'*')) ? 'active' : ''  }}">
                                     <a class="{{(\Request::is($client.'*')) ? 'active' : ''  }}" href="{{url('/'.$client)}}">
 										@if($client=="job-category") Job Category
-										@elseif($client=="job-to-demand") Job to Demand
+                                        @elseif($client=="company") Company Information
+                                        @elseif($client=="job-to-demand") Job to Demand
 										@elseif($client=="demand-info") Demand Information
 										@elseif($client=="overseas-agent") Overseas Agent
 										@elseif($client=="reference-info") Reference Information @endif </a>

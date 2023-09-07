@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CountrySetting;
 use App\Models\DemandCompany;
+use App\Models\DemandCompanyCountryStates;
 use App\Models\DemandInformation;
 use App\Models\OverseasAgent;
 use CountryState;
@@ -60,6 +61,7 @@ class DemandCompanyController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->all());
         DB::beginTransaction();
         try {
             $request->request->add(['created_by' => auth()->user()->id ]);
@@ -77,16 +79,31 @@ class DemandCompanyController extends Controller
 //                }
 //            }
 
-            DemandCompany::create($request->all());
+            $demand_company = DemandCompany::create($request->all());
+
+            $this->syncCompanyState($request,$demand_company);
+
 
             Session::flash('success','Demand company was created successfully');
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
+            dd($e);
             Session::flash('error','Demand company was not created. Something went wrong.');
         }
 
         return redirect()->back();
+    }
+
+    public function syncCompanyState($request, $company){
+        if(count($request['country_state_id'])>0){
+            foreach ($request['country_state_id'] as $country_state){
+                DemandCompanyCountryStates::create([
+                    'demand_company_id' => $company->id,
+                    'country_state_id' => $country_state,
+                ]);
+            }
+        }
     }
 
     /**
@@ -111,14 +128,24 @@ class DemandCompanyController extends Controller
      */
     public function edit($id)
     {
-        $demand_company     = DemandCompany::find($id);
-        $countries          = CountryState::getCountries();
-        $agents             = OverseasAgent::latest()->get()->mapWithKeys(function($agent) {
+        $data                       = [];
+        $data['demand_company']     = DemandCompany::find($id);
+        $data['countries']          = CountryState::getCountries();
+        $data['agents']             = OverseasAgent::latest()->get()->mapWithKeys(function($agent) {
             return [$agent->id => $agent->company_name ?? $agent->fullname ?? ''];
         });
-        $country_settings   = CountrySetting::latest()->get();
+        $data['country_settings']   = CountrySetting::latest()->get();
 
-        return response()->json(['edit' => $demand_company,'countries' => $countries,'agents' => $agents,'country_settings' => $country_settings]);
+        if ($data['demand_company']->country){
+            $data['states'] = CountrySetting::where('country_code',$data['demand_company']->country)->pluck('state','id');
+        }else{
+            $data['states'] = [];
+        }
+
+
+        $render_view = view('admin.demand_company.includes.edit_form', compact('data'))->render();
+
+        return response()->json(['rendered_view' => $render_view]);
     }
 
     /**
@@ -137,6 +164,10 @@ class DemandCompanyController extends Controller
             $request->request->add(['updated_by' => auth()->user()->id ]);
 
             $data['row']->update($request->all());
+
+//            $data['row']->demandCompanyCountryStates()->detach(); // Detach existing posts
+//
+//            $this->syncCompanyState($request,$data['row']);
 
             Session::flash('success','Demand company was updated successfully');
             DB::commit();

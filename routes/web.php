@@ -175,14 +175,14 @@ Route::patch('/overseas-agent-status/{id}/update', 'App\Http\Controllers\Oversea
 
 //Company
 Route::get('/company', 'App\Http\Controllers\DemandCompanyController@index')->name('company.index');
-Route::get('/company/create', 'App\Http\Controllers\DemandCompanyController@create')->name('company.create');
-Route::post('/company', 'App\Http\Controllers\DemandCompanyController@store')->name('company.store');
-Route::put('/company/{id}', 'App\Http\Controllers\DemandCompanyController@update')->name('company.update');
-Route::delete('/company/{company}', 'App\Http\Controllers\DemandCompanyController@destroy')->name('company.destroy');
-Route::get('/company/{company}/edit', 'App\Http\Controllers\DemandCompanyController@edit')->name('company.edit');
+Route::get('/company/create', 'App\Http\Controllers\DemandCompanyController@create')->name('company.create')->middleware('checkpermission:create_company');
+Route::post('/company', 'App\Http\Controllers\DemandCompanyController@store')->name('company.store')->middleware('checkpermission:create_company');
+Route::put('/company/{id}/update', 'App\Http\Controllers\DemandCompanyController@update')->name('company.update')->middleware('checkpermission:edit_company');
+Route::delete('/company/{company}', 'App\Http\Controllers\DemandCompanyController@destroy')->name('company.destroy')->middleware('checkpermission:trash_company');
+Route::get('/company/{company}/edit', 'App\Http\Controllers\DemandCompanyController@edit')->name('company.edit')->middleware('checkpermission:edit_company');
 Route::get('/company-trash','App\Http\Controllers\DemandCompanyController@trashindex')->name('company.trash');
-Route::delete('/remove-company-trash/{id}','App\Http\Controllers\DemandCompanyController@deletetrash')->name('company.remove');
-Route::get('/restore-company-trash/{id}','App\Http\Controllers\DemandCompanyController@restoretrash')->name('company.restore');
+Route::delete('/remove-company-trash/{id}','App\Http\Controllers\DemandCompanyController@deletetrash')->name('company.remove')->middleware('checkpermission:delete_company');
+Route::get('/restore-company-trash/{id}','App\Http\Controllers\DemandCompanyController@restoretrash')->name('company.restore')->middleware('checkpermission:restore_company');
 Route::get('/company/{company}/single', 'App\Http\Controllers\DemandCompanyController@show')->name('company.show');
 Route::get('/company/state', 'App\Http\Controllers\OverseasAgentController@getState')->name('company.state');
 Route::patch('/company-status/{id}/update', 'App\Http\Controllers\DemandCompanyController@statusupdate')->name('company.status.update');
