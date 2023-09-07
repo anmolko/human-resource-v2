@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CountrySetting;
+use App\Models\DemandCompany;
 use App\Models\DemandInformation;
 use App\Models\JobCategory;
 use App\Models\OverseasAgent;
@@ -30,12 +31,13 @@ class DemandInformationController extends Controller
     {
         $demand_info        = DemandInformation::with('jobs')->get();
         $countries          = CountryState::getCountries();
-        $agents      = OverseasAgent::latest()->get();
-        $categories  = JobCategory::latest()->get();
-        $demands     = DemandInformation::latest()->get();
-        $country_settings = CountrySetting::latest()->get();
+        $agents             = OverseasAgent::latest()->get();
+        $categories         = JobCategory::latest()->get();
+        $demands            = DemandInformation::latest()->get();
+        $country_settings   = CountrySetting::latest()->get();
+        $companies          = DemandCompany::latest()->pluck('title','id');
 
-        return view('admin.demand_informations.index',compact('demand_info','country_settings','countries','agents','categories','demands'));
+        return view('admin.demand_informations.index',compact('demand_info','companies','country_settings','countries','agents','categories','demands'));
     }
 
     /**
@@ -59,15 +61,7 @@ class DemandInformationController extends Controller
         $data=[
             'ref_no'               => $request->input('ref_no'),
             'serial_no'            => $request->input('serial_no'),
-            'company_name'         => $request->input('company_name'),
-            'overseas_agent_id'    => $request->input('overseas_agent_id'),
-            'country'              => $request->input('country'),
-            'country_state_id'     => $request->input('state'),
-            'address'              => $request->input('address'),
-            'telephone'            => $request->input('telephone'),
-            'fax_no'               => $request->input('fax_no'),
-            'website'              => $request->input('website'),
-            'email'                => $request->input('email'),
+            'demand_company_id'    => $request->input('company_id'),
             'category'             => $request->input('category'),
             'fulfill_date'         => $request->input('fulfill_date'),
             'issued_date'          => $request->input('issued_date'),
@@ -126,9 +120,10 @@ class DemandInformationController extends Controller
      */
     public function edit($id)
     {
-        $demand_info_edit = DemandInformation::with('countryState')->find($id);
+        $demand_info_edit = DemandInformation::find($id);
         $countries        = CountryState::getCountries();
         $agents           = OverseasAgent::latest()->get();
+
         return response()->json(['demand_info_agent'=>$demand_info_edit,'countries'=>$countries,'agents'=>$agents]);
     }
 
@@ -144,15 +139,7 @@ class DemandInformationController extends Controller
         $demand                        =  DemandInformation::find($id);
         $demand->ref_no                =  $request->input('ref_no');
         $demand->serial_no             =  $request->input('serial_no');
-        $demand->company_name          =  $request->input('company_name');
-        $demand->overseas_agent_id     =  $request->input('overseas_agent_id');
-        $demand->country               =  $request->input('country');
-        $demand->country_state_id      =  $request->input('state');
-        $demand->address               =  $request->input('address');
-        $demand->telephone             =  $request->input('telephone');
-        $demand->fax_no                =  $request->input('fax_no');
-        $demand->website               =  $request->input('website');
-        $demand->email                 =  $request->input('email');
+        $demand->demand_company_id     =  $request->input('company_id');
         $demand->category              =  $request->input('category');
         $demand->fulfill_date          =  $request->input('fulfill_date');
         $demand->issued_date           =  $request->input('issued_date');

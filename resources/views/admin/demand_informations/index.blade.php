@@ -229,11 +229,8 @@
                     'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
                 }
             });
-            $( "select[name='state']" ).select2({
-                width: 'style',
-            });
-            $( "select[name='country']" ).select2({
-                width: 'style',
+            $( ".select2" ).select2({
+                width:'100%'
             });
 
             <?php if(@$theme_data->default_date_format=='nepali'){ ?>
@@ -278,20 +275,17 @@
 
 
             $('#datetimepicker').datetimepicker({
-                format: 'YYYY-MM-DD'
-
+                format: 'YYYY-MM-DD',
             });
             $('#datetimepicker1').datetimepicker({
-                format: 'YYYY-MM-DD'
-
+                format: 'YYYY-MM-DD',
+                defaultDate: moment()
             });
             $('#datetimepicker2').datetimepicker({
-                format: 'YYYY-MM-DD'
-
+                format: 'YYYY-MM-DD',
             });
             $('#datetimepicker3').datetimepicker({
-                format: 'YYYY-MM-DD'
-
+                format: 'YYYY-MM-DD',
             });
             $('#datetimepicker-edit').datetimepicker({
                 format: 'YYYY-MM-DD'
@@ -300,13 +294,14 @@
 
             <?php }else{?>
             $('#datetimepicker').datetimepicker({
-                format: 'YYYY-MM-DD'
+                format: 'YYYY-MM-DD',
             })
             $('#datetimepicker1').datetimepicker({
-                format: 'YYYY-MM-DD'
+                format: 'YYYY-MM-DD',
+                defaultDate: moment()
             })
             $('#datetimepicker2').datetimepicker({
-                format: 'YYYY-MM-DD'
+                format: 'YYYY-MM-DD',
             })
             $('#datetimepicker3').datetimepicker({
                 format: 'YYYY-MM-DD'
@@ -536,6 +531,7 @@
                 cache: false,
                 dataType: 'json',
                 success: function(dataResult){
+                    console.log(dataResult.demand_info_agent.demand_company_id);
                     $("#edit_demand_info").modal("toggle");
                     if(dataResult.demand_info_agent.image == null ){
                         src = '/images/profiles/others.png';
@@ -544,40 +540,8 @@
                     }
                     $('#current-demand-img').attr('src',src);
                     $('#ref_no').attr('value',dataResult.demand_info_agent.ref_no);
+                    $('#company_id').val(dataResult.demand_info_agent.demand_company_id).trigger('change');
                     $('#serial_no').attr('value',dataResult.demand_info_agent.serial_no);
-                    $('#company_name').attr('value',dataResult.demand_info_agent.company_name);
-                    $('select[name="overseas_agent_id"] option[value="'+dataResult.demand_info_agent.overseas_agent_id+'"]').prop('selected', true);
-                    $('#country option[value="'+dataResult.demand_info_agent.country+'"]').prop('selected', true);
-
-                   if (dataResult.demand_info_agent.country_state){
-                       var state;
-                       state += '<option value disabled selected> Select State</option>';
-
-                       $('#select2-country-container').text(dataResult.demand_info_agent.country_state.country);
-                       var actionn = "{{ route('overseas-agent.state') }}?country_code=" + dataResult.demand_info_agent.country_state.country_code;
-                       $.ajax({
-                           url: actionn,
-                           type: "GET",
-                           success: function(dataRes){
-                               $.each(dataRes, function (indexx, valuee) {
-                                   if(indexx==dataResult.demand_info_agent.country_state_id){
-                                       state +=  '<option value="'+indexx+'" selected>'+valuee+'</option>';
-                                   }else{
-                                       state +=  '<option value="'+indexx+'">'+valuee+'</option>';
-                                   }
-                               })
-                               $('#state').html(state);
-                           },
-                           error: function(error){}
-                       });
-                   }
-
-
-                    $('#address').attr('value',dataResult.demand_info_agent.address);
-                    $('#telephone').attr('value',dataResult.demand_info_agent.telephone);
-                    $('#fax_no').attr('value',dataResult.demand_info_agent.fax_no);
-                    $('#website').attr('value',dataResult.demand_info_agent.website);
-                    $('#email').attr('value',dataResult.demand_info_agent.email);
                     $('#category option[value="'+dataResult.demand_info_agent.category+'"]').prop('selected', true);
                     $('#fulfill_date').attr('value',dataResult.demand_info_agent.fulfill_date);
                     $('#issued_date').attr('value',dataResult.demand_info_agent.issued_date);

@@ -50,174 +50,44 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Company Name <span class="text-danger">*</span></label>
-                    <input class="form-control" name="company_name" type="text" required>
-                    <div class="invalid-feedback">
-                        Please enter Company Name.
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Company <span class="text-danger">*</span></label>
+                            {!! Form::select('company_id', $companies, null,['class'=>'custom-select mb-3 select2','placeholder'=>'Select company']) !!}
+                            <div class="invalid-feedback">
+                                Please enter Company Name.
+                            </div>
+                            @if($errors->has('company_id'))
+                                <div class="invalid-feedback">
+                                    {{$errors->first('company_id')}}
+                                </div>
+                            @endif
+                        </div>
                     </div>
-                    @if($errors->has('company_name'))
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                    <div class="form-group">
+                        <label>Category </label>
+                        <select class="custom-select select-height select2" name="category">
+                            <option value disabled > Select Category </option>
+                            <option value="basic" selected> Basic </option>
+                            <option value="normal"> Normal </option>
+                            <option value="urgent"> Urgent </option>
+                            <option value="topurgent"> Top-Urgent </option>
+                        </select>
                         <div class="invalid-feedback">
-                            {{$errors->first('company_name')}}
+                            Please select a category.
                         </div>
-                    @endif
-                </div>
-
-                <div class="form-group">
-                    <label class="col-form-label">Overseas Agent Name </label>
-                    <select class="custom-select" name="overseas_agent_id">
-                        <option value disabled selected> Select Agent Name</option>
-                        @foreach($agents as $agent)
-                            <option value="{{$agent->id}}">{{ucwords($agent->fullname)}} </option>
-                        @endforeach
-                    </select>
-                    <div class="invalid-feedback">
-                        Please select a agent name.
-                    </div>
-                    @if($errors->has('overseas_agent_id'))
-                        <div class="invalid-feedback">
-                            {{$errors->first('overseas_agent_id')}}
-                        </div>
-                    @endif
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-form-label">Country </label>
-                            <select class="custom-select country" name="country">
-                                <option value disabled selected> Select Country</option>
-                                @foreach($countries as $key => $value)
-                                    <option value="{{$key}}">{{ucwords($value)}} </option>
-                                @endforeach
-                            </select>
+                        @if($errors->has('category'))
                             <div class="invalid-feedback">
-                                Please select a Country.
+                                {{$errors->first('category')}}
                             </div>
-                            @if($errors->has('country'))
-                                <div class="invalid-feedback">
-                                    {{$errors->first('country')}}
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-form-label">State </label>
-                            <select class="custom-select" name="state" >
-                                <option value disabled selected> Select State</option>
-
-                            </select>
-                            <div class="invalid-feedback">
-                                Please select a state.
-                            </div>
-                            @if($errors->has('state'))
-                                <div class="invalid-feedback">
-                                    {{$errors->first('state')}}
-                                </div>
-                            @endif
-                        </div>
+                        @endif
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Address </label>
-                            <input class="form-control" name="address" type="text" >
-                            <div class="invalid-feedback">
-                                Please enter Address.
-                            </div>
-                            @if($errors->has('address'))
-                                <div class="invalid-feedback">
-                                    {{$errors->first('address')}}
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Telephone </label>
-                            <input class="form-control" name="telephone" type="text" >
-                            <div class="invalid-feedback">
-                                Please enter telephone number.
-                            </div>
-                            @if($errors->has('telephone'))
-                                <div class="invalid-feedback">
-                                    {{$errors->first('telephone')}}
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Fax Number </label>
-                            <input class="form-control" name="fax_no" type="number">
-                            <div class="invalid-feedback">
-                                Please enter Fax Number.
-                            </div>
-                            @if($errors->has('fax_no'))
-                                <div class="invalid-feedback">
-                                    {{$errors->first('fax_no')}}
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Website </label>
-                            <input class="form-control" name="website" type="text" >
-                            <div class="invalid-feedback">
-                                Please enter the Website.
-                            </div>
-                            @if($errors->has('website'))
-                                <div class="invalid-feedback">
-                                    {{$errors->first('website')}}
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Email </label>
-                            <input class="form-control" name="email" type="email" >
-                            <div class="invalid-feedback">
-                                Please enter the Email.
-                            </div>
-                            @if($errors->has('email'))
-                                <div class="invalid-feedback">
-                                    {{$errors->first('email')}}
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Category </label>
-                            <select class="custom-select select-height" name="category">
-                                <option value disabled selected> Select Category </option>
-                                <option value="basic"> Basic </option>
-                                <option value="normal"> Normal </option>
-                                <option value="urgent"> Urgent </option>
-                                <option value="topurgent"> Top-Urgent </option>
-                            </select>
-                            <div class="invalid-feedback">
-                                Please select a category.
-                            </div>
-                            @if($errors->has('category'))
-                                <div class="invalid-feedback">
-                                    {{$errors->first('category')}}
-                                </div>
-                            @endif
-                        </div>
-                    </div>
                 </div>
 
                 <div class="row">
@@ -270,8 +140,8 @@
                         <div class="form-group">
                             <label>Advertised </label>
                             <select class="custom-select select-height" name="advertised">
-                                <option value disabled selected> Select Advertised </option>
-                                <option value="news-paper"> News Paper </option>
+                                <option value disabled> Select Advertised </option>
+                                <option value="news-paper" selected> News Paper </option>
                                 <option value="local"> Local </option>
                                 <option value="thought-agents"> Through Agents </option>
                                 <option value="others"> Others </option>
@@ -293,8 +163,8 @@
                         <div class="form-group">
                             <label>Status  </label>
                             <select class="custom-select select-height" name="status">
-                                <option value disabled selected> Select Status </option>
-                                <option value="new"> New </option>
+                                <option value disabled> Select Status </option>
+                                <option value="new" selected> New </option>
                                 <option value="on-going"> On Going </option>
                                 <option value="up-coming"> Up Coming </option>
                                 <option value="completed"> Completed </option>

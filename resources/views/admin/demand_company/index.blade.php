@@ -196,6 +196,7 @@
                 width:'100%'
             });
         });
+
         $(document).on('click','.status-update', function (e) {
             e.preventDefault();
             var status = $(this).attr('id');
@@ -239,7 +240,7 @@
 
                 }
             });
-            });
+        });
 
         $(document).on('change','#country', function (e) {
             e.preventDefault();
