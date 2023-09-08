@@ -81,7 +81,7 @@ class DemandCompanyController extends Controller
 
             $demand_company = DemandCompany::create($request->all());
 
-            $this->syncCompanyState($request,$demand_company);
+            $demand_company->demandCompanyCountryStates()->sync($request['country_state_id']);
 
 
             Session::flash('success','Demand company was created successfully');
@@ -95,16 +95,16 @@ class DemandCompanyController extends Controller
         return redirect()->back();
     }
 
-    public function syncCompanyState($request, $company){
-        if(count($request['country_state_id'])>0){
-            foreach ($request['country_state_id'] as $country_state){
-                DemandCompanyCountryStates::create([
-                    'demand_company_id' => $company->id,
-                    'country_state_id' => $country_state,
-                ]);
-            }
-        }
-    }
+//    public function syncCompanyState($request, $company){
+//        if(count($request['country_state_id'])>0){
+//            foreach ($request['country_state_id'] as $country_state){
+//                DemandCompanyCountryStates::create([
+//                    'demand_company_id' => $company->id,
+//                    'country_state_id' => $country_state,
+//                ]);
+//            }
+//        }
+//    }
 
     /**
      * Display the specified resource.
@@ -142,7 +142,6 @@ class DemandCompanyController extends Controller
             $data['states'] = [];
         }
 
-
         $render_view = view('admin.demand_company.includes.edit_form', compact('data'))->render();
 
         return response()->json(['rendered_view' => $render_view]);
@@ -165,9 +164,7 @@ class DemandCompanyController extends Controller
 
             $data['row']->update($request->all());
 
-//            $data['row']->demandCompanyCountryStates()->detach(); // Detach existing posts
-//
-//            $this->syncCompanyState($request,$data['row']);
+            $data['row']->demandCompanyCountryStates()->sync($request['country_state_id']);
 
             Session::flash('success','Demand company was updated successfully');
             DB::commit();

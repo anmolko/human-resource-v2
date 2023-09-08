@@ -23,7 +23,7 @@ class DemandCompany extends Model
     }
 
     public function demandCompanyCountryStates(){
-        return $this->hasMany('App\Models\DemandCompanyCountryStates','demand_company_id', 'id');
+        return $this->belongsToMany('App\Models\CountrySetting','company_country_states', 'demand_company_id','country_state_id');
     }
 
 }

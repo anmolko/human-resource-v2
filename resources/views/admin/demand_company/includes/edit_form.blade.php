@@ -64,13 +64,7 @@
     <div class="col-sm-6">
         <div class="form-group">
             <label class="col-form-label">State </label>
-            {!! Form::select('country_state_id[]', $data['states'], $data['demand_company']->demandCompanyCountryStates ? $data['demand_company']->demandCompanyCountryStates->pluck('country_state_id','id'):null,['class'=>'custom-select select2','id'=>'country_state_id','multiple'=>'multiple']) !!}
-
-            @if($data['demand_company']->demandCompanyCountryStates)
-                @foreach($data['demand_company']->demandCompanyCountryStates as $states)
-                    {!! Form::hidden('company_country_state_id[]', $states->id) !!}
-                @endforeach
-            @endif
+            {!! Form::select('country_state_id[]', $data['states'], $data['demand_company']->demandCompanyCountryStates ? $data['demand_company']->demandCompanyCountryStates->pluck('id'):null,['class'=>'custom-select select2','id'=>'country_state_id','multiple'=>'multiple']) !!}
 
             <div class="invalid-feedback">
                 Please select a state.
