@@ -14,9 +14,7 @@ class DemandCompany extends Model
     protected $table ='demand_companies';
     protected $fillable =['id','title','email','phone','mobile','address','fax_number','website','country','status','created_by','updated_by'];
 
-    public function countryState(){
-        return $this->belongsTo('App\Models\CountrySetting','country_state_id','id');
-    }
+
 
     public function overseasAgent(){
         return $this->belongsTo('App\Models\OverseasAgent','overseas_agent_id', 'id');

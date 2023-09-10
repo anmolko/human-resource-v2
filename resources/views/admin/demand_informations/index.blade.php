@@ -531,7 +531,6 @@
                 cache: false,
                 dataType: 'json',
                 success: function(dataResult){
-                    console.log(dataResult.demand_info_agent.demand_company_id);
                     $("#edit_demand_info").modal("toggle");
                     if(dataResult.demand_info_agent.image == null ){
                         src = '/images/profiles/others.png';
@@ -541,6 +540,8 @@
                     $('#current-demand-img').attr('src',src);
                     $('#ref_no').attr('value',dataResult.demand_info_agent.ref_no);
                     $('#company_id').val(dataResult.demand_info_agent.demand_company_id).trigger('change');
+
+
                     $('#serial_no').attr('value',dataResult.demand_info_agent.serial_no);
                     $('#category option[value="'+dataResult.demand_info_agent.category+'"]').prop('selected', true);
                     $('#fulfill_date').attr('value',dataResult.demand_info_agent.fulfill_date);
@@ -552,6 +553,11 @@
                     $('#num_of_pax').attr('value',dataResult.demand_info_agent.num_of_pax);
                     $('#doc_received_date').attr('value',dataResult.demand_info_agent.doc_received_date);
                     $('#doc_status_remarks').text(dataResult.demand_info_agent.doc_status_remarks);
+
+                    setTimeout(function () {
+                        $('#country_state_id').val(dataResult.demand_info_agent.country_state_id).trigger('change');
+                    }, 1000);
+
                     $('.updatedemand').attr('action',action);
                 },
                 error: function(error){
@@ -717,5 +723,48 @@
             });
 
         });
+
+        $(document).on('change','select[name="company_id"]', function (e) {
+            e.preventDefault();
+            var value   = $(this).val();
+            var data_id = $(this).attr('data-id');
+
+            $.ajax({
+                type: "GET",
+                url: "{{ route('demand-info.company_related_states') }}",
+                data: {'company_id':value},
+                success: function(data) {
+
+                    if (data_id == 'create'){
+                        var selectField = $('.country_state_id');
+                    }else{
+                        var selectField = $('#country_state_id');
+                    }
+
+                    // Clear existing options
+                    selectField.empty();
+
+                    // Add a default option
+                    selectField.append('<option value="">Select State</option>');
+
+                    // Loop through the data and add options to the select field
+                    $.each(data.states, function (index, item) {
+                        selectField.append('<option value="' + index + '">' + item + '</option>');
+                    });
+                },
+                error: function() {
+                    swal({
+                        title: 'Fetching states error',
+                        text: "Error. Could not confirm the status of the Company related states.",
+                        type: "info",
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        showLoaderOnConfirm: true,
+                    });
+                }
+            });
+
+        });
+
     </script>
 @endsection

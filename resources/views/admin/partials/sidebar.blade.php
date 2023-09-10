@@ -7,7 +7,7 @@
 				</li>
 				<li><a href="{{route('dashboard')}}"><i class="la la-dashboard"></i> <span>Dashboard</span></a></li>
 				<li><a href="{{route('user')}}"><i class="la la-users-cog"></i> <span>User Dashboard</span></a></li>
-				<li><a href="{{route('account')}}"><i class="la la-files-o"></i> <span>Account Dashboard</span></a></li>
+{{--				<li><a href="{{route('account')}}"><i class="la la-files-o"></i> <span>Account Dashboard</span></a></li>--}}
 				<li><a href="{{route('candidate')}}"><i class="la la-user-tag"></i> <span>Candidate Dashboard</span></a></li>
 				@php $modules=\App\Models\Role::find(session()->get('role_id'))->modules; @endphp
 
@@ -21,7 +21,7 @@
 					@endforeach
 				@endif -->
 
-					
+
 
 
 

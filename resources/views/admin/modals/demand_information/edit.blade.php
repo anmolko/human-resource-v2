@@ -53,14 +53,31 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label>Company <span class="text-danger">*</span></label>
-                            {!! Form::select('company_id', $companies, null,['class'=>'custom-select mb-3 select2','id'=>'company_id','placeholder'=>'Select company']) !!}
+                            <label>Company </label>
+                            {!! Form::select('company_id', $companies, null,['class'=>'custom-select mb-3 select2','id'=>'company_id','placeholder'=>'Select company','data-id'=>'edit']) !!}
                             <div class="invalid-feedback">
                                 Please enter Company Name.
                             </div>
                             @if($errors->has('company_id'))
                                 <div class="invalid-feedback">
                                     {{$errors->first('company_id')}}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>State <span class="text-danger">*</span></label>
+                            {!! Form::select('country_state_id', [], null,['class'=>'custom-select mb-3 select2','id'=>'country_state_id','placeholder'=>'Select state']) !!}
+                            <div class="invalid-feedback">
+                                Please enter state.
+                            </div>
+                            @if($errors->has('country_state_id'))
+                                <div class="invalid-feedback">
+                                    {{$errors->first('country_state_id')}}
                                 </div>
                             @endif
                         </div>

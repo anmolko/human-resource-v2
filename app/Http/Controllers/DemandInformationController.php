@@ -62,6 +62,7 @@ class DemandInformationController extends Controller
             'ref_no'               => $request->input('ref_no'),
             'serial_no'            => $request->input('serial_no'),
             'demand_company_id'    => $request->input('company_id'),
+            'country_state_id'     => $request->input('country_state_id'),
             'category'             => $request->input('category'),
             'fulfill_date'         => $request->input('fulfill_date'),
             'issued_date'          => $request->input('issued_date'),
@@ -140,6 +141,7 @@ class DemandInformationController extends Controller
         $demand->ref_no                =  $request->input('ref_no');
         $demand->serial_no             =  $request->input('serial_no');
         $demand->demand_company_id     =  $request->input('company_id');
+        $demand->country_state_id      =  $request->input('country_state_id');
         $demand->category              =  $request->input('category');
         $demand->fulfill_date          =  $request->input('fulfill_date');
         $demand->issued_date           =  $request->input('issued_date');
@@ -231,5 +233,13 @@ class DemandInformationController extends Controller
             $confirmed = "no";
         }
         return response()->json($confirmed);
+    }
+
+    public function companyStates(){
+        $demand_country = DemandCompany::find(\request('company_id'));
+
+        $states         = $demand_country->demandCompanyCountryStates->pluck('state','id');
+
+        return response()->json(['states'=>$states]);
     }
 }

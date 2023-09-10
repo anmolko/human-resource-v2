@@ -190,6 +190,7 @@ Route::patch('/company-status/{id}/update', 'App\Http\Controllers\DemandCompanyC
 
 //Demand Information
 Route::get('/demand-info', 'App\Http\Controllers\DemandInformationController@index')->name('demand-info.index');
+Route::get('/company-related-states', 'App\Http\Controllers\DemandInformationController@companyStates')->name('demand-info.company_related_states');
 Route::get('/demand-info/create', 'App\Http\Controllers\DemandInformationController@create')->name('demand-info.create')->middleware('checkpermission:create_demand_info');
 Route::post('/demand-info', 'App\Http\Controllers\DemandInformationController@store')->name('demand-info.store')->middleware('checkpermission:create_demand_info');
 Route::put('/demand-info/{id}/', 'App\Http\Controllers\DemandInformationController@update')->name('demand-info.update')->middleware('checkpermission:edit_demand_info');
