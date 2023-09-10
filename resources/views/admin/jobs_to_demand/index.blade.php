@@ -177,10 +177,14 @@
             $('#jobdemand-index').DataTable({
                 paging: true,
                 searching: true,
-                ordering:  true,
+                ordering:  false,
                 lengthMenu: [[15, 25, 50, 100, -1], [15, 25, 50,100, "All"]],
 
             });
+            $( ".select2" ).select2({
+                width:'100%'
+            });
+
         });
 
         $(document).on('click','.status-update', function (e) {
@@ -261,7 +265,7 @@
                     if(dataResult.job_demand_edit.job_status == "complete"){
                         $('#job_status').prop('checked', true);
                     }
-                    $('#company_name_jobs').attr('value',dataResult.job_demand_edit.demand_information.company_name);
+                    $('#company_name_jobs').attr('value',dataResult.job_demand_edit.demand_information.demand_company ? dataResult.job_demand_edit.demand_information.demand_company.title:'');
 
                     if (dataResult.job_demand_edit.demand_information.demand_company){
                         let company = dataResult.job_demand_edit.demand_information.demand_company;
@@ -354,6 +358,7 @@
         $(document).on('change','select[name="demand_information_id"]', function (e) {
             e.preventDefault();
             var value=$(this).val();
+            console.log(value);
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -362,7 +367,8 @@
                 url: "{{ route('jobs.demand-info') }}",
                 data: {'demand_id':value},
                 success: function(data) {
-                    $('.select-company').attr('value',data.company_name);
+                    console.log(data.demand_company.title);
+                    $('.select-company').val(data.demand_company.title);
                     if (data.demand_company){
                         let company = data.demand_company;
                         let value = '';
@@ -372,7 +378,7 @@
                             value = company.title;
                         }
 
-                        $('#client_name').attr('value',value);
+                        $('.').attr('value',value);
                     }
                     // $('.select-client-name').attr('value',data.overseas_agent.fullname);
                 },

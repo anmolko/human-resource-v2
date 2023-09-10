@@ -53,8 +53,8 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label>Company </label>
-                            {!! Form::select('company_id', $companies, null,['class'=>'custom-select mb-3 select2','id'=>'company_id','placeholder'=>'Select company','data-id'=>'edit']) !!}
+                            <label>Company <span class="text-danger">*</span></label>
+                            {!! Form::select('company_id', $companies, null,['class'=>'custom-select mb-3 select2','id'=>'company_id','placeholder'=>'Select company','data-id'=>'edit','required']) !!}
                             <div class="invalid-feedback">
                                 Please enter Company Name.
                             </div>
@@ -70,7 +70,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label>State <span class="text-danger">*</span></label>
+                            <label>State </label>
                             {!! Form::select('country_state_id', [], null,['class'=>'custom-select mb-3 select2','id'=>'country_state_id','placeholder'=>'Select state']) !!}
                             <div class="invalid-feedback">
                                 Please enter state.

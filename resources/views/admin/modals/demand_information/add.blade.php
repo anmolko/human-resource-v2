@@ -54,7 +54,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label>Company <span class="text-danger">*</span></label>
-                            {!! Form::select('company_id', $companies, null,['class'=>'custom-select mb-3 select2 company_id','placeholder'=>'Select company','data-id'=>'create']) !!}
+                            {!! Form::select('company_id', $companies, null,['class'=>'custom-select mb-3 select2 company_id','placeholder'=>'Select company','data-id'=>'create','required']) !!}
                             <div class="invalid-feedback">
                                 Please enter Company Name.
                             </div>

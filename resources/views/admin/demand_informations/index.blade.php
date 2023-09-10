@@ -585,9 +585,18 @@
                     if(dataResult.job_demand_edit.job_status == "complete"){
                         $('#job_status').prop('checked', true);
                     }
-                    $('#company_name_jobs').attr('value',dataResult.job_demand_edit.demand_information.company_name);
-                    $('#client_name').attr('value',dataResult.job_demand_edit.demand_information.overseas_agent.fullname);
-                    $('#job_category_id option[value="'+dataResult.job_demand_edit.job_category_id+'"]').prop('selected', true);
+                    $('#company_name_jobs').attr('value',dataResult.job_demand_edit.demand_information.demand_company.title);
+                    if (dataResult.job_demand_edit.demand_information.demand_company){
+                        let company = dataResult.job_demand_edit.demand_information.demand_company;
+                        let value = '';
+                        if (company.overseas_agent_id){
+                            value = company.overseas_agent.company_name ?? company.overseas_agent.fullname ?? '';
+                        }else{
+                            value = company.title;
+                        }
+
+                        $('#client_name').attr('value',value);
+                    }                    $('#job_category_id option[value="'+dataResult.job_demand_edit.job_category_id+'"]').prop('selected', true);
                     $('#requirements').attr('value',dataResult.job_demand_edit.requirements);
                     $('#min_qualification option[value="'+dataResult.job_demand_edit.min_qualification+'"]').prop('selected', true);
                     $('#contact_period').attr('value',dataResult.job_demand_edit.contact_period);
@@ -707,7 +716,7 @@
                 url: "{{ route('jobs.demand-info') }}",
                 data: {'demand_id':value},
                 success: function(data) {
-                    $('.select-company').attr('value',data.company_name);
+                    $('.select-company').val(data.demand_company.title);
                     $('.select-client-name').attr('value',data.overseas_agent.fullname);
                 },
                 error: function() {

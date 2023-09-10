@@ -13,7 +13,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Demand Ref No. <span class="text-danger">*</span></label>
-                            <select class="custom-select select-height" name="demand_information_id" id="demand-id-map" required>
+                            <select class="custom-select select-height select2" name="demand_information_id" id="demand-id-map" required>
                                 <option value disabled selected> Select Demand Ref No.</option>
                                 @foreach($demands as $demand)
                                     <option value="{{$demand->id}}">{{ucwords($demand->ref_no)}} </option>
@@ -85,7 +85,7 @@
                 </div>
                 <div class="form-group">
                     <label>Job Category <span class="text-danger">*</span></label>
-                    <select class="custom-select" name="job_category_id" required>
+                    <select class="custom-select select2" name="job_category_id" required>
                         <option value disabled selected> Select Job Category.</option>
                         @foreach($categories as $category)
                             <option value="{{$category->id}}">{{ucwords($category->name)}} </option>
@@ -125,14 +125,14 @@
                         <div class="form-group">
                             <label class="col-form-label">Minimum Qualification </label>
                             <select class="custom-select select-height" name="min_qualification">
-                                <option value disabled selected> Select Min Qualification.</option>
+                                <option value disabled> Select Min Qualification.</option>
                                     <option value="primary-education">Primary Education </option>
                                     <option value="secondary-education">Secondary Education</option>
                                     <option value="slc-pass">SLC Pass</option>
                                     <option value="intermediate-pass">Intermediate Pass</option>
                                     <option value="bachelor-pass">Bachelor Pass</option>
                                     <option value="post-graduate-pass">Post Graduate Pass</option>
-                                    <option value="none">None</option>
+                                    <option value="none" selected>None</option>
                             </select>
                             <div class="invalid-feedback">
                                 Please select a state.
@@ -272,31 +272,10 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Currency </label>
-                            <select class="custom-select select-height" name="currency" >
-                                <option value disabled selected> Select Currency </option>
-
-                                @foreach($country_settings as $country_setting)
-
-                                    <option value="{{@$country_setting->currency}}"> {{ucwords(@$country_setting->country)}} </option>
-                                @endforeach
-                            </select>
-                            <div class="invalid-feedback">
-                                Please select a Currency.
-                            </div>
-                            @if($errors->has('currency'))
-                                <div class="invalid-feedback">
-                                    {{$errors->first('currency')}}
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
                             <label>Accommodation  </label>
                             <select class="custom-select select-height" name="accommodation" >
-                                <option value disabled selected> Select accommodation </option>
-                                <option value="company"> Company </option>
+                                <option value disabled > Select accommodation </option>
+                                <option value="company" selected> Company </option>
                                 <option value="self"> Self </option>
                             </select>
                             <div class="invalid-feedback">
@@ -309,15 +288,12 @@
                             @endif
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Food Facilities</label>
                             <select class="custom-select select-height" name="food_facilities" >
-                                <option value disabled selected> Select Food facilities </option>
-                                <option value="company"> Company </option>
+                                <option value disabled > Select Food facilities </option>
+                                <option value="company" selected> Company </option>
                                 <option value="self"> Self </option>
                             </select>
                             <div class="invalid-feedback">
@@ -330,12 +306,15 @@
                             @endif
                         </div>
                     </div>
+                </div>
+
+                <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Tickets  </label>
                             <select class="custom-select select-height" name="ticket" >
-                                <option value disabled selected> Select Tickets </option>
-                                <option value="company"> Company </option>
+                                <option value disabled > Select Tickets </option>
+                                <option value="company" selected> Company </option>
                                 <option value="self"> Self </option>
                             </select>
                             <div class="invalid-feedback">
@@ -348,60 +327,63 @@
                             @endif
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>Salary </label>
-                    <div class="input-group">
-                        <input type="number" min="1" class="form-control" name="salary"  />
-                        <div class="input-group-append">
-                            <span class="input-group-text" id="basic-addon2">per month</span>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Salary </label>
+                            <div class="input-group">
+                                <input type="number" min="1" class="form-control" name="salary"  />
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon2">per month</span>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">
+                                Please enter the salary per month
+                            </div>
+                            @if($errors->has('salary'))
+                                <div class="invalid-feedback">
+                                    {{$errors->first('salary')}}
+                                </div>
+                            @endif
                         </div>
                     </div>
-                    <div class="invalid-feedback">
-                        Please enter the salary per month
-                    </div>
-                    @if($errors->has('salary'))
-                        <div class="invalid-feedback">
-                            {{$errors->first('salary')}}
-                        </div>
-                    @endif
                 </div>
-                <div class="form-group">
-                    <label>Category Amount  <span class="small text-danger">(Amount given to candidate if selected and deployed)</span></label>
 
-                    <div class="input-group">
-                        <input type="number" min="1" class="form-control" name="category_amount" />
-                    </div>
-                    <div class="invalid-feedback">
-                        Please enter the Category Amount.
-                    </div>
-                    @if($errors->has('category_amount'))
-                        <div class="invalid-feedback">
-                            {{$errors->first('category_amount')}}
-                        </div>
-                    @endif
-                </div>
-                <div class="form-group">
-                    <label>Commission Amount <span class="small text-danger">(Amount given to oversea agent)</span></label>
-                    <div class="input-group">
-                        <input type="number" min="1" class="form-control" name="commission_amount" />
-                    </div>
-                    <div class="invalid-feedback">
-                        Please enter the Commission Amount.
-                    </div>
-                    @if($errors->has('commission_amount'))
-                        <div class="invalid-feedback">
-                            {{$errors->first('commission_amount')}}
-                        </div>
-                    @endif
-                </div>
+{{--                <div class="form-group">--}}
+{{--                    <label>Category Amount  <span class="small text-danger">(Amount given to candidate if selected and deployed)</span></label>--}}
+
+{{--                    <div class="input-group">--}}
+{{--                        <input type="number" min="1" class="form-control" name="category_amount" />--}}
+{{--                    </div>--}}
+{{--                    <div class="invalid-feedback">--}}
+{{--                        Please enter the Category Amount.--}}
+{{--                    </div>--}}
+{{--                    @if($errors->has('category_amount'))--}}
+{{--                        <div class="invalid-feedback">--}}
+{{--                            {{$errors->first('category_amount')}}--}}
+{{--                        </div>--}}
+{{--                    @endif--}}
+{{--                </div>--}}
+{{--                <div class="form-group">--}}
+{{--                    <label>Commission Amount <span class="small text-danger">(Amount given to oversea agent)</span></label>--}}
+{{--                    <div class="input-group">--}}
+{{--                        <input type="number" min="1" class="form-control" name="commission_amount" />--}}
+{{--                    </div>--}}
+{{--                    <div class="invalid-feedback">--}}
+{{--                        Please enter the Commission Amount.--}}
+{{--                    </div>--}}
+{{--                    @if($errors->has('commission_amount'))--}}
+{{--                        <div class="invalid-feedback">--}}
+{{--                            {{$errors->first('commission_amount')}}--}}
+{{--                        </div>--}}
+{{--                    @endif--}}
+{{--                </div>--}}
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Medical In  </label>
                             <select class="custom-select select-height" name="medical_in" >
-                                <option value disabled selected> Select Medical In </option>
-                                <option value="company"> Company </option>
+                                <option value disabled > Select Medical In </option>
+                                <option value="company" selected> Company </option>
                                 <option value="self"> Self </option>
                             </select>
                             <div class="invalid-feedback">
@@ -418,8 +400,8 @@
                         <div class="form-group">
                             <label>Medical Company </label>
                             <select class="custom-select select-height" name="medical_company" >
-                                <option value disabled selected> Select Medical company </option>
-                                <option value="company"> Company </option>
+                                <option value disabled > Select Medical company </option>
+                                <option value="company" selected> Company </option>
                                 <option value="self"> Self </option>
                             </select>
                             <div class="invalid-feedback">
@@ -439,8 +421,8 @@
                         <div class="form-group">
                             <label>Insurance In  </label>
                             <select class="custom-select select-height" name="insurance_in" >
-                                <option value disabled selected> Select Insurance In </option>
-                                <option value="company"> Company </option>
+                                <option value disabled > Select Insurance In </option>
+                                <option value="company" selected> Company </option>
                                 <option value="self"> Self </option>
                             </select>
                             <div class="invalid-feedback">
@@ -457,8 +439,8 @@
                         <div class="form-group">
                             <label>Insurance Company </label>
                             <select class="custom-select select-height" name="insurance_company" >
-                                <option value disabled selected> Select Medical company </option>
-                                <option value="company"> Company </option>
+                                <option value disabled > Select Medical company </option>
+                                <option value="company" selected> Company </option>
                                 <option value="self"> Self </option>
                             </select>
                             <div class="invalid-feedback">
