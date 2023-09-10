@@ -417,6 +417,20 @@
                     }
                     $('#edit-current-img').attr('src',src);
 
+                    if(dataResult.editreference.identification_image){
+                        var imageUrl = '/images/referenceinfo/'+dataResult.editreference.identification_image; // Replace with the actual image URL
+
+                        // Create a new image element
+                        var link = $('<a>').attr('href', imageUrl).attr('target','_blank');
+
+                        link.text('View Identification image')
+
+                        // Append the image to the div with the id "imageContainer"
+                        $('#image-view').html('').append(link);
+                    }else{
+                        $('#image-view').html('');                    }
+
+
 
                     $('.updatereference').attr('action',action);
 

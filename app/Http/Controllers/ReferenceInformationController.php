@@ -83,27 +83,38 @@ class ReferenceInformationController extends Controller
                 $data['image'] = $name1;
             }
         }
+        if(!empty($request->file('identification_image'))) {
+            $image        = $request->file('identification_image');
+            $name1        = uniqid() . '_' . $image->getClientOriginalName();
+            $path         = base_path() . '/public/images/referenceinfo/' . $name1;
+            $image_resize = Image::make($image->getRealPath())->orientate();
+            if ($image_resize->save($path, 80)) {
+                $data['identification_image'] = $name1;
+            }
+        }
+
         $reference = ReferenceInformation::create($data);
 
         if($reference){
-            $slug = str_replace(" ","_",strtolower($request->input('reference_name')));
-            $secondarygroup = SecondaryGroup::create([
-                'primary_group_id' =>9,
-                'name'        =>$request->input('reference_name'),
-                'imported_from' => 'true',
-                'status'      =>1,
-                'slug'        =>$slug,
-                'created_by'  => Auth::user()->id,
-            ]);
+//            $slug = str_replace(" ","_",strtolower($request->input('reference_name')));
+//            $secondarygroup = SecondaryGroup::create([
+//                'primary_group_id' =>9,
+//                'name'        =>$request->input('reference_name'),
+//                'imported_from' => 'true',
+//                'status'      =>1,
+//                'slug'        =>$slug,
+//                'created_by'  => Auth::user()->id,
+//            ]);
+//
+//            if($secondarygroup){
+//                Session::flash('success','Reference Entry Created Successfully');
+//                return redirect()->back();
+//            }else{
+//                Session::flash('error','Secondary Group not created.');
+//                return redirect()->back();
+//            }
 
-            if($secondarygroup){
                 Session::flash('success','Reference Entry Created Successfully');
-                return redirect()->back();
-            }else{
-                Session::flash('error','Secondary Group not created.');
-                return redirect()->back();
-            }
-
 
         }
         else{
@@ -166,6 +177,7 @@ class ReferenceInformationController extends Controller
         $reference->updated_by             = Auth::user()->id;
 
         $oldimage                          = $reference->image;
+        $old_indetify_image                          = $reference->identification_image;
 
         if (!empty($request->file('image'))){
             $image =$request->file('image');
@@ -182,18 +194,30 @@ class ReferenceInformationController extends Controller
                 }
             }
         }
+        if (!empty($request->file('identification_image'))){
+            $image =$request->file('identification_image');
+            $name1 = uniqid().'_'.$image->getClientOriginalName();
+            $path = base_path().'/public/images/referenceinfo/'.$name1;
+            $image_resize = Image::make($image->getRealPath())->orientate();
+            if ($image_resize->save($path,80)){
+                $reference->identification_image = $name1;
+                if (!empty($old_indetify_image) && file_exists(public_path().'/images/referenceinfo/'.$old_indetify_image)){
+                    @unlink(public_path().'/images/referenceinfo/'.$old_indetify_image);
+                }
+            }
+        }
 
         $status = $reference->update();
         if($status){
 
-            $oldslug           = str_replace(" ","_",strtolower($old_reference_name));
-            $secondarygroup     = SecondaryGroup::where("slug",$oldslug)->first();
-            $slug = str_replace(" ","_",strtolower($request->input('reference_name')));
-
-            $secondarygroup->name        = $request->input('reference_name');
-            $secondarygroup->slug        = $slug;
-            $secondarygroup->updated_by  = Auth::user()->id;
-            $secondarygroup->update();
+//            $oldslug           = str_replace(" ","_",strtolower($old_reference_name));
+//            $secondarygroup     = SecondaryGroup::where("slug",$oldslug)->first();
+//            $slug = str_replace(" ","_",strtolower($request->input('reference_name')));
+//
+//            $secondarygroup->name        = $request->input('reference_name');
+//            $secondarygroup->slug        = $slug;
+//            $secondarygroup->updated_by  = Auth::user()->id;
+//            $secondarygroup->update();
 
 
             Session::flash('success','Reference Entry Updated Successfully');

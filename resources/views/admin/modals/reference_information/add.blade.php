@@ -49,7 +49,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>Branch Office  <span class="text-danger">*</span></label>
                     <select class="custom-select select-height" name="branch_office_id" required>
@@ -81,24 +81,25 @@
                     @endif
                 </div>
 
+
                 <div class="row">
                     <!-- <div class="col-sm-6">
                         <div class="form-group">
                             <label>Country <span class="text-danger">*</span></label>
                             <select class="custom-select country" name="country" required>
                                 <option value disabled selected> Select Country</option>
-                                @foreach($countries as $key => $value)
+{{--                                @foreach($countries as $key => $value)--}}
                                     <option value="{{$key}}">{{ucwords($value)}} </option>
-                                @endforeach
+{{--                                @endforeach--}}
                             </select>
                             <div class="invalid-feedback">
                                 Please select a Country.
                             </div>
-                            @if($errors->has('country'))
+{{--                            @if($errors->has('country'))--}}
                                 <div class="invalid-feedback">
                                     {{$errors->first('country')}}
                                 </div>
-                            @endif
+{{--                            @endif--}}
                         </div>
                     </div> -->
 
@@ -166,8 +167,25 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Identification document Image (citizenship or passport):</label>
+                            <input type="file" class="form-control" name="identification_image" id="identification_image">
+                            <div class="invalid-feedback">
+                                Please upload the passport image.
+                            </div>
+                            @if($errors->has('passport_image'))
+                                <div class="invalid-feedback">
+                                    {{$errors->first('passport_image')}}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
                     <input class="form-control" name="status" value="continued" type="hidden" required>
-           
+
                     <!-- <div class="col-sm-6">
                         <div class="form-group">
                             <label>Status  <span class="text-danger">*</span></label>
@@ -194,7 +212,7 @@
                         <label class="form-check-label" for="invalidCheck">
                             Name of professional organization registered (if any)
                         </label>
-                       
+
                     </div>
                 </div>
 
@@ -229,7 +247,7 @@
                     </div>
                 </div>
 
-                
+
 
                 <div class="submit-section">
                     <button class="btn btn-primary submit-btn" id="submit-reference">Submit</button>
