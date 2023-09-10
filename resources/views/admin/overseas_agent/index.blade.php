@@ -111,9 +111,9 @@
                                         <td>
                                             <h2 class="table-avatar">
                                                 <a href="#" class="avatar">
-                                                    <img alt="{{$agent->fullname ?? ''}}" src="<?php if(!empty($agent->image)){ echo '/images/agent/'.$agent->image; } else { echo '/images/profiles/others.png'; }  ?>" />
+                                                    <img alt="{{$agent->fullname ?? $agent->company_name ?? ''}}" src="<?php if(!empty($agent->image)){ echo '/images/agent/'.$agent->image; } else { echo '/images/profiles/others.png'; }  ?>" />
                                                 </a>
-                                                <a href="#">{{ucfirst($agent->fullname) ?? ''}}
+                                                <a href="#">{{ucfirst($agent->fullname ?? $agent->company_name ?? '')}}
                                                     <span>
                                                            {{$agent->personal_email}}
                                                         </span></a>

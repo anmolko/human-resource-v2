@@ -12,7 +12,7 @@ class DemandCompany extends Model
     use SoftDeletes;
 
     protected $table ='demand_companies';
-    protected $fillable =['id','title','email','phone','mobile','address','fax_number','website','country','status','created_by','updated_by'];
+    protected $fillable =['id','title','email','phone','mobile','overseas_agent_id','address','fax_number','website','country','status','created_by','updated_by'];
 
 
 

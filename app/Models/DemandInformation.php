@@ -18,7 +18,7 @@ class DemandInformation extends Model
     }
 
     public function demandCompany(){
-        return $this->belongsTo('App\Models\DemandCompany','demand_company_id');
+        return $this->belongsTo('App\Models\DemandCompany','demand_company_id')->with('overseasAgent');
     }
 
     public function countryState(){

@@ -126,8 +126,9 @@ class JobtoDemandController extends Controller
     public function edit($id)
     {
         $edit_job_demand = JobtoDemand::with('demandInformation')->find($id);
-        $categories    = JobCategory::latest()->get();
-        $demands       = DemandInformation::latest()->get();
+        $categories      = JobCategory::latest()->get();
+        $demands         = DemandInformation::latest()->get();
+
         return response()->json(['job_demand_edit'=>$edit_job_demand,'categories'=>$categories,'demands'=>$demands]);
     }
 
@@ -230,7 +231,7 @@ class JobtoDemandController extends Controller
     {
         if ($request->ajax()) {
             $demand_id = $request->demand_id;
-            $demand_info = DemandInformation::with('overseasAgent')->find($demand_id);
+            $demand_info = DemandInformation::with('demandCompany')->find($demand_id);
             return response($demand_info);
         }
     }
