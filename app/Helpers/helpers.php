@@ -1351,3 +1351,128 @@ if (!function_exists('greeting_msg')) {
         return $greetings;
     }
 }
+
+if (!function_exists('get_provinces')) {
+    function get_provinces(){
+        $data = [
+            'province_1'=>'Province no. 1 - Koshi Province',
+            'province_2'=>'Province no. 2 - Madhesh Province',
+            'province_3'=>'Province no. 3 - Bagmati Province',
+            'province_4'=>'Province no. 4 - Gandaki Province',
+            'province_5'=>'Province no. 5 - Lumbini Province',
+            'province_6'=>'Province no. 6 - Karnali Province',
+            'province_7'=>'Province no. 7 - Sudur-Paschim Province',
+        ];
+
+        return $data;
+    }
+}
+
+if (!function_exists('get_districts')) {
+    function get_districts($key){
+        if ($key == 'province_1'){
+            $data = [
+                'taplejung'=>'Taplejung',
+                'sankhuwasabha'=>'Sankhuwasabha',
+                'solukhumbu'=>'Solukhumbu',
+                'udayapur'=>'Udayapur',
+                'morang'=>'Morang',
+                'ilam'=>'Ilam',
+                'jhapa'=>'Jhapa',
+                'khotang'=>'Khotang',
+                'bhojpur'=>'Bhojpur',
+                'sunsari'=>'Sunsari',
+                'panchthar'=>'Panchthar',
+                'okhaldhunga'=>'Okhaldhunga',
+                'dhankuta'=>'Dhankuta',
+                'tehrathum'=>'Tehrathum',
+            ];
+        }elseif ($key == 'province_2'){
+            $data = [
+                'mahottari'=>'Mahottari',
+                'rautahat'=>'Rautahat',
+                'dhanusha'=>'Dhanusha',
+                'siraha'=>'Siraha',
+                'bara'=>'Bara',
+                'sarlahi'=>'Sarlahi',
+                'parsa'=>'Parsa',
+                'saptari'=>'Saptari',
+            ];
+        }elseif ($key == 'province_3'){
+            $data = [
+                'bhaktapur'=>'Bhaktapur',
+                'lalitpur'=>'lalitpur',
+                'kathmandu'=>'Kathmandu',
+                'nuwakot'=>'Nuwakot',
+                'kavrepalanchok'=>'Kavrepalanchok',
+                'rasuwa'=>'Rasuwa',
+                'ramechhap'=>'Ramechhap',
+                'dhading'=>'Dhading',
+                'dolakha'=>'Dolakha',
+                'chitwan'=>'Chitwan',
+                'makwanpur'=>'Makwanpur',
+                'sindhuli'=>'Sindhuli',
+                'sindhupalchok'=>'Sindhupalchok',
+            ];
+        }elseif ($key == 'province_4'){
+            $data = [
+                'parbat'=>'Parbat',
+                'nawalparasi_east'=>'Nawalparasi (East of Bardaghat Susta)',
+                'syangja'=>'Syangja',
+                'tanahun'=>'Tanahun',
+                'lamjung'=>'Lamjung',
+                'baglung'=>'Baglung',
+                'kaski'=>'Kaski',
+                'manang'=>'Manang',
+                'myagdi'=>'Myagdi',
+                'mustang'=>'Mustang',
+                'gorkha'=>'Gorkha',
+            ];
+        }elseif ($key == 'province_5'){
+            $data = [
+                'nawalparasi_west'=>'Nawalparasi (West of Bardaghat Susta)',
+                'gulmi'=>'Gulmi',
+                'eastern_rukum'=>'Eastern Rukum',
+                'arghakhanchi'=>'Arghakhanchi',
+                'pyuthan'=>'Pyuthan',
+                'rupandehi'=>'Rupandehi',
+                'palpa'=>'Palpa',
+                'kapilvastu'=>'Kapilvastu',
+                'rolpa'=>'Rolpa',
+                'bardiya'=>'Bardiya',
+                'banke'=>'Banke',
+                'dang'=>'Dang',
+            ];
+        }elseif ($key == 'province_6'){
+            $data = [
+                'western_rukum'=>'Western Rukum District',
+                'salyan'=>'Salyan',
+                'dailekh'=>'Dailekh',
+                'kalikot'=>'Kalikot',
+                'jajarkot'=>'Jajarkot',
+                'surkhet'=>'Surkhet',
+                'jumla'=>'Jumla',
+                'mugu'=>'Mugu',
+                'humla'=>'Humla',
+                'dolpa'=>'Dolpa',
+                'karnali'=>'Karnali',
+            ];
+        }elseif ($key == 'province_7'){
+            $data = [
+                'baitadi'=>'Baitadi',
+                'dadeldhura'=>'Dadeldhura',
+                'kanchanpur'=>'Kanchanpur',
+                'achham'=>'Achham',
+                'doti'=>'Doti',
+                'bajura'=>'Bajura',
+                'darchula'=>'Darchula',
+                'kailali'=>'Kailali',
+                'bajhang'=>'Bajhang',
+            ];
+        }else{
+            $data = [];
+        }
+
+        return $data;
+    }
+}

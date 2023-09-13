@@ -10,7 +10,7 @@
             width: 28%;
         }
         .dash-widget-info{
-          text-align: left;  
+          text-align: left;
         }
         #v-pills-tabContent {
             padding-top: 0;
@@ -31,14 +31,14 @@
             justify-content: center;
         }
     </style>
-    
+
 
 @endsection
 @section('content')
 
     <!-- Page Content -->
     <div class="content container-fluid">
-    
+
         <!-- Page Header -->
         <div class="page-header">
             <div class="row">
@@ -47,7 +47,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{route('candidate')}}">Candidate Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="{{route('candidate-personal-info.index')}}">Candidate Entry</a></li>
-                        
+
                         <li class="breadcrumb-item active">{{@$candidate_personal->candidate_firstname}} </li>
                     </ul>
                 </div>
@@ -63,48 +63,48 @@
                                 <div>
                                     <span class="d-block">Candidate Status</span>
                                 </div>
-                              
+
                             </div>
-                            <h3 class="mb-3"> 
+                            <h3 class="mb-3">
                             {{ ($candidate_personal->status !== null) ? ucwords(str_replace("-"," ",$candidate_personal->status)):"Not Assigned" }}
                             </h3>
-                           
+
                         </div>
                     </div>
-                
+
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between mb-3">
                                 <div>
                                     <span class="d-block">Passport Expire  Date</span>
                                 </div>
-                               
+
                             </div>
                             <h3 class="mb-3">{{\Carbon\Carbon::parse(@$candidate_personal->expiry_date)->isoFormat('MMM Do, YYYY')}}</h3>
-                            
+
                         </div>
                     </div>
-                
+
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between mb-3">
                                 <div>
                                     <span class="d-block">Applied Company</span>
                                 </div>
-                                
+
                             </div>
                             <h3 class="mb-3">{{(@$demand_job_info->demand_info_id === null) ? "Not set": ucfirst(\App\Models\DemandInformation::find(@$demand_job_info->demand_info_id)->company_name)}}</h3>
-                            
+
                         </div>
                     </div>
-                
+
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between mb-3">
                                 <div>
                                     <span class="d-block">Police Expire Date</span>
                                 </div>
-                            
+
                             </div>
                             @if( $police_info !== null )
                                 <h3 class="mb-3">{{\Carbon\Carbon::parse($police_info->expiry_date)->isoFormat('MMM Do, YYYY')}}</h3>
@@ -114,10 +114,10 @@
                         </div>
                     </div>
 
-                    
+
                 </div>
-                
-            </div>	
+
+            </div>
         </div>
 
         <div class="row">
@@ -162,7 +162,7 @@
                     </div>
                 </div>
             </div>
-          
+
         </div>
         <div class="card mb-0">
             <div class="card-body">
@@ -187,15 +187,14 @@
                                             <div class="small doj text-muted">Date of Birth : {{\Carbon\Carbon::parse($candidate_personal->date_of_birth)->isoFormat('Do MMMM, YYYY')}}</div>
                                             <div class="small doj text-muted">Religion : {{ucwords(@$candidate_personal->religion)}}</div>
                                             <div class="small doj text-muted">Birth Place : {{ucwords(@$candidate_personal->birth_place)}}</div>
-         
+
                                         </div>
                                     </div>
                                     <div class="col-md-7">
                                         <ul class="personal-info">
                                             <li>
-                                                <div class="title">Reference Name:</div>
-                                                <div class="text">@foreach($reference as $ref)
-                                                 {{($candidate_personal->reference_information_id == $ref->id) ? $ref->reference_name : ""}}@endforeach
+                                                <div class="title">Reference Names:</div>
+                                                <div class="text">{{$candidate_personal->referenceInfo ? $candidate_personal->referenceInfo->reference_name:'Direct Office'}}
                                                 </div>
                                             </li>
                                             <li>
@@ -205,7 +204,7 @@
                                                 </div>
                                             </li>
 
-                                            
+
                                             <li>
                                                 <div class="title">Email:</div>
                                                 <div class="text"><a href="mailto:{{$candidate_personal->email_address}}">{{$candidate_personal->email_address}}</a></div>
@@ -214,12 +213,12 @@
                                                 <div class="title">Address:</div>
                                                 <div class="text">{{$candidate_personal->permanent_address}}</div>
                                             </li>
-                                        
+
                                             <li>
                                                 <div class="title">Mobile No:</div>
                                                 <div class="text">{{$candidate_personal->mobile_no}}</div>
                                             </li>
-                                         
+
                                         </ul>
                                     </div>
                                 </div>
@@ -229,17 +228,17 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card tab-box">
             <div class="row user-tabs">
                 <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
                     <ul class="nav nav-tabs nav-tabs-bottom">
-                    
+
                         <li class="nav-item"><a href="#emp_profile" data-toggle="tab" class="nav-link active">Profile</a></li>
                         @if(count($professional_info)>0 || count($training_info)>0)
                         <li class="nav-item"><a href="#emp_professional" data-toggle="tab" class="nav-link ">Professional Experience|Training</a></li>
                         @endif
-                       
+
                         @if(count($language_info)>0 || count($qualification_info)>0)
                         <li class="nav-item"><a href="#emp_qualification" data-toggle="tab" class="nav-link ">Qualification | Language</a></li>
                         @endif
@@ -257,12 +256,12 @@
 
                         <li class="nav-item"><a href="#emp_amount" data-toggle="tab" class="nav-link ">Amount</a></li>
                         @if( $candidate_personal->status !== null)
-                       
+
                         <li class="nav-item"><a href="#emp_history" data-toggle="tab" class="nav-link ">History</a></li>
                         @endif
 
                         @if(count($files)>0 )
-                       
+
                         <li class="nav-item"><a href="#emp_file" data-toggle="tab" class="nav-link ">File</a></li>
                        @endif
                         <!-- <li class="nav-item"><a href="#bank_statutory" data-toggle="tab" class="nav-link">Bank & Statutory <small class="text-danger">(Admin Only)</small></a></li> -->
@@ -270,9 +269,9 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="tab-content">
-        
+
             <!-- Profile Info Tab -->
             <div id="emp_profile" class="pro-overview tab-pane fade show active">
                 <div class="row">
@@ -309,10 +308,10 @@
                                         <div class="title">Gender :</div>
                                         <div class="text"> {{ucwords($candidate_personal->gender)}}</div>
                                     </li>
-                                
-                                
-                                    
-                                
+
+
+
+
                                 <li>
                                         <div class="title">Martial Status:</div>
                                         <div class="text"> {{ucwords($candidate_personal->martial_status)}}</div>
@@ -325,8 +324,8 @@
                                         <div class="title">Weight:</div>
                                         <div class="text"> {{$candidate_personal->weight}}</div>
                                     </li>
-                                 
-                                    
+
+
                                     <hr>
                                     <li>
                                         <div class="title">Next of Kin:</div>
@@ -359,17 +358,17 @@
                                         <div class="title">Mother Contact No:</div>
                                         <div class="text"> {{$candidate_personal->mother_contact_no}}</div>
                                     </li>
-                                  
+
                                 </ul>
                             </div>
                         </div>
                     </div>
-                  
+
                 </div>
-                
+
             </div>
             <!-- /Profile Info Tab -->
-            
+
             <div id="emp_professional" class="pro-overview tab-pane fade ">
                 <div class="row">
                     <div class="col-md-12 ">
@@ -401,8 +400,8 @@
                                             <div class="title">Designation:</div>
                                             <div class="text"> {{$professional->designation}}</div>
                                         </li>
-                                        @endforeach                        
-                                        
+                                        @endforeach
+
                                     <hr>
                                 </ul>
                             </div>
@@ -431,7 +430,7 @@
                                         </li>
                                         <li>
                                             <div class="title">Country:</div>
-                                            <div class="text">                                                        
+                                            <div class="text">
                                                  @foreach($countries as $key => $value)
                                                     @if($key == $trainings->country)
                                                         {{$value}}
@@ -442,8 +441,8 @@
                                             <div class="title">Duration (in month):</div>
                                             <div class="text"> {{$trainings->duration}}</div>
                                         </li>
-                                        @endforeach                        
-                                        
+                                        @endforeach
+
                                     <hr>
                                 </ul>
                             </div>
@@ -451,12 +450,12 @@
                         @endif
 
                     </div>
-                  
+
                 </div>
-                
+
             </div>
 
-                 
+
             <div id="emp_qualification" class="pro-overview tab-pane fade ">
                 <div class="row">
                     <div class="col-md-12 ">
@@ -492,8 +491,8 @@
                                             <div class="title">Result:</div>
                                             <div class="text"> {{ucfirst($qualification->result)}} </div>
                                         </li>
-                                        @endforeach                        
-                                        
+                                        @endforeach
+
                                     <hr>
                                 </ul>
                             </div>
@@ -522,12 +521,12 @@
                                         </li>
                                         <li>
                                             <div class="title">Writing:</div>
-                                            <div class="text">    {{ucfirst($language->writing)}}                                                    
+                                            <div class="text">    {{ucfirst($language->writing)}}
                                                 </div>
                                         </li>
-                                      
-                                        @endforeach                        
-                                        
+
+                                        @endforeach
+
                                     <hr>
                                 </ul>
                             </div>
@@ -535,11 +534,11 @@
                         @endif
 
                     </div>
-                  
+
                 </div>
-                
+
             </div>
-            
+
             <div id="emp_demand" class="pro-overview tab-pane fade ">
                 <div class="row">
                     <div class="col-md-12 ">
@@ -570,20 +569,20 @@
                                             <div class="title">Agent Name:</div>
                                             <div class="text"> {{($demand_job_info->overseas_agent_id === null) ? "Not set": ucfirst(\App\Models\OverseasAgent::find($demand_job_info->overseas_agent_id)->fullname)}}</div>
                                         </li>
-                                        
+
                                 </ul>
                             </div>
                         </div>
                         @endif
 
-                       
+
 
                     </div>
-                  
+
                 </div>
-                
+
             </div>
-            
+
             <div id="emp_medical" class="pro-overview tab-pane fade ">
                 <div class="row">
                     <div class="col-md-12 ">
@@ -600,7 +599,7 @@
                                         </li>
                                         <li>
                                             <div class="title">Company Name:</div>
-                                            <div class="text"> 
+                                            <div class="text">
 
                                             {{(@$medical_info->bloodgroup == "O-pos") ? "O+":""}}
                                                             {{(@$medical_info->bloodgroup == "O-neg") ? "O-":""}}
@@ -643,7 +642,7 @@
                                         </li>
                                         <li>
                                             <div class="title">Result:</div>
-                                            <div class="text">   
+                                            <div class="text">
                                                 {{(@$medical_info->result == "fail") ? "Fail":""}}
                                                   {{(@$medical_info->result == "pass") ? "Pass":""}} </div>
                                         </li>
@@ -655,7 +654,7 @@
                                             <div class="title">Remarks:</div>
                                             <div class="text">{{@$medical_info->report_remarks}}  </div>
                                         </li>
-                                       
+
 
 
                                 </ul>
@@ -673,12 +672,12 @@
                         </div>
                         @endif
 
-                       
+
 
                     </div>
-                  
+
                 </div>
-                
+
             </div>
 
             <div id="emp_police" class="pro-overview tab-pane fade ">
@@ -697,7 +696,7 @@
                                             </li>
                                             <li>
                                                 <div class="title">Stamping date:</div>
-                                                <div class="text"> 
+                                                <div class="text">
 
                                                 {{\Carbon\Carbon::parse($police_info->stamping_date)->isoFormat('MMMM Do, YYYY')}}
 
@@ -724,7 +723,7 @@
 
 
                                     </ul>
-                                
+
                                 </div>
                             </div>
                         @endif
@@ -746,7 +745,7 @@
                                             </li>
                                             <li>
                                                 <div class="title">Issued Date:</div>
-                                                <div class="text"> 
+                                                <div class="text">
 
                                                 {{\Carbon\Carbon::parse($pcc_info->issued)->isoFormat('MMMM Do, YYYY')}}
 
@@ -777,17 +776,17 @@
 
 
                                     </ul>
-                                
+
                                 </div>
                             </div>
                         @endif
 
                     </div>
-                  
+
                 </div>
-                
+
             </div>
-                        
+
             <div id="emp_amount" class="pro-overview tab-pane fade ">
                 <div class="row">
                     <div class="col-md-12 ">
@@ -799,20 +798,20 @@
 
                                         <li>
                                             <div class="title">Document Processing Fee::</div>
-                                            <div class="text"> 
+                                            <div class="text">
                                                 {{($candidate_personal->document_processing_fee === null) ? "Not set": "Rs ".number_format(@$candidate_personal->document_processing_fee)}}
                                             </div>
                                         </li>
                                         <li>
                                             <div class="title">Document Advance Fee:</div>
-                                            <div class="text"> 
+                                            <div class="text">
                                                 {{($candidate_personal->advance_fee === null) ? "Not set": "Rs ".number_format(@$candidate_personal->advance_fee)}}
 
                                             </div>
                                         </li>
                                         <li>
                                             <div class="title">Medical Payment Amount:</div>
-                                            <div class="text"> 
+                                            <div class="text">
                                                 {{(@$medical_info->payment_amount === null) ? "Not set": "Rs ".number_format(@$medical_info->payment_amount)}}
 
                                             </div>
@@ -824,27 +823,27 @@
                                             </div>
                                         </li>
                                        <hr>
-                                      
+
                                         <li>
                                             <div class="title">Commision Amount(Overseas Agent):</div>
                                             <div class="text">
                                             {{(@$demand_job_info->commission_amount === null) ? "Not set": "Rs ".number_format(@$demand_job_info->commission_amount)}}
                                                  </div>
                                         </li>
-                                       
+
 
 
                                 </ul>
-                         
+
                             </div>
                         </div>
 
                     </div>
-                  
+
                 </div>
-                
+
             </div>
-            
+
             <div id="emp_history" class="pro-overview tab-pane fade">
                 <div class="row">
                     <div class="col-md-3 side-tab-sticky">
@@ -874,7 +873,7 @@
                                 <i class="fa fa-hand-peace-o mr-2"></i>
                                 <span class="font-weight-bold small text-uppercase">Deployed</span></a>
 
-                         
+
                         </div>
                     </div>
 
@@ -888,24 +887,24 @@
                                         <div class="card-body">
 
                                             <ul class="personal-info">
-                                            
+
                                                 @foreach(@$applied_info as $history)
 
                                                         <li>
                                                             <div class="title">Sub Status:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                             {{ucwords(\App\Models\SubStatus::find($history->sub_status_id)->name)}}
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="title">Applied Date:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                                 {{($history->status_applied_date === null) ? "Not set": \Carbon\Carbon::parse($history->status_applied_date)->isoFormat('MMMM Do, YYYY')}}
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="title">Remarks:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                                 {{(@$history->remarks === null) ? "Not set": @$history->remarks}}
 
                                                             </div>
@@ -913,9 +912,9 @@
                                                     <hr>
 
                                                 @endforeach
-                                                
+
                                             </ul>
-                                    
+
                                         </div>
                                     </div>
                                 @else
@@ -930,24 +929,24 @@
                                         <div class="card-body">
 
                                             <ul class="personal-info">
-                                            
+
                                                 @foreach(@$selected_info as $history)
 
                                                         <li>
                                                             <div class="title">Sub Status:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                             {{ucwords(\App\Models\SubStatus::find($history->sub_status_id)->name)}}
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="title">Applied Date:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                                 {{($history->status_applied_date === null) ? "Not set": \Carbon\Carbon::parse($history->status_applied_date)->isoFormat('MMMM Do, YYYY')}}
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="title">Remarks:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                                 {{(@$history->remarks === null) ? "Not set": @$history->remarks}}
 
                                                             </div>
@@ -955,9 +954,9 @@
                                                     <hr>
 
                                                 @endforeach
-                                                
+
                                             </ul>
-                                    
+
                                         </div>
                                     </div>
                                 @else
@@ -971,24 +970,24 @@
                                         <div class="card-body">
 
                                             <ul class="personal-info">
-                                            
+
                                                 @foreach(@$under_info as $history)
 
                                                         <li>
                                                             <div class="title">Sub Status:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                             {{ucwords(\App\Models\SubStatus::find($history->sub_status_id)->name)}}
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="title">Applied Date:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                                 {{($history->status_applied_date === null) ? "Not set": \Carbon\Carbon::parse($history->status_applied_date)->isoFormat('MMMM Do, YYYY')}}
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="title">Remarks:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                                 {{(@$history->remarks === null) ? "Not set": @$history->remarks}}
 
                                                             </div>
@@ -996,9 +995,9 @@
                                                     <hr>
 
                                                 @endforeach
-                                                
+
                                             </ul>
-                                    
+
                                         </div>
                                     </div>
                                 @else
@@ -1012,24 +1011,24 @@
                                         <div class="card-body">
 
                                             <ul class="personal-info">
-                                            
+
                                                 @foreach(@$visa_info as $history)
 
                                                         <li>
                                                             <div class="title">Sub Status:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                             {{ucwords(\App\Models\SubStatus::find($history->sub_status_id)->name)}}
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="title">Applied Date:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                                 {{($history->status_applied_date === null) ? "Not set": \Carbon\Carbon::parse($history->status_applied_date)->isoFormat('MMMM Do, YYYY')}}
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="title">Remarks:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                                 {{(@$history->remarks === null) ? "Not set": @$history->remarks}}
 
                                                             </div>
@@ -1037,9 +1036,9 @@
                                                     <hr>
 
                                                 @endforeach
-                                                
+
                                             </ul>
-                                    
+
                                         </div>
                                     </div>
                                 @else
@@ -1053,24 +1052,24 @@
                                         <div class="card-body">
 
                                             <ul class="personal-info">
-                                            
+
                                                 @foreach(@$ticket_info as $history)
 
                                                         <li>
                                                             <div class="title">Sub Status:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                             {{ucwords(\App\Models\SubStatus::find($history->sub_status_id)->name)}}
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="title">Applied Date:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                                 {{($history->status_applied_date === null) ? "Not set": \Carbon\Carbon::parse($history->status_applied_date)->isoFormat('MMMM Do, YYYY')}}
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="title">Remarks:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                                 {{(@$history->remarks === null) ? "Not set": @$history->remarks}}
 
                                                             </div>
@@ -1078,9 +1077,9 @@
                                                     <hr>
 
                                                 @endforeach
-                                                
+
                                             </ul>
-                                    
+
                                         </div>
                                     </div>
                                 @else
@@ -1094,24 +1093,24 @@
                                         <div class="card-body">
 
                                             <ul class="personal-info">
-                                            
+
                                                 @foreach(@$deployed_info as $history)
 
                                                         <li>
                                                             <div class="title">Sub Status:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                             {{ucwords(\App\Models\SubStatus::find($history->sub_status_id)->name)}}
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="title">Applied Date:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                                 {{($history->status_applied_date === null) ? "Not set": \Carbon\Carbon::parse($history->status_applied_date)->isoFormat('MMMM Do, YYYY')}}
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="title">Remarks:</div>
-                                                            <div class="text"> 
+                                                            <div class="text">
                                                                 {{(@$history->remarks === null) ? "Not set": @$history->remarks}}
 
                                                             </div>
@@ -1119,9 +1118,9 @@
                                                     <hr>
 
                                                 @endforeach
-                                                
+
                                             </ul>
-                                    
+
                                         </div>
                                     </div>
                                 @else
@@ -1158,22 +1157,22 @@
                                                         </div>
                                                         <div class="card-file-thumb">
                                                             <img alt="{{@$file->filename}}" src="{{ route('file.download',$file->filename) }}" />
-                                                            
+
                                                         </div>
-                                                    
+
                                                     </div>
                                                 </div>
                                             @endforeach
                                         @endif
                                     </div>
-                         
+
                             </div>
                         </div>
 
                     </div>
-                  
+
                 </div>
-                
+
             </div>
             <!-- Bank Statutory Tab -->
             <!-- <div class="tab-pane fade" id="bank_statutory">
@@ -1315,7 +1314,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <hr>
                             <h3 class="card-title"> ESI Information</h3>
                             <div class="row">
@@ -1377,7 +1376,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="submit-section">
                                 <button class="btn btn-primary submit-btn" type="submit">Save</button>
                             </div>
@@ -1386,13 +1385,13 @@
                 </div>
             </div> -->
             <!-- /Bank Statutory Tab -->
-            
+
         </div>
     </div>
     <!-- /Page Content -->
-   
+
 
 @endsection
 @section('js')
-    
+
 @endsection

@@ -285,6 +285,9 @@
             replacement.src = URL.createObjectURL(event.target.files[0]);
         };
     $(document).ready(function () {
+        $( ".select2" ).select2({
+            width:'100%'
+        });
 
         $("#select-all").click(function () {
             if ($("#select-all").val() == "check all") {
@@ -590,6 +593,8 @@
                     }else{
                         src = '/images/candidate_info/'+dataResult.image;
                     }
+
+                showHideMaritialDetails(dataResult.martial_status, $('#martial_status').attr('data-id'));
                 $("#edit_candidate_personal_info").modal("toggle");
                 $('#registration_no').attr('value',dataResult.registration_no);
                 $('#serial_no').attr('value',dataResult.serial_no);
@@ -614,14 +619,20 @@
                 $('#reference_information_id option[value="'+dataResult.reference_information_id+'"]').prop('selected', true);
                 $('#gender option[value="'+dataResult.gender+'"]').prop('selected', true);
                 $('#kin_contact_no').attr('value',dataResult.kin_contact_no);
-                $('#nationality').attr('value',dataResult.nationality);
+                $('#nationality').val(dataResult.nationality ?? 'nepali').trigger('change');
                 $('#select2-religion-container').text(dataResult.religion);
                 $('#religion option[value="'+dataResult.religion+'"]').prop('selected', true);
                 $('.update_date_of_birth').attr('value',dataResult.date_of_birth);
                 $('#mobile_no').attr('value',dataResult.mobile_no);
                 $('#contact_no').attr('value',dataResult.contact_no);
-                $('#select2-martial_status-container').text(dataResult.martial_status);
-                $('#martial_status option[value="'+dataResult.martial_status+'"]').prop('selected', true);
+                $('#martial_status').val(dataResult.martial_status).trigger('change');
+
+                $('#province').val(dataResult.province).trigger('change');
+
+                setTimeout(function() {
+                    $('#district').val(dataResult.district).trigger('change');
+                }, 1000);
+
                 $('#spouse').attr('value',dataResult.spouse);
                 $('#children').attr('value',dataResult.children);
                 $('#email_address').attr('value',dataResult.email_address);
@@ -719,6 +730,62 @@
         }
 
     });
+    $(document).on('change','select[name="martial_status"]', function (e) {
+        e.preventDefault();
+        let value   = $(this).val();
+        let data_id = $(this).attr('data-id');
+        showHideMaritialDetails(value,data_id);
+    });
+
+    function showHideMaritialDetails(value,data_id){
+        let selector = data_id == 'index' ? '.martial_status_details':'#martial_status_details';
+        if (value == 'single'){
+            $(selector).addClass('d-none');
+        }else{
+            $(selector).removeClass('d-none');
+        }
+    }
+
+        $(document).on('change','select[name="province"]', function (e) {
+            e.preventDefault();
+            var value   = $(this).val();
+            var data_id = $(this).attr('data-id');
+
+            $.ajax({
+                type: "GET",
+                url: "{{ route('candidate-personal-info.get_districts') }}",
+                data: {'key':value},
+                success: function(data) {
+                    if (data_id == 'create'){
+                        var selectField = $('.district');
+                    }else{
+                        var selectField = $('#district');
+                    }
+
+                    // Clear existing options
+                    selectField.empty();
+
+                    // Add a default option
+                    selectField.append('<option value="">Select District</option>');
+
+                    // Loop through the data and add options to the select field
+                    $.each(data.districts, function (index, item) {
+                        selectField.append('<option value="' + index + '">' + item + '</option>');
+                    });
+                },
+                error: function() {
+                    swal({
+                        title: 'Fetching states error',
+                        text: "Error. Could not confirm the status of the Company related states.",
+                        type: "info",
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        showLoaderOnConfirm: true,
+                    });
+                }
+            });
+
+        });
 
 
 

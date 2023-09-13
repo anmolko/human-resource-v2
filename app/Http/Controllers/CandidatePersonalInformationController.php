@@ -55,7 +55,9 @@ class CandidatePersonalInformationController extends Controller
         $candidate_personal = CandidatePersonalInformation::with('professionalInfo')->get();
         $reference = ReferenceInformation::latest()->get();
         $countries = CountryState::getCountries();
-        return view('admin.candidate.index',compact('candidate_personal','reference','countries'));
+        $provinces = get_provinces();
+
+        return view('admin.candidate.index',compact('candidate_personal','reference','provinces','countries'));
 
     }
 
@@ -82,6 +84,8 @@ class CandidatePersonalInformationController extends Controller
             //candidate personal information
             $data = [
                 'registration_no'          => $request->input('registration_no'),
+                'province'                 => $request->input('province'),
+                'district'                 => $request->input('district'),
                 'serial_no'                => $request->input('serial_no'),
                 'registration_date_ad'     => $request->input('registration_date_ad'),
                 'registration_date_bs'     => $request->input('registration_date_bs'),
@@ -283,6 +287,8 @@ class CandidatePersonalInformationController extends Controller
             $old_regno = $candidate_personal->registration_no;
 
             $candidate_personal->registration_no            =  $request->input('registration_no');
+            $candidate_personal->province                   =  $request->input('province');
+            $candidate_personal->district                   =  $request->input('district');
             $candidate_personal->serial_no                  =  $request->input('serial_no');
             $candidate_personal->registration_date_ad       =  $request->input('registration_date_ad');
             $candidate_personal->registration_date_bs       =  $request->input('registration_date_bs');
@@ -746,5 +752,12 @@ class CandidatePersonalInformationController extends Controller
         }elseif($template_type=="ten"){
             return view('admin.application.cv.ten',compact('candidate_personal','name','languages','countries'));
         }
+    }
+
+
+    public function getDistrictsByProvince(){
+        $key = \request('key');
+        $districts = get_districts($key);
+        return response()->json(['districts'=>$districts]);
     }
 }

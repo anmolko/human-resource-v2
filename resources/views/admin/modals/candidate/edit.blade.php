@@ -137,8 +137,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Expiry Date: <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control update_expiry_date" name="expiry_date" id="edit-expiredatetimepicker" required>
+                                            <label>Expiry Date: </label>
+                                            <input type="text" class="form-control update_expiry_date" name="expiry_date" id="edit-expiredatetimepicker">
                                             <div class="invalid-feedback">
                                                 Please select the expiry date
                                             </div>
@@ -154,8 +154,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Reference Name: <span class="text-danger">*</span></label>
-                                            <select class="custom-select select-height" name="reference_information_id" id="reference_information_id" required>
+                                            <label>Reference Name: </label>
+                                            <select class="custom-select select2" name="reference_information_id" id="reference_information_id" >
                                                 <option value disabled selected> Select Reference Name</option>
                                                 @foreach($reference as $ref)
                                                     <option value="{{$ref->id}}"> {{$ref->reference_name}} </option>
@@ -297,8 +297,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Age: <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="age" id="age" readonly required>
+                                            <label>Age: </label>
+                                            <input type="number" class="form-control" name="age" id="age" readonly>
                                             <div class="invalid-feedback">
                                                 Please enter the age.
                                             </div>
@@ -327,10 +327,10 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Martial Status:</label>
-                                            <select class="select select-height" name="martial_status" id="martial_status">
+                                            <select class="custom-select select2" name="martial_status" id="martial_status" data-id="edits">
                                                 <option value disabled selected> Select Martial Status</option>
                                                 <option value="married"> Married </option>
                                                 <option value="single"> Single </option>
@@ -347,6 +347,9 @@
                                             @endif
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="row" id="martial_status_details">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Spouse: </label>
@@ -361,9 +364,6 @@
                                             @endif
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Children: </label>
@@ -378,28 +378,49 @@
                                             @endif
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email: </label>
+                                        <input type="email" class="form-control" name="email_address" id="email_address">
+                                        <div class="invalid-feedback">
+                                            Please enter the email address
+                                        </div>
+                                        @if($errors->has('email_address'))
+                                            <div class="invalid-feedback">
+                                                {{$errors->first('email_address')}}
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Email: </label>
-                                            <input type="email" class="form-control" name="email_address" id="email_address">
+                                            <label>Gender: </label>
+                                            <select class="custom-select select2" name="gender" id="gender">
+                                                <option value disabled> Select Gender</option>
+                                                <option value="male" selected> Male </option>
+                                                <option value="female"> Female </option>
+                                                <option value="others"> Others </option>
+                                            </select>
                                             <div class="invalid-feedback">
-                                                Please enter the email address
+                                                Please select the gender.
                                             </div>
-                                            @if($errors->has('email_address'))
+                                            @if($errors->has('gender'))
                                                 <div class="invalid-feedback">
-                                                    {{$errors->first('email_address')}}
+                                                    {{$errors->first('gender')}}
                                                 </div>
                                             @endif
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Height: </label>
                                             <div class="input-group">
-                                                <input type="number" min="1" class="form-control" name="height" id="height"/>
+                                                <input type="text" min="1" class="form-control" name="height" id="height"/>
                                                 <div class="input-group-append">
                                                     <span class="input-group-text" id="basic-addon2">Fts</span>
                                                 </div>
@@ -418,7 +439,7 @@
                                         <div class="form-group">
                                             <label>Weight: </label>
                                             <div class="input-group">
-                                                <input type="number" min="1" class="form-control" name="weight" id="weight" />
+                                                <input type="text" min="1" class="form-control" name="weight" id="weight" />
                                                 <div class="input-group-append">
                                                     <span class="input-group-text" id="basic-addon2">Kgs</span>
                                                 </div>
@@ -429,6 +450,105 @@
                                             @if($errors->has('weight'))
                                                 <div class="invalid-feedback">
                                                     {{$errors->first('weight')}}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Nationality: </label>
+                                            {!! Form::select('nationality', ['nepali'=>'Nepali','indian'=>'Indian','pakistani'=>'Indian','pakistani'=>'Pakistani','malaysian'=>'Malaysian','japanese'=>'Japanese','american'=>'American','canadian'=>'Canadian'], 'nepali',['class'=>'custom-select mb-3 select2','id'=>'nationality']) !!}
+                                            <div class="invalid-feedback">
+                                                Please enter the nationality.
+                                            </div>
+                                            @if($errors->has('nationality'))
+                                                <div class="invalid-feedback">
+                                                    {{$errors->first('nationality')}}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Religion: </label>
+                                            <select class="custom-select select2" name="religion" id="religion">
+                                                <option value disabled selected> Select Religion</option>
+                                                <option value="hindu"> Hindu </option>
+                                                <option value="muslim"> Muslim </option>
+                                                <option value="christian"> Christian</option>
+                                                <option value="buddhist"> Buddhist </option>
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Please select the religion.
+                                            </div>
+                                            @if($errors->has('religion'))
+                                                <div class="invalid-feedback">
+                                                    {{$errors->first('religion')}}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Province: </label>
+                                            {!! Form::select('province', $provinces, null,['class'=>'custom-select mb-3 select2','id'=>'province','placeholder'=>'Select Province','data-id'=>'index']) !!}
+                                            <div class="invalid-feedback">
+                                                Please select province.
+                                            </div>
+                                            @if($errors->has('province'))
+                                                <div class="invalid-feedback">
+                                                    {{$errors->first('province')}}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>District: </label>
+                                            {!! Form::select('district', [], null,['class'=>'custom-select mb-3 select2','placeholder'=>'Select District','id'=>'district']) !!}
+                                            <div class="invalid-feedback">
+                                                Please select district.
+                                            </div>
+                                            @if($errors->has('district'))
+                                                <div class="invalid-feedback">
+                                                    {{$errors->first('district')}}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Permanent Address: </label>
+                                            <input type="text" class="form-control" name="permanent_address" id="permanent_address">
+                                            <div class="invalid-feedback">
+                                                Please enter permanent address.
+                                            </div>
+                                            @if($errors->has('permanent_address'))
+                                                <div class="invalid-feedback">
+                                                    {{$errors->first('permanent_address')}}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Temporary Address: </label>
+                                            <input type="text" class="form-control" name="temporary_address" id="temporary_address">
+                                            <div class="invalid-feedback">
+                                                Please enter temporary address.
+                                            </div>
+                                            @if($errors->has('temporary_address'))
+                                                <div class="invalid-feedback">
+                                                    {{$errors->first('temporary_address')}}
                                                 </div>
                                             @endif
                                         </div>
@@ -450,8 +570,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Kin Relationship: <span class="text-danger">*</span></label>
-                                            <select class="select" name="kin_relationship" id="kin_relationship" required>
+                                            <label>Kin Relationship: </label>
+                                            <select class="select" name="kin_relationship" id="kin_relationship">
                                                 <option value disabled selected> Select Relationship</option>
                                                 <option value="father"> Father </option>
                                                 <option value="mother"> Mother </option>
@@ -488,67 +608,13 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Gender: </label>
-                                            <select class="select" name="gender" id="gender">
-                                                <option value disabled selected> Select Gender</option>
-                                                <option value="male"> Male </option>
-                                                <option value="female"> Female </option>
-                                                <option value="others"> Others </option>
-                                            </select>
-                                            <div class="invalid-feedback">
-                                                Please select the gender.
-                                            </div>
-                                            @if($errors->has('gender'))
-                                                <div class="invalid-feedback">
-                                                    {{$errors->first('gender')}}
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Nationality: </label>
-                                            <input type="text" class="form-control" name="nationality" id="nationality">
-                                            <div class="invalid-feedback">
-                                                Please enter the nationality.
-                                            </div>
-                                            @if($errors->has('nationality'))
-                                                <div class="invalid-feedback">
-                                                    {{$errors->first('nationality')}}
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Religion: </label>
-                                            <select class="select select-height" name="religion" id="religion">
-                                                <option value disabled selected> Select Religion</option>
-                                                <option value="hindu"> Hindu </option>
-                                                <option value="muslim"> Muslim </option>
-                                                <option value="christian"> Christian</option>
-                                                <option value="buddhist"> Buddhist </option>
-                                            </select>
-                                            <div class="invalid-feedback">
-                                                Please select the religion.
-                                            </div>
-                                            @if($errors->has('religion'))
-                                                <div class="invalid-feedback">
-                                                    {{$errors->first('religion')}}
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Next of Kin Name: <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="next_of_kin" id="next_of_kin" required>
+                                            <label>Next of Kin Name: </label>
+                                            <input type="text" class="form-control" name="next_of_kin" id="next_of_kin">
                                             <div class="invalid-feedback">
                                                 Please enter the next of kin name.
                                             </div>
@@ -559,8 +625,6 @@
                                             @endif
                                         </div>
                                     </div>
-
-
                                 </div>
 
                                 <div class="row">
@@ -667,36 +731,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Permanent Address: </label>
-                                            <input type="text" class="form-control" name="permanent_address" id="permanent_address">
-                                            <div class="invalid-feedback">
-                                                Please enter permanent address.
-                                            </div>
-                                            @if($errors->has('permanent_address'))
-                                                <div class="invalid-feedback">
-                                                    {{$errors->first('permanent_address')}}
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Temporary Address: </label>
-                                            <input type="text" class="form-control" name="temporary_address" id="temporary_address">
-                                            <div class="invalid-feedback">
-                                                Please enter temporary address.
-                                            </div>
-                                            @if($errors->has('temporary_address'))
-                                                <div class="invalid-feedback">
-                                                    {{$errors->first('temporary_address')}}
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+
 
                                 <div class="row">
                                     <div class="col-md-6">
@@ -715,12 +750,12 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Candidate Type: <span class="text-danger">*</span></label>
-                                            <select class="select" name="candidate_type" id="candidate_type" required>
-                                                <option value disabled selected> Select Candidate Type</option>
+                                            <label>Candidate Type: </label>
+                                            <select class="custom-select select2" name="candidate_type" id="candidate_type">
+                                                <option value disabled> Select Candidate Type</option>
                                                 <option value="rba"> Rba</option>
                                                 <option value="non rba"> Non Rba</option>
-                                                <option value="default"> Default</option>
+                                                <option value="default" selected> Default</option>
                                             </select>
                                             <div class="invalid-feedback">
                                                 Please select candidate type

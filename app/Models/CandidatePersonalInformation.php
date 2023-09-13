@@ -12,7 +12,7 @@ class CandidatePersonalInformation extends Model
     use HasFactory;
     use SoftDeletes, UserWiseFilter;
     protected $table ='candidate_personal_info';
-    protected $fillable =['id','registration_no','serial_no','status','image','registration_date_ad','registration_date_bs','passport_no','passport_status','birth_place','issued_date','expiry_date','reference_information_id','reference_amount','receipt_no','document_processing_fee','advance_fee','candidate_firstname','candidate_middlename','candidate_lastname','age','next_of_kin','kin_relationship','kin_contact_no','gender','nationality','religion','date_of_birth','mobile_no','contact_no','martial_status','spouse','children','email_address','height','weight','father_name','father_contact_no','mother_name','mother_contact_no','permanent_address','temporary_address','aboard_contact_no','candidate_type','created_by','updated_by'];
+    protected $fillable =['id','registration_no','province','district','serial_no','status','image','registration_date_ad','registration_date_bs','passport_no','passport_status','birth_place','issued_date','expiry_date','reference_information_id','reference_amount','receipt_no','document_processing_fee','advance_fee','candidate_firstname','candidate_middlename','candidate_lastname','age','next_of_kin','kin_relationship','kin_contact_no','gender','nationality','religion','date_of_birth','mobile_no','contact_no','martial_status','spouse','children','email_address','height','weight','father_name','father_contact_no','mother_name','mother_contact_no','permanent_address','temporary_address','aboard_contact_no','candidate_type','created_by','updated_by'];
 
 
     public function cvInfo(){
