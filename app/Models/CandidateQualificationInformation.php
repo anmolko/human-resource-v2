@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CandidateQualificationInformation extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    use SoftDeletes, UserWiseFilter;
     protected $table ='qualification_infos';
     protected $fillable =['id','candidate_personal_information_id','school_college_name','document','academic_level','address','completed_on','division','result','created_by','updated_by'];
 

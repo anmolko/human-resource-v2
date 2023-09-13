@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RoleCreateRequest extends FormRequest
 {
@@ -24,7 +25,13 @@ class RoleCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=> 'required|unique:roles',
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('roles')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                }),
+            ],
         ];
     }
     public function messages(){

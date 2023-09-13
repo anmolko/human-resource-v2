@@ -31,6 +31,7 @@ use App\Models\SubStatus;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use CountryState;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -76,159 +77,167 @@ class CandidatePersonalInformationController extends Controller
      */
     public function store(Request $request)
     {
-        //candidate personal information
-        $data = [
-            'registration_no'          => $request->input('registration_no'),
-            'serial_no'                => $request->input('serial_no'),
-            'registration_date_ad'     => $request->input('registration_date_ad'),
-            'registration_date_bs'     => $request->input('registration_date_bs'),
-            'passport_no'              => $request->input('passport_no'),
-            'birth_place'              => $request->input('birth_place'),
-            'issued_date'              => $request->input('issued_date'),
-            'expiry_date'              => $request->input('expiry_date'),
-            'reference_information_id' => $request->input('reference_information_id'),
-            'receipt_no'               => $request->input('receipt_no'),
-            'document_processing_fee'  => $request->input('document_processing_fee'),
-            'advance_fee'              => $request->input('advance_fee'),
-            'candidate_firstname'      => $request->input('candidate_firstname'),
-            'candidate_middlename'     => $request->input('candidate_middlename'),
-            'candidate_lastname'       => $request->input('candidate_lastname'),
-            'age'                      => $request->input('age'),
-            'next_of_kin'              => $request->input('next_of_kin'),
-            'kin_relationship'         => $request->input('kin_relationship'),
-            'kin_contact_no'           => $request->input('kin_contact_no'),
-            'gender'                   => $request->input('gender'),
-            'nationality'              => $request->input('nationality'),
-            'religion'                 => $request->input('religion'),
-            'date_of_birth'            => $request->input('date_of_birth'),
-            'mobile_no'                => $request->input('mobile_no'),
-            'contact_no'               => $request->input('contact_no'),
-            'martial_status'           => $request->input('martial_status'),
-            'spouse'                   => $request->input('spouse'),
-            'children'                 => $request->input('children'),
-            'email_address'            => $request->input('email_address'),
-            'height'                   => $request->input('height'),
-            'weight'                   => $request->input('weight'),
-            'father_name'              => $request->input('father_name'),
-            'father_contact_no'        => $request->input('father_contact_no'),
-            'mother_name'              => $request->input('mother_name'),
-            'mother_contact_no'        => $request->input('mother_contact_no'),
-            'permanent_address'        => $request->input('permanent_address'),
-            'temporary_address'        => $request->input('temporary_address'),
-            'aboard_contact_no'        => $request->input('aboard_contact_no'),
-            'candidate_type'           => $request->input('candidate_type'),
-            'created_by'               => Auth::user()->id,
-        ];
+        DB::beginTransaction();
+        try {
+            //candidate personal information
+            $data = [
+                'registration_no'          => $request->input('registration_no'),
+                'serial_no'                => $request->input('serial_no'),
+                'registration_date_ad'     => $request->input('registration_date_ad'),
+                'registration_date_bs'     => $request->input('registration_date_bs'),
+                'passport_no'              => $request->input('passport_no'),
+                'birth_place'              => $request->input('birth_place'),
+                'issued_date'              => $request->input('issued_date'),
+                'expiry_date'              => $request->input('expiry_date'),
+                'reference_information_id' => $request->input('reference_information_id'),
+                'receipt_no'               => $request->input('receipt_no'),
+                'document_processing_fee'  => $request->input('document_processing_fee'),
+                'advance_fee'              => $request->input('advance_fee'),
+                'passport_status'          => $request->input('passport_status'),
+                'candidate_firstname'      => $request->input('candidate_firstname'),
+                'candidate_middlename'     => $request->input('candidate_middlename'),
+                'candidate_lastname'       => $request->input('candidate_lastname'),
+                'age'                      => $request->input('age'),
+                'next_of_kin'              => $request->input('next_of_kin'),
+                'kin_relationship'         => $request->input('kin_relationship'),
+                'kin_contact_no'           => $request->input('kin_contact_no'),
+                'gender'                   => $request->input('gender'),
+                'nationality'              => $request->input('nationality'),
+                'religion'                 => $request->input('religion'),
+                'date_of_birth'            => $request->input('date_of_birth'),
+                'mobile_no'                => $request->input('mobile_no'),
+                'contact_no'               => $request->input('contact_no'),
+                'martial_status'           => $request->input('martial_status'),
+                'spouse'                   => $request->input('spouse'),
+                'children'                 => $request->input('children'),
+                'email_address'            => $request->input('email_address'),
+                'height'                   => $request->input('height'),
+                'weight'                   => $request->input('weight'),
+                'father_name'              => $request->input('father_name'),
+                'father_contact_no'        => $request->input('father_contact_no'),
+                'mother_name'              => $request->input('mother_name'),
+                'mother_contact_no'        => $request->input('mother_contact_no'),
+                'permanent_address'        => $request->input('permanent_address'),
+                'temporary_address'        => $request->input('temporary_address'),
+                'aboard_contact_no'        => $request->input('aboard_contact_no'),
+                'candidate_type'           => $request->input('candidate_type'),
+                'created_by'               => Auth::user()->id,
+            ];
 
-        if(!empty($request->file('image'))) {
-            $image = $request->file('image');
-            $name1 = uniqid() . '_' . $image->getClientOriginalName();
-            $path = base_path() . '/public/images/candidate_info/' . $name1;
-            $image_resize = Image::make($image->getRealPath())->orientate();
-            $image_resize->resize(300, 300, function ($constraint) {
-                $constraint->aspectRatio(); //maintain image ratio
-            });
-            if ($image_resize->save($path, 80)) {
-                $data['image'] = $name1;
+            if(!empty($request->file('image'))) {
+                $image = $request->file('image');
+                $name1 = uniqid() . '_' . $image->getClientOriginalName();
+                $path = base_path() . '/public/images/candidate_info/' . $name1;
+                $image_resize = Image::make($image->getRealPath())->orientate();
+                $image_resize->resize(300, 300, function ($constraint) {
+                    $constraint->aspectRatio(); //maintain image ratio
+                });
+                if ($image_resize->save($path, 80)) {
+                    $data['image'] = $name1;
+                }
             }
-        }
 
 
-        $personal_info = CandidatePersonalInformation::create($data);
+            $personal_info = CandidatePersonalInformation::create($data);
 
-        Folder::create([
-            'candidate_id'       => $personal_info->id,
-            'folder_name'        => $personal_info->candidate_firstname.'_'.$personal_info->id,
-            'created_by'         => Auth::user()->id,
+            Folder::create([
+                'candidate_id'       => $personal_info->id,
+                'folder_name'        => $personal_info->candidate_firstname.'_'.$personal_info->id,
+                'created_by'         => Auth::user()->id,
 
-        ]);
-
-        if ($personal_info) {
-
-            $first = str_replace(" ","_",strtolower($request->input('candidate_firstname')));
-            $middle = str_replace(" ","_",strtolower($request->input('candidate_middlename')));
-            $last = str_replace(" ","_",strtolower($request->input('candidate_lastname')));
-            $slug     = $first."_".$middle."_".$last."_".$request->input('registration_no');
-            $secondarygroup = SecondaryGroup::create([
-                'primary_group_id' =>8,
-                'imported_from' => 'true',
-                'name'        =>$request->input('candidate_firstname')." ".$request->input('candidate_middlename')." ".$request->input('candidate_lastname'),
-                'status'      =>1,
-                'slug'        =>$slug,
-                'created_by'  => Auth::user()->id,
             ]);
 
-            if($secondarygroup){
-                if($request->input('document_processing_fee') !==null){
-                    $ref                = 'JRN-'.str_pad(time() + 1, 8, "0", STR_PAD_LEFT);
-                    $journal_entry     = JournalEntry::create([
-                        'date'         => Carbon::now()->isoFormat('YYYY-MM-DD'),
-                        'ref_no'       => $ref,
-                        'narration'    => "Journal Entry addition for ".$request->input('candidate_firstname')." ".$request->input('candidate_middlename')." ".$request->input('candidate_lastname')." for the document process fee",
-                        'total_amount' => $request->input('document_processing_fee'),
-                        'processing_status' =>'applied',
-                        'candidate_personal_id' =>$personal_info->id,
-                        'created_by'   => Auth::user()->id,
-                    ]);
+//        if ($personal_info) {
+//
+////            $first = str_replace(" ","_",strtolower($request->input('candidate_firstname')));
+////            $middle = str_replace(" ","_",strtolower($request->input('candidate_middlename')));
+////            $last = str_replace(" ","_",strtolower($request->input('candidate_lastname')));
+////            $slug     = $first."_".$middle."_".$last."_".$request->input('registration_no');
+////            $secondarygroup = SecondaryGroup::create([
+////                'primary_group_id' =>8,
+////                'imported_from' => 'true',
+////                'name'        =>$request->input('candidate_firstname')." ".$request->input('candidate_middlename')." ".$request->input('candidate_lastname'),
+////                'status'      =>1,
+////                'slug'        =>$slug,
+////                'created_by'  => Auth::user()->id,
+////            ]);
+//
+////            if($secondarygroup){
+////                if($request->input('document_processing_fee') !==null){
+////                    $ref                = 'JRN-'.str_pad(time() + 1, 8, "0", STR_PAD_LEFT);
+////                    $journal_entry     = JournalEntry::create([
+////                        'date'         => Carbon::now()->isoFormat('YYYY-MM-DD'),
+////                        'ref_no'       => $ref,
+////                        'narration'    => "Journal Entry addition for ".$request->input('candidate_firstname')." ".$request->input('candidate_middlename')." ".$request->input('candidate_lastname')." for the document process fee",
+////                        'total_amount' => $request->input('document_processing_fee'),
+////                        'processing_status' =>'applied',
+////                        'candidate_personal_id' =>$personal_info->id,
+////                        'created_by'   => Auth::user()->id,
+////                    ]);
+////
+////                    // $latestjournal       = JournalEntry::latest()->first();
+////                    $journal_particulars_debit = JournalParticular::create([
+////                        'journal_entry_id'=> $journal_entry->id,
+////                        'by_debit_id' =>$secondarygroup->id,
+////                        'initial_acc_id' =>8,
+////                        'debit_amount' =>$request->input('document_processing_fee'),
+////                        'credit_amount' =>0,
+////                        'created_by' =>Auth::user()->id,
+////                    ]);
+////
+////                    $journal_particulars_credit = JournalParticular::create([
+////                        'journal_entry_id'=> $journal_entry->id,
+////                        'to_credit_id' =>8,
+////                        'initial_acc_id' =>$secondarygroup->id,
+////                        'debit_amount' =>0,
+////                        'credit_amount' =>$request->input('document_processing_fee'),
+////                        'created_by' =>Auth::user()->id,
+////                    ]);
+////                }
+////
+////                if($request->input('advance_fee') !==null){
+////
+////                    $ref                = 'JRN-'.str_pad(time() + 3, 8, "0", STR_PAD_LEFT);
+////                    $journal_entry     = JournalEntry::create([
+////                        'date'         => Carbon::now()->isoFormat('YYYY-MM-DD'),
+////                        'ref_no'       => $ref,
+////                        'narration'    => "Journal Entry addition for ".$request->input('candidate_firstname')." ".$request->input('candidate_middlename')." ".$request->input('candidate_lastname')." for the document process advance amount",
+////                        'total_amount' => $request->input('advance_fee'),
+////                        'processing_status' =>'applied',
+////                        'candidate_personal_id' =>$personal_info->id,
+////                        'created_by'   => Auth::user()->id,
+////                    ]);
+////
+////                    // $latestjournal       = JournalEntry::latest()->first();
+////                    $journal_particulars_debit = JournalParticular::create([
+////                        'journal_entry_id'=> $journal_entry->id,
+////                        'by_debit_id' =>$secondarygroup->id,
+////                        'initial_acc_id' =>9,
+////                        'debit_amount' =>$request->input('advance_fee'),
+////                        'credit_amount' =>0,
+////                        'created_by' =>Auth::user()->id,
+////                    ]);
+////
+////                    $journal_particulars_credit = JournalParticular::create([
+////                        'journal_entry_id'=> $journal_entry->id,
+////                        'to_credit_id' =>9,
+////                        'initial_acc_id' =>$secondarygroup->id,
+////                        'debit_amount' =>0,
+////                        'credit_amount' =>$request->input('advance_fee'),
+////                        'created_by' =>Auth::user()->id,
+////                    ]);
+////                }
+////            }
+//
+//        }
 
-                    // $latestjournal       = JournalEntry::latest()->first();
-                    $journal_particulars_debit = JournalParticular::create([
-                        'journal_entry_id'=> $journal_entry->id,
-                        'by_debit_id' =>$secondarygroup->id,
-                        'initial_acc_id' =>8,
-                        'debit_amount' =>$request->input('document_processing_fee'),
-                        'credit_amount' =>0,
-                        'created_by' =>Auth::user()->id,
-                    ]);
-
-                    $journal_particulars_credit = JournalParticular::create([
-                        'journal_entry_id'=> $journal_entry->id,
-                        'to_credit_id' =>8,
-                        'initial_acc_id' =>$secondarygroup->id,
-                        'debit_amount' =>0,
-                        'credit_amount' =>$request->input('document_processing_fee'),
-                        'created_by' =>Auth::user()->id,
-                    ]);
-                }
-
-                if($request->input('advance_fee') !==null){
-
-                    $ref                = 'JRN-'.str_pad(time() + 3, 8, "0", STR_PAD_LEFT);
-                    $journal_entry     = JournalEntry::create([
-                        'date'         => Carbon::now()->isoFormat('YYYY-MM-DD'),
-                        'ref_no'       => $ref,
-                        'narration'    => "Journal Entry addition for ".$request->input('candidate_firstname')." ".$request->input('candidate_middlename')." ".$request->input('candidate_lastname')." for the document process advance amount",
-                        'total_amount' => $request->input('advance_fee'),
-                        'processing_status' =>'applied',
-                        'candidate_personal_id' =>$personal_info->id,
-                        'created_by'   => Auth::user()->id,
-                    ]);
-
-                    // $latestjournal       = JournalEntry::latest()->first();
-                    $journal_particulars_debit = JournalParticular::create([
-                        'journal_entry_id'=> $journal_entry->id,
-                        'by_debit_id' =>$secondarygroup->id,
-                        'initial_acc_id' =>9,
-                        'debit_amount' =>$request->input('advance_fee'),
-                        'credit_amount' =>0,
-                        'created_by' =>Auth::user()->id,
-                    ]);
-
-                    $journal_particulars_credit = JournalParticular::create([
-                        'journal_entry_id'=> $journal_entry->id,
-                        'to_credit_id' =>9,
-                        'initial_acc_id' =>$secondarygroup->id,
-                        'debit_amount' =>0,
-                        'credit_amount' =>$request->input('advance_fee'),
-                        'created_by' =>Auth::user()->id,
-                    ]);
-                }
-            }
-
+            DB::commit();
             Session::flash('success', 'Candidate Personal Info Created Successfully');
-        } else {
+        }catch (\Exception $e){
+            DB::rollBack();
             Session::flash('error', 'Candidate Personal Info Creation Failed');
         }
+
         return redirect()->back();
     }
 
@@ -265,257 +274,263 @@ class CandidatePersonalInformationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $candidate_personal                             =  CandidatePersonalInformation::find($id);
-        $old_firstname = $candidate_personal->candidate_firstname;
-        $old_middlename = $candidate_personal->candidate_middlename;
-        $old_lastname = $candidate_personal->candidate_lastname;
-        $old_regno = $candidate_personal->registration_no;
+        DB::beginTransaction();
+        try {
+            $candidate_personal                             =  CandidatePersonalInformation::find($id);
+            $old_firstname = $candidate_personal->candidate_firstname;
+            $old_middlename = $candidate_personal->candidate_middlename;
+            $old_lastname = $candidate_personal->candidate_lastname;
+            $old_regno = $candidate_personal->registration_no;
 
-        $candidate_personal->registration_no            =  $request->input('registration_no');
-        $candidate_personal->serial_no                  =  $request->input('serial_no');
-        $candidate_personal->registration_date_ad       =  $request->input('registration_date_ad');
-        $candidate_personal->registration_date_bs       =  $request->input('registration_date_bs');
-        $candidate_personal->passport_no                =  $request->input('passport_no');
-        $candidate_personal->birth_place                =  $request->input('birth_place');
-        $candidate_personal->issued_date                =  $request->input('issued_date');
-        $candidate_personal->expiry_date                =  $request->input('expiry_date');
-        $candidate_personal->reference_information_id   =  $request->input('reference_information_id');
-        $candidate_personal->receipt_no                 =  $request->input('receipt_no');
-        $candidate_personal->document_processing_fee    =  $request->input('document_processing_fee');
-        $candidate_personal->advance_fee                =  $request->input('advance_fee');
-        $candidate_personal->candidate_firstname        =  $request->input('candidate_firstname');
-        $candidate_personal->candidate_middlename       =  $request->input('candidate_middlename');
-        $candidate_personal->candidate_lastname         =  $request->input('candidate_lastname');
-        $candidate_personal->age                        =  $request->input('age');
-        $candidate_personal->next_of_kin                =  $request->input('next_of_kin');
-        $candidate_personal->kin_relationship           =  $request->input('kin_relationship');
-        $candidate_personal->kin_contact_no             =  $request->input('kin_contact_no');
-        $candidate_personal->gender                     =  $request->input('gender');
-        $candidate_personal->nationality                =  $request->input('nationality');
-        $candidate_personal->religion                   =  $request->input('religion');
-        $candidate_personal->date_of_birth              =  $request->input('date_of_birth');
-        $candidate_personal->mobile_no                  =  $request->input('mobile_no');
-        $candidate_personal->contact_no                 =  $request->input('contact_no');
-        $candidate_personal->martial_status             =  $request->input('martial_status');
-        $candidate_personal->spouse                     =  $request->input('spouse');
-        $candidate_personal->children                   =  $request->input('children');
-        $candidate_personal->email_address              =  $request->input('email_address');
-        $candidate_personal->height                     =  $request->input('height');
-        $candidate_personal->weight                     =  $request->input('weight');
-        $candidate_personal->father_name                =  $request->input('father_name');
-        $candidate_personal->father_contact_no          =  $request->input('father_contact_no');
-        $candidate_personal->mother_name                =  $request->input('mother_name');
-        $candidate_personal->mother_contact_no          =  $request->input('mother_contact_no');
-        $candidate_personal->permanent_address          =  $request->input('permanent_address');
-        $candidate_personal->temporary_address          =  $request->input('temporary_address');
-        $candidate_personal->aboard_contact_no          =  $request->input('aboard_contact_no');
-        $candidate_personal->candidate_type             =  $request->input('candidate_type');
-        $candidate_personal->created_by                 = Auth::user()->id;
+            $candidate_personal->registration_no            =  $request->input('registration_no');
+            $candidate_personal->serial_no                  =  $request->input('serial_no');
+            $candidate_personal->registration_date_ad       =  $request->input('registration_date_ad');
+            $candidate_personal->registration_date_bs       =  $request->input('registration_date_bs');
+            $candidate_personal->passport_no                =  $request->input('passport_no');
+            $candidate_personal->birth_place                =  $request->input('birth_place');
+            $candidate_personal->issued_date                =  $request->input('issued_date');
+            $candidate_personal->expiry_date                =  $request->input('expiry_date');
+            $candidate_personal->reference_information_id   =  $request->input('reference_information_id');
+            $candidate_personal->receipt_no                 =  $request->input('receipt_no');
+            $candidate_personal->document_processing_fee    =  $request->input('document_processing_fee');
+            $candidate_personal->advance_fee                =  $request->input('advance_fee');
+            $candidate_personal->passport_status            =  $request->input('passport_status');
+            $candidate_personal->candidate_firstname        =  $request->input('candidate_firstname');
+            $candidate_personal->candidate_middlename       =  $request->input('candidate_middlename');
+            $candidate_personal->candidate_lastname         =  $request->input('candidate_lastname');
+            $candidate_personal->age                        =  $request->input('age');
+            $candidate_personal->next_of_kin                =  $request->input('next_of_kin');
+            $candidate_personal->kin_relationship           =  $request->input('kin_relationship');
+            $candidate_personal->kin_contact_no             =  $request->input('kin_contact_no');
+            $candidate_personal->gender                     =  $request->input('gender');
+            $candidate_personal->nationality                =  $request->input('nationality');
+            $candidate_personal->religion                   =  $request->input('religion');
+            $candidate_personal->date_of_birth              =  $request->input('date_of_birth');
+            $candidate_personal->mobile_no                  =  $request->input('mobile_no');
+            $candidate_personal->contact_no                 =  $request->input('contact_no');
+            $candidate_personal->martial_status             =  $request->input('martial_status');
+            $candidate_personal->spouse                     =  $request->input('spouse');
+            $candidate_personal->children                   =  $request->input('children');
+            $candidate_personal->email_address              =  $request->input('email_address');
+            $candidate_personal->height                     =  $request->input('height');
+            $candidate_personal->weight                     =  $request->input('weight');
+            $candidate_personal->father_name                =  $request->input('father_name');
+            $candidate_personal->father_contact_no          =  $request->input('father_contact_no');
+            $candidate_personal->mother_name                =  $request->input('mother_name');
+            $candidate_personal->mother_contact_no          =  $request->input('mother_contact_no');
+            $candidate_personal->permanent_address          =  $request->input('permanent_address');
+            $candidate_personal->temporary_address          =  $request->input('temporary_address');
+            $candidate_personal->aboard_contact_no          =  $request->input('aboard_contact_no');
+            $candidate_personal->candidate_type             =  $request->input('candidate_type');
+            $candidate_personal->created_by                 = Auth::user()->id;
 
-        $oldimage             = $candidate_personal->image;
-        if (!empty($request->file('image'))){
-            $image =$request->file('image');
-            $name1 = uniqid().'_'.$image->getClientOriginalName();
-            $path = base_path().'/public/images/candidate_info/'.$name1;
-            $image_resize = Image::make($image->getRealPath())->orientate();
-            $image_resize->resize(300, 300, function ($constraint) {
-                $constraint->aspectRatio(); //maintain image ratio
-            });
-            if ($image_resize->save($path,80)){
-                $candidate_personal->image= $name1;
-                if (!empty($oldimage) && file_exists(public_path().'/images/candidate_info/'.$oldimage)){
-                    @unlink(public_path().'/images/candidate_info/'.$oldimage);
-                }
-            }
-        }
-
-
-
-        $status = $candidate_personal->update();
-
-
-        $candidate_folder                               =  Folder::where('candidate_id',$id)->first();
-
-        if($candidate_folder !== null){
-            $candidate_folder->folder_name              =  $request->input('candidate_firstname').'_'.$id;
-            $candidate_folder->update();
-        }else{
-            Folder::create([
-                'candidate_id'       => $id,
-                'folder_name'        => $request->input('candidate_firstname').'_'.$id,
-                'created_by'         => Auth::user()->id,
-            ]);
-        }
-
-
-
-        if($status){
-            $oldfirst           = str_replace(" ","_",strtolower($old_firstname));
-            $oldmiddle          = str_replace(" ","_",strtolower($old_middlename));
-            $oldlast            = str_replace(" ","_",strtolower($old_lastname));
-            $oldslug            = $oldfirst."_".$oldmiddle."_".$oldlast."_".$old_regno;
-            $secondarygroup     = SecondaryGroup::where("slug",$oldslug)->first();
-
-            $first              = str_replace(" ","_",strtolower($request->input('candidate_firstname')));
-            $middle             = str_replace(" ","_",strtolower($request->input('candidate_middlename')));
-            $last               = str_replace(" ","_",strtolower($request->input('candidate_lastname')));
-            $slug               = $first."_".$middle."_".$last."_".$request->input('registration_no');
-
-            $secondarygroup->name       = $request->input('candidate_firstname')." ".$request->input('candidate_middlename')." ".$request->input('candidate_lastname');
-            $secondarygroup->slug        = $slug;
-            $secondarygroup->updated_by = Auth::user()->id;
-            $secondarygroup->update();
-
-            if($request->input('document_processing_fee') !==null){
-
-
-               $journal_pt = JournalParticular::where("by_debit_id",$secondarygroup->id)
-                                  ->where("initial_acc_id",8)->first();
-                if($journal_pt){
-                    $journal_entry     = JournalEntry::updateOrCreate(
-                        ['id' => $journal_pt->journal_entry_id],
-                        [
-                        'total_amount' => $request->input('document_processing_fee'),
-                        'processing_status' =>'applied',
-                        'candidate_personal_id' =>$candidate_personal->id,
-                        'updated_by'   => Auth::user()->id,
-                    ]);
-
-                    $journal_particulars_debit = JournalParticular::updateOrCreate(
-                        ['id' => $journal_pt->id],
-                        [
-                        'journal_entry_id'=> $journal_entry->id,
-                        'by_debit_id' =>$secondarygroup->id,
-                        'initial_acc_id' =>8,
-                        'debit_amount' =>$request->input('document_processing_fee'),
-                        'credit_amount' =>0,
-                        'updated_by' =>Auth::user()->id,
-                        ]);
-
-                    $journal_pt_cd = JournalParticular::where("to_credit_id",8)
-                        ->where("initial_acc_id",$secondarygroup->id)->first();
-                    $journal_particulars_credit = JournalParticular::updateOrCreate(
-                        ['id' => $journal_pt_cd->id],
-                        [
-                        'journal_entry_id'=> $journal_entry->id,
-                        'to_credit_id' =>8,
-                        'initial_acc_id' =>$secondarygroup->id,
-                        'debit_amount' =>0,
-                        'credit_amount' =>$request->input('document_processing_fee'),
-                        'created_by' =>Auth::user()->id,
-                        ]);
-                }else{
-
-                    $ref                = 'JRN-'.str_pad(time() + 1, 8, "0", STR_PAD_LEFT);
-                    $journal_entry     = JournalEntry::create([
-                        'date'         => Carbon::now()->isoFormat('YYYY-MM-DD'),
-                        'ref_no'       => $ref,
-                        'narration'    => "Journal Entry addition for ".$request->input('candidate_firstname')." ".$request->input('candidate_middlename')." ".$request->input('candidate_lastname')." for the document process fee",
-                        'total_amount' => $request->input('document_processing_fee'),
-                        'processing_status' =>'applied',
-                        'candidate_personal_id' =>$candidate_personal->id,
-                        'created_by'   => Auth::user()->id,
-                    ]);
-
-                    // $latestjournal       = JournalEntry::latest()->first();
-                    $journal_particulars_debit = JournalParticular::create([
-                        'journal_entry_id'=> $journal_entry->id,
-                        'by_debit_id' =>$secondarygroup->id,
-                        'initial_acc_id' =>8,
-                        'debit_amount' =>$request->input('document_processing_fee'),
-                        'credit_amount' =>0,
-                        'created_by' =>Auth::user()->id,
-                    ]);
-
-                    $journal_particulars_credit = JournalParticular::create([
-                        'journal_entry_id'=> $journal_entry->id,
-                        'to_credit_id' =>8,
-                        'initial_acc_id' =>$secondarygroup->id,
-                        'debit_amount' =>0,
-                        'credit_amount' =>$request->input('document_processing_fee'),
-                        'created_by' =>Auth::user()->id,
-                    ]);
-
-                }
-            }
-
-            if($request->input('advance_fee') !==null){
-
-
-               $journal_pt = JournalParticular::where("by_debit_id",$secondarygroup->id)
-               ->where("initial_acc_id",9)->first();
-                if($journal_pt){
-                $journal_entry     = JournalEntry::updateOrCreate(
-                    ['id' => $journal_pt->journal_entry_id],
-                    [
-                    'total_amount' => $request->input('advance_fee'),
-                    'processing_status' =>'applied',
-                    'candidate_personal_id' =>$candidate_personal->id,
-                    'updated_by'   => Auth::user()->id,
-                ]);
-
-                $journal_particulars_debit = JournalParticular::updateOrCreate(
-                    ['id' => $journal_pt->id],
-                    [
-                    'journal_entry_id'=> $journal_entry->id,
-                    'by_debit_id' =>$secondarygroup->id,
-                    'initial_acc_id' =>9,
-                    'debit_amount' =>$request->input('advance_fee'),
-                    'credit_amount' =>0,
-                    'updated_by' =>Auth::user()->id,
-                    ]);
-
-                $journal_pt_cd = JournalParticular::where("to_credit_id",9)
-                    ->where("initial_acc_id",$secondarygroup->id)->first();
-                $journal_particulars_credit = JournalParticular::updateOrCreate(
-                    ['id' => $journal_pt_cd->id],
-                    [
-                    'journal_entry_id'=> $journal_entry->id,
-                    'to_credit_id' =>9,
-                    'initial_acc_id' =>$secondarygroup->id,
-                    'debit_amount' =>0,
-                    'credit_amount' =>$request->input('advance_fee'),
-                    'created_by' =>Auth::user()->id,
-                    ]);
-                }else{
-                    $ref                = 'JRN-'.str_pad(time() + 3, 8, "0", STR_PAD_LEFT);
-                    $journal_entry     = JournalEntry::create([
-                        'date'         => Carbon::now()->isoFormat('YYYY-MM-DD'),
-                        'ref_no'       => $ref,
-                        'narration'    => "Journal Entry addition for ".$request->input('candidate_firstname')." ".$request->input('candidate_middlename')." ".$request->input('candidate_lastname')." for the document process advance amount",
-                        'total_amount' => $request->input('advance_fee'),
-                        'processing_status' =>'applied',
-                        'candidate_personal_id' =>$candidate_personal->id,
-                        'created_by'   => Auth::user()->id,
-                    ]);
-
-                    $journal_particulars_debit = JournalParticular::create([
-                        'journal_entry_id'=> $journal_entry->id,
-                        'by_debit_id' =>$secondarygroup->id,
-                        'initial_acc_id' =>9,
-                        'debit_amount' =>$request->input('advance_fee'),
-                        'credit_amount' =>0,
-                        'created_by' =>Auth::user()->id,
-                    ]);
-
-                    $journal_particulars_credit = JournalParticular::create([
-                        'journal_entry_id'=> $journal_entry->id,
-                        'to_credit_id' =>9,
-                        'initial_acc_id' =>$secondarygroup->id,
-                        'debit_amount' =>0,
-                        'credit_amount' =>$request->input('advance_fee'),
-                        'created_by' =>Auth::user()->id,
-                    ]);
+            $oldimage             = $candidate_personal->image;
+            if (!empty($request->file('image'))){
+                $image =$request->file('image');
+                $name1 = uniqid().'_'.$image->getClientOriginalName();
+                $path = base_path().'/public/images/candidate_info/'.$name1;
+                $image_resize = Image::make($image->getRealPath())->orientate();
+                $image_resize->resize(300, 300, function ($constraint) {
+                    $constraint->aspectRatio(); //maintain image ratio
+                });
+                if ($image_resize->save($path,80)){
+                    $candidate_personal->image= $name1;
+                    if (!empty($oldimage) && file_exists(public_path().'/images/candidate_info/'.$oldimage)){
+                        @unlink(public_path().'/images/candidate_info/'.$oldimage);
                     }
-
-
+                }
             }
 
+
+
+            $status = $candidate_personal->update();
+
+
+            $candidate_folder                               =  Folder::where('candidate_id',$id)->first();
+
+            if($candidate_folder !== null){
+                $candidate_folder->folder_name              =  $request->input('candidate_firstname').'_'.$id;
+                $candidate_folder->update();
+            }else{
+                Folder::create([
+                    'candidate_id'       => $id,
+                    'folder_name'        => $request->input('candidate_firstname').'_'.$id,
+                    'created_by'         => Auth::user()->id,
+                ]);
+            }
+
+//
+//
+//            if($status){
+//        //            $oldfirst           = str_replace(" ","_",strtolower($old_firstname));
+//        //            $oldmiddle          = str_replace(" ","_",strtolower($old_middlename));
+//        //            $oldlast            = str_replace(" ","_",strtolower($old_lastname));
+//        //            $oldslug            = $oldfirst."_".$oldmiddle."_".$oldlast."_".$old_regno;
+//        //            $secondarygroup     = SecondaryGroup::where("slug",$oldslug)->first();
+//        //
+//        //            $first              = str_replace(" ","_",strtolower($request->input('candidate_firstname')));
+//        //            $middle             = str_replace(" ","_",strtolower($request->input('candidate_middlename')));
+//        //            $last               = str_replace(" ","_",strtolower($request->input('candidate_lastname')));
+//        //            $slug               = $first."_".$middle."_".$last."_".$request->input('registration_no');
+//
+//        //            $secondarygroup->name       = $request->input('candidate_firstname')." ".$request->input('candidate_middlename')." ".$request->input('candidate_lastname');
+//        //            $secondarygroup->slug        = $slug;
+//        //            $secondarygroup->updated_by = Auth::user()->id;
+//        //            $secondarygroup->update();
+//
+//        //            if($request->input('document_processing_fee') !==null){
+//        //
+//        //
+//        //               $journal_pt = JournalParticular::where("by_debit_id",$secondarygroup->id)
+//        //                                  ->where("initial_acc_id",8)->first();
+//        //                if($journal_pt){
+//        //                    $journal_entry     = JournalEntry::updateOrCreate(
+//        //                        ['id' => $journal_pt->journal_entry_id],
+//        //                        [
+//        //                        'total_amount' => $request->input('document_processing_fee'),
+//        //                        'processing_status' =>'applied',
+//        //                        'candidate_personal_id' =>$candidate_personal->id,
+//        //                        'updated_by'   => Auth::user()->id,
+//        //                    ]);
+//        //
+//        //                    $journal_particulars_debit = JournalParticular::updateOrCreate(
+//        //                        ['id' => $journal_pt->id],
+//        //                        [
+//        //                        'journal_entry_id'=> $journal_entry->id,
+//        //                        'by_debit_id' =>$secondarygroup->id,
+//        //                        'initial_acc_id' =>8,
+//        //                        'debit_amount' =>$request->input('document_processing_fee'),
+//        //                        'credit_amount' =>0,
+//        //                        'updated_by' =>Auth::user()->id,
+//        //                        ]);
+//        //
+//        //                    $journal_pt_cd = JournalParticular::where("to_credit_id",8)
+//        //                        ->where("initial_acc_id",$secondarygroup->id)->first();
+//        //                    $journal_particulars_credit = JournalParticular::updateOrCreate(
+//        //                        ['id' => $journal_pt_cd->id],
+//        //                        [
+//        //                        'journal_entry_id'=> $journal_entry->id,
+//        //                        'to_credit_id' =>8,
+//        //                        'initial_acc_id' =>$secondarygroup->id,
+//        //                        'debit_amount' =>0,
+//        //                        'credit_amount' =>$request->input('document_processing_fee'),
+//        //                        'created_by' =>Auth::user()->id,
+//        //                        ]);
+//        //                }else{
+//        //
+//        //                    $ref                = 'JRN-'.str_pad(time() + 1, 8, "0", STR_PAD_LEFT);
+//        //                    $journal_entry     = JournalEntry::create([
+//        //                        'date'         => Carbon::now()->isoFormat('YYYY-MM-DD'),
+//        //                        'ref_no'       => $ref,
+//        //                        'narration'    => "Journal Entry addition for ".$request->input('candidate_firstname')." ".$request->input('candidate_middlename')." ".$request->input('candidate_lastname')." for the document process fee",
+//        //                        'total_amount' => $request->input('document_processing_fee'),
+//        //                        'processing_status' =>'applied',
+//        //                        'candidate_personal_id' =>$candidate_personal->id,
+//        //                        'created_by'   => Auth::user()->id,
+//        //                    ]);
+//        //
+//        //                    // $latestjournal       = JournalEntry::latest()->first();
+//        //                    $journal_particulars_debit = JournalParticular::create([
+//        //                        'journal_entry_id'=> $journal_entry->id,
+//        //                        'by_debit_id' =>$secondarygroup->id,
+//        //                        'initial_acc_id' =>8,
+//        //                        'debit_amount' =>$request->input('document_processing_fee'),
+//        //                        'credit_amount' =>0,
+//        //                        'created_by' =>Auth::user()->id,
+//        //                    ]);
+//        //
+//        //                    $journal_particulars_credit = JournalParticular::create([
+//        //                        'journal_entry_id'=> $journal_entry->id,
+//        //                        'to_credit_id' =>8,
+//        //                        'initial_acc_id' =>$secondarygroup->id,
+//        //                        'debit_amount' =>0,
+//        //                        'credit_amount' =>$request->input('document_processing_fee'),
+//        //                        'created_by' =>Auth::user()->id,
+//        //                    ]);
+//        //
+//        //                }
+//        //            }
+//        //
+//        //            if($request->input('advance_fee') !==null){
+//        //
+//        //
+//        //               $journal_pt = JournalParticular::where("by_debit_id",$secondarygroup->id)
+//        //               ->where("initial_acc_id",9)->first();
+//        //                if($journal_pt){
+//        //                $journal_entry     = JournalEntry::updateOrCreate(
+//        //                    ['id' => $journal_pt->journal_entry_id],
+//        //                    [
+//        //                    'total_amount' => $request->input('advance_fee'),
+//        //                    'processing_status' =>'applied',
+//        //                    'candidate_personal_id' =>$candidate_personal->id,
+//        //                    'updated_by'   => Auth::user()->id,
+//        //                ]);
+//        //
+//        //                $journal_particulars_debit = JournalParticular::updateOrCreate(
+//        //                    ['id' => $journal_pt->id],
+//        //                    [
+//        //                    'journal_entry_id'=> $journal_entry->id,
+//        //                    'by_debit_id' =>$secondarygroup->id,
+//        //                    'initial_acc_id' =>9,
+//        //                    'debit_amount' =>$request->input('advance_fee'),
+//        //                    'credit_amount' =>0,
+//        //                    'updated_by' =>Auth::user()->id,
+//        //                    ]);
+//        //
+//        //                $journal_pt_cd = JournalParticular::where("to_credit_id",9)
+//        //                    ->where("initial_acc_id",$secondarygroup->id)->first();
+//        //                $journal_particulars_credit = JournalParticular::updateOrCreate(
+//        //                    ['id' => $journal_pt_cd->id],
+//        //                    [
+//        //                    'journal_entry_id'=> $journal_entry->id,
+//        //                    'to_credit_id' =>9,
+//        //                    'initial_acc_id' =>$secondarygroup->id,
+//        //                    'debit_amount' =>0,
+//        //                    'credit_amount' =>$request->input('advance_fee'),
+//        //                    'created_by' =>Auth::user()->id,
+//        //                    ]);
+//        //                }else{
+//        //                    $ref                = 'JRN-'.str_pad(time() + 3, 8, "0", STR_PAD_LEFT);
+//        //                    $journal_entry     = JournalEntry::create([
+//        //                        'date'         => Carbon::now()->isoFormat('YYYY-MM-DD'),
+//        //                        'ref_no'       => $ref,
+//        //                        'narration'    => "Journal Entry addition for ".$request->input('candidate_firstname')." ".$request->input('candidate_middlename')." ".$request->input('candidate_lastname')." for the document process advance amount",
+//        //                        'total_amount' => $request->input('advance_fee'),
+//        //                        'processing_status' =>'applied',
+//        //                        'candidate_personal_id' =>$candidate_personal->id,
+//        //                        'created_by'   => Auth::user()->id,
+//        //                    ]);
+//        //
+//        //                    $journal_particulars_debit = JournalParticular::create([
+//        //                        'journal_entry_id'=> $journal_entry->id,
+//        //                        'by_debit_id' =>$secondarygroup->id,
+//        //                        'initial_acc_id' =>9,
+//        //                        'debit_amount' =>$request->input('advance_fee'),
+//        //                        'credit_amount' =>0,
+//        //                        'created_by' =>Auth::user()->id,
+//        //                    ]);
+//        //
+//        //                    $journal_particulars_credit = JournalParticular::create([
+//        //                        'journal_entry_id'=> $journal_entry->id,
+//        //                        'to_credit_id' =>9,
+//        //                        'initial_acc_id' =>$secondarygroup->id,
+//        //                        'debit_amount' =>0,
+//        //                        'credit_amount' =>$request->input('advance_fee'),
+//        //                        'created_by' =>Auth::user()->id,
+//        //                    ]);
+//        //                    }
+//        //
+//        //
+//        //            }
+//
+//                }
+            DB::commit();
             Session::flash('success','Candidate Personal Information Updated Successfully');
-        }
-        else{
+        }catch (\Exception $e){
+            DB::rollBack();
             Session::flash('error','Something Went Wrong. Candidate Personal Information could not be Updated');
         }
+
         return redirect()->back();
 
     }

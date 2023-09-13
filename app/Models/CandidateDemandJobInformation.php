@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CandidateDemandJobInformation extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    use SoftDeletes, UserWiseFilter;
     protected $table ='demand_job_infos';
     protected $fillable =['id','candidate_personal_information_id','job_category_id','demand_info_id','job_to_demand_id','overseas_agent_id','skills','salary','issued_date','status_applied_date','interview_date','interview_remarks','receivable_salary','num_of_pax','sub_status_id','remarks','created_by','updated_by'];
 

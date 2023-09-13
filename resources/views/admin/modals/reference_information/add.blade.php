@@ -89,7 +89,7 @@
                             <select class="custom-select country" name="country" required>
                                 <option value disabled selected> Select Country</option>
 {{--                                @foreach($countries as $key => $value)--}}
-                                    <option value="{{$key}}">{{ucwords($value)}} </option>
+{{--                                    <option value="{{$key}}">{{ucwords($value)}} </option>--}}
 {{--                                @endforeach--}}
                             </select>
                             <div class="invalid-feedback">
@@ -97,7 +97,7 @@
                             </div>
 {{--                            @if($errors->has('country'))--}}
                                 <div class="invalid-feedback">
-                                    {{$errors->first('country')}}
+{{--                                    {{$errors->first('country')}}--}}
                                 </div>
 {{--                            @endif--}}
                         </div>
@@ -197,11 +197,11 @@
                             <div class="invalid-feedback">
                                 Please select the status.
                             </div>
-                            @if($errors->has('status'))
-                                <div class="invalid-feedback">
-                                    {{$errors->first('status')}}
-                                </div>
-                            @endif
+{{--                            @if($errors->has('status'))--}}
+{{--                                <div class="invalid-feedback">--}}
+{{--                                    {{$errors->first('status')}}--}}
+{{--                                </div>--}}
+{{--                            @endif--}}
                         </div>
                     </div> -->
                 </div>

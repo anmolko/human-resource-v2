@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SecondaryGroup extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    use SoftDeletes, UserWiseFilter;
 
     protected $table ='secondary_groups';
     protected $fillable =['id','primary_group_id','name','slug','status','imported_from','created_by','updated_by'];
@@ -32,6 +33,6 @@ class SecondaryGroup extends Model
         return $this->hasMany('App\Models\SecondaryAttributes')->with('attributes');
     }
 
-   
+
 
 }

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SecondaryAttributes extends Model
 {
-    use HasFactory;
+    use HasFactory,UserWiseFilter;
     protected $table ='attribute_secondary_group';
     protected $fillable =['id','attribute_id','secondary_group_id','value','type'];
 

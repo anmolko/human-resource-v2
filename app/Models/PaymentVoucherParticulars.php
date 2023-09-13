@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PaymentVoucherParticulars extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    use SoftDeletes, UserWiseFilter;
 
     protected $table = 'paymentvoucher_particulars';
     protected $fillable = ['id', 'by_debit_id', 'to_credit_id', 'initial_acc_id', 'payment_voucher_id', 'debit_amount', 'credit_amount', 'status', 'created_by', 'updated_by'];

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CandidateIndividualTicketing extends Model
 {
-    use HasFactory;
+    use HasFactory, UserWiseFilter;
     protected $table ='can_individual_tickets';
     protected $fillable =['id','candidate_personal_information_id','ticket_no','airline_id','booking_description','booking_date','booking_time','ticketing_agent_id','status_applied_date','remarks','sub_status_id','created_by','updated_by'];
 

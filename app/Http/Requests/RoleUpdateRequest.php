@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 
 class RoleUpdateRequest extends FormRequest
@@ -25,9 +26,14 @@ class RoleUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $id=Request::segment(2);
         return [
-            'name'=> 'required|unique:roles,name,'.$id,
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('roles')->ignore($this->role, 'id')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                }),
+            ],
         ];
     }
     public function messages(){

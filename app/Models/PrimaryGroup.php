@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PrimaryGroup extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    use SoftDeletes, UserWiseFilter;
 
     protected $table ='primary_groups';
     protected $fillable =['id','name','classfication','nature','slug','status','created_by','updated_by'];
@@ -22,5 +23,5 @@ class PrimaryGroup extends Model
         return $this->belongsToMany('App\Models\Attribute')->with('SecondaryAttributes')->withTimestamps();
     }
 
-    
+
 }

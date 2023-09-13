@@ -88,7 +88,7 @@
                             <select class="custom-select updatecountry" name="country"  id="editcountry" required>
                                 <option value disabled selected> Select Country</option>
 {{--                                @foreach($countries as $key => $value)--}}
-                                    <option value="{{$key}}">{{ucwords($value)}} </option>
+{{--                                    <option value="{{$key}}">{{ucwords($value)}} </option>--}}
 {{--                                @endforeach--}}
                             </select>
                             <div class="invalid-feedback">

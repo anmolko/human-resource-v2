@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ReferenceInformation extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    use SoftDeletes , UserWiseFilter;
     protected $table ='reference_informations';
     protected $fillable =['id','reference_name','optional_name','branch_office_id','company','country','address','contact_no','mobile_no','email_address','identification_image','status','image','name_of_organization','membership_no','created_by','updated_by'];
 

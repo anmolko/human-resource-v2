@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PayrollInformation extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    use SoftDeletes, UserWiseFilter;
 
     protected $table = 'payrolls';
     protected $fillable = ['id', 'employee_id', 'employee_type','basic_salary','house_rent_allowance','medical_allowance','special_allowance', 'provident_fund_contribution', 'other_allowance', 'tax_deduction','provident_fund_deduction','other_deduction','total_provident_fund','net_salary','gross_salary','created_by', 'updated_by'];

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CandidateDocumentInformation extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    use SoftDeletes, UserWiseFilter;
     protected $table ='document_infos';
     protected $fillable =['id','candidate_personal_information_id','resume','original_passport','passport_xerox_copy','academic_certificates','original_academic','professional_training','work_certificates','medical_reports','original_driving_license','driving_license_copy','photographs','photograph_image','passport_image','signature_image','created_by','updated_by'];
 

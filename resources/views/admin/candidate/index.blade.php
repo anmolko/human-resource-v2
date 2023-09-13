@@ -311,10 +311,13 @@
         //     language: "english",
         // });
         $('#english-dob-datepicker').datetimepicker({
-            format: 'YYYY-MM-DD'
+            format: 'YYYY-MM-DD',
+            defaultDate: moment()
+
         });
         $('#edit-english-dob-datepicker').datetimepicker({
-            format: 'YYYY-MM-DD'
+            format: 'YYYY-MM-DD',
+            defaultDate: moment()
         });
 
         <?php if(@$theme_data->default_date_format=='nepali'){ ?>
@@ -381,9 +384,21 @@
         <?php }
         else if(@$theme_data->default_date_format=='english'){ ?>
             $("#issuedatetimepicker").on("dp.change", function (e) {
+                // Add 2 years to the selected date (you can change the number of years as needed)
+                var newDate = e.date.clone().add(10, 'years');
+
+                // Set the new date in expiredatetimepicker
+                $('#expiredatetimepicker').data("DateTimePicker").date(newDate);
+
                 $('#expiredatetimepicker').data("DateTimePicker").minDate(e.date);
             });
             $("#edit-issuedatetimepicker").on("dp.change", function (e) {
+                // Add 2 years to the selected date (you can change the number of years as needed)
+                var newDate = e.date.clone().add(10, 'years');
+
+                // Set the new date in expiredatetimepicker
+                $('#edit-expiredatetimepicker').data("DateTimePicker").date(newDate);
+
                 $('#edit-expiredatetimepicker').data("DateTimePicker").minDate(e.date);
             });
 
@@ -433,9 +448,21 @@
         <?php }
         else{?>
             $("#issuedatetimepicker").on("dp.change", function (e) {
-                $('#expiredatetimepicker').data("DateTimePicker").minDate(e.date);
+            // Add 2 years to the selected date (you can change the number of years as needed)
+            var newDate = e.date.clone().add(10, 'years');
+
+            // Set the new date in expiredatetimepicker
+            $('#expiredatetimepicker').data("DateTimePicker").date(newDate);
+
+            $('#expiredatetimepicker').data("DateTimePicker").minDate(e.date);
             });
             $("#edit-issuedatetimepicker").on("dp.change", function (e) {
+                // Add 2 years to the selected date (you can change the number of years as needed)
+                var newDate = e.date.clone().add(10, 'years');
+
+                // Set the new date in expiredatetimepicker
+                $('#edit-expiredatetimepicker').data("DateTimePicker").date(newDate);
+
                 $('#edit-expiredatetimepicker').data("DateTimePicker").minDate(e.date);
             });
             $('#issuedatetimepicker').datetimepicker({
@@ -575,6 +602,7 @@
                 $('#receipt_no').attr('value',dataResult.receipt_no);
                 $('#document_processing_fee').attr('value',dataResult.document_processing_fee);
                 $('#advance_fee').attr('value',dataResult.advance_fee);
+                $('#passport_status').val(dataResult.passport_status ?? 0).trigger('change');
                 $('#candidate_firstname').attr('value',dataResult.candidate_firstname);
                 $('#candidate_middlename').attr('value',dataResult.candidate_middlename);
                 $('#candidate_lastname').attr('value',dataResult.candidate_lastname);

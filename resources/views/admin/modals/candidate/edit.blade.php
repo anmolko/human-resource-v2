@@ -218,6 +218,25 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Passport Status: </label>
+                                            {!! Form::select('passport_status', [0=>'Out',1=>'In'], 0,['class'=>'custom-select mb-3 select2','id'=>'passport_status']) !!}
+                                            <div class="invalid-feedback">
+                                                Please enter the passport status.
+                                            </div>
+                                            @if($errors->has('passport_status'))
+                                                <div class="invalid-feedback">
+                                                    {{$errors->first('passport_status')}}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>

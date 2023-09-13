@@ -16,7 +16,7 @@
                             <div class="card-header">
                                 <h4 class="card-title mb-0">Candidate Important Information</h4>
                             </div>
-                            
+
                             <div class="card-body">
                                 <div class="profile-img-wrap edit-img">
                                     <img class="inline-block" id="current-img" src="{{asset('/images/profiles/others.png')}}" alt="user-profile" >
@@ -216,6 +216,22 @@
                                             @if($errors->has('advance_fee'))
                                                 <div class="invalid-feedback">
                                                     {{$errors->first('advance_fee')}}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Passport Status: </label>
+                                            {!! Form::select('passport_status', [0=>'Out',1=>'In'], 0,['class'=>'custom-select mb-3 select2']) !!}
+                                            <div class="invalid-feedback">
+                                                Please enter the passport status.
+                                            </div>
+                                            @if($errors->has('passport_status'))
+                                                <div class="invalid-feedback">
+                                                    {{$errors->first('passport_status')}}
                                                 </div>
                                             @endif
                                         </div>
