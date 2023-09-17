@@ -1,4 +1,4 @@
-@extends('layouts.entry_master')
+@extends('layouts.master')
 @section('title') {{$candidate_personal->candidate_firstname}} {{$candidate_personal->candidate_lastname}}'s application @endsection
 @section('css')
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" />

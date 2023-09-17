@@ -1,4 +1,4 @@
-@extends('layouts.entry_master')
+@extends('layouts.master')
 @section('title') Counsellor @endsection
 @section('css')
 <style>
@@ -91,7 +91,7 @@
                                     <td>{{ucwords($counsellor->agent->fullname)}}</td>
                                     <td>{{$counsellor->response}}</td>
                                     <td class="text-uppercase">{{$counsellor->response_via}}</td>
-                                  
+
                                     <td class="text-right">
                                         <div class="dropdown dropdown-action">
                                             <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
@@ -160,7 +160,7 @@
             });
     });
 
-   
+
     $(document).on('click','.action-delete', function (e) {
         e.preventDefault();
         var form = $('#deleted-form');
@@ -259,18 +259,18 @@
                     $('#view-description').text(dataResult.description);
                     $('#view-response_via').text(dataResult.response_via);
                     $('#view-name').text(dataResult.agent.fullname);
-                   
+
                     if(dataResult.misc !== null){
                         $('#view-misc').text(dataResult.misc);
                     }else{
                         $('#view-misc').text('N/A');
                     }
-                   
+
                 }
             });
     });
 
-   
+
 
 
 </script>

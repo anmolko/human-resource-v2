@@ -1,4 +1,4 @@
-@extends('layouts.user_management_master')
+@extends('layouts.master')
 @section('title') Role @endsection
 @section('css')
 <style>
@@ -19,7 +19,7 @@
         min-height: 450px;
     }
 
-/* 
+/*
     .checkbox label {
         min-height: 20px;
         padding-left: 20px;

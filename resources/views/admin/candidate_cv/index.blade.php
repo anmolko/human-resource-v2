@@ -1,4 +1,4 @@
-@extends('layouts.entry_master')
+@extends('layouts.master')
 @section('title') Candidate CV  @endsection
 @section('css')
     <style>
@@ -17,7 +17,7 @@
             max-height: 200px !important;
         }
 
-       
+
 
         .ck.ck-balloon-panel {
             z-index: 1050 !important;
@@ -106,7 +106,7 @@
                                 <td> {{$i++}} </td>
                                 <td>{{ucwords($candidate_cv->personalInfo->candidate_firstname)}} {{ucwords($candidate_cv->personalInfo->candidate_middlename)}} {{ucwords($candidate_cv->personalInfo->candidate_lastname)}}</td>
                                 <td>{{ucwords(@$candidate_cv->profile)}}</td>
-                               
+
                                 <td> {{ucwords(App\Models\User::find($candidate_cv->created_by)->name)}}</td>
                                 <td>@if(isset($candidate_cv->updated_by))
                                         {{ucwords(App\Models\User::find($candidate_cv->updated_by)->name)}}
@@ -298,7 +298,7 @@ function createEditor ( elementId ) {
                     console.error( err.stack );
                 } );
 
-          
+
             createEditor('storeskill');
             createEditor('storeduty');
 
@@ -375,7 +375,7 @@ function createEditor ( elementId ) {
                     $('.updateprofile').text(dataResult.edit.profile);
                     skilleditor.setData( dataResult.edit.skill );
                     dutyeditor.setData( dataResult.edit.duty );
-                    
+
                     // $('.updateskill').text(dataResult.edit.skill);
                     // $('.updateduty').text(dataResult.edit.duty);
                     $('.updatedeclaration').text(dataResult.edit.declaration);
@@ -396,7 +396,7 @@ function createEditor ( elementId ) {
             });
         });
 
-      
+
 
     </script>
 @endsection

@@ -1,4 +1,4 @@
-@extends('layouts.candidate_master')
+@extends('layouts.master')
 @section('title') Folders @endsection
 @section('css')
     <style>
@@ -64,7 +64,7 @@
                         <li class="breadcrumb-item active">Folders</li>
                     </ul>
                 </div>
-               
+
             </div>
         </div>
         <!-- /Page Header -->
@@ -94,7 +94,7 @@
                             <tr>
                                 <td> {{$i++}} </td>
                                 <td><a href="{{route('file.index',$folder->id)}}">{{@$folder->folder_name}}</a></td>
-                               
+
                                 <td>
                                 @if(@$folder->candidate->candidate_firstname)
                                 {{ucwords(@$folder->candidate->candidate_firstname)}} {{ucwords(@$folder->candidate->candidate_middlename)}} {{ucwords(@$folder->candidate->candidate_lastname)}}
@@ -104,7 +104,7 @@
                                 </td>
                                 <td> {{ucwords(App\Models\User::find($folder->created_by)->name)}}</td>
                                 <td>{{\Carbon\Carbon::parse($folder->created_at)->isoFormat('MMMM Do, YYYY')}}</td>
-                             
+
                             </tr>
 
                         @endforeach
@@ -120,7 +120,7 @@
     </div>
     <!-- /Page Content -->
 
- 
+
 
 
 @endsection
@@ -140,10 +140,10 @@
 
             });
 
-           
+
         });
 
 
-  
+
     </script>
 @endsection

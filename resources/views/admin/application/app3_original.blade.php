@@ -1,4 +1,4 @@
-@extends('layouts.entry_master')
+@extends('layouts.master')
 @section('title') {{$candidate_personal->candidate_firstname}} {{$candidate_personal->candidate_lastname}}'s application @endsection
 @section('css')
     <link rel="stylesheet" href="{{asset('/backend/assets/print3.css')}}"/>

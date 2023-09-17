@@ -1,4 +1,4 @@
-@extends('layouts.entry_master')
+@extends('layouts.master')
 @section('title') Complain Manager @endsection
 @section('css')
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">

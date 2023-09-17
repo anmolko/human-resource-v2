@@ -1,4 +1,4 @@
-@extends('layouts.candidate_master')
+@extends('layouts.master')
 @section('title') Candidate Dashboard @endsection
 @section('css')
 

@@ -1,5 +1,5 @@
-@extends('layouts.entry_master')
-@section('title') test's application @endsection
+@extends('layouts.master')
+@section('title') Test's application @endsection
 @section('css')
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" />
     <link rel="stylesheet" href="{{asset('/backend/assets/print.css')}}"/>@endsection

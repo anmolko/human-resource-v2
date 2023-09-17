@@ -1,8 +1,8 @@
-@extends('layouts.entry_master')
+@extends('layouts.master')
 @section('title') Generate Candidate CV @endsection
 @section('css')
 <style>
- 
+
     .report-groups{
         margin-top:20px;
         margin-bottom:10px;
@@ -15,7 +15,7 @@
 
     }
 
-    
+
     span.select2-container{
         width: 290px !important;
     }
@@ -47,7 +47,7 @@
         @csrf
 
             <div class="row filter-row">
-              
+
                 <div class="col-sm-6 col-md-4">
                     <div class="form-group form-focus select-focus">
                         <select class="select floating" name="candidate" id="candidate">
@@ -122,7 +122,7 @@ $(document).ready(function () {
             var datastring = $("#generate-form").serialize();
             var candidate = $('#candidate').find(":selected").val();
             var template = $('#template').find(":selected").val();
-            
+
                 if(candidate=='select'){
                     swal({
                         title: 'Generate CV Warning',
@@ -234,28 +234,28 @@ $(document).ready(function () {
         var strtemplate = template.options[template.selectedIndex].text;
 
         var cssname      = "/backend/assets/"+strtemplate+".css";
-       
+
         // if(strtemplate=='three'){
         // }
 
         var fontawesome  = '<link rel="stylesheet" href="/backend/assets/css/font-awesome.min.css" type="text/css">';
 
         var stylename    = '<link rel="stylesheet" href="'+cssname+'" type="text/css">';
-        
+
         // var stylename    = '<link rel="stylesheet" href="backend/assets/css/style.css" type="text/css">';
         var candidate         = document.getElementById("candidate");
         var template         = document.getElementById("template");
-    
+
         var strUser = candidate.options[candidate.selectedIndex].text;
 
         var getpanel = document.getElementById(divID);
         var MainWindow = window.open('', '', 'height=1000,width=1000');
         MainWindow.document.write('<html><head><title>'+ strUser +' CV'+'</title>');
-       
+
         MainWindow.document.write(fontawesome);
 
         MainWindow.document.write(stylename);
-       
+
         // MainWindow.document.write(colorname);
         MainWindow.document.write('</head><body onload="window.print();window.close()">');
         MainWindow.document.write(getpanel.innerHTML);
@@ -270,7 +270,7 @@ $(document).ready(function () {
 
 
     // $('#print-button').on('click',function(){
-           
+
 
     //        var stylename    = '<link rel="stylesheet" href="/backend/assets/four.css" type="text/css">';
 

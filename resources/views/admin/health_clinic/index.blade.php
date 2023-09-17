@@ -1,4 +1,4 @@
-@extends('layouts.entry_master')
+@extends('layouts.master')
 @section('title') Health Clinic @endsection
 @section('css')
     <style>

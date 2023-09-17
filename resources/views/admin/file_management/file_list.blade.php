@@ -1,4 +1,4 @@
-@extends('layouts.candidate_master')
+@extends('layouts.master')
 @section('title')  Files @endsection
 @section('css')
     <style>
@@ -69,7 +69,7 @@
                 <div class="col-auto float-right ml-auto">
                     <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_file"><i class="fa fa-plus"></i> Add File</a>
                 </div>
-               
+
             </div>
         </div>
         <!-- /Page Header -->
@@ -136,11 +136,11 @@
 
     </div>
     <!-- /Page Content -->
-    
+
     <!-- Add File Modal -->
     @include('admin.modals.file.add')
     <!-- /Add File Modal -->
- 
+
   <!-- Edit File Modal -->
   @include('admin.modals.file.edit')
     <!-- /Edit File Modal -->
@@ -166,7 +166,7 @@
 
             });
 
-           
+
         });
 
         $(document).on('click','.action-delete', function (e) {
@@ -223,10 +223,10 @@
                 success: function(dataResult){
                     // console.log(dataResult)
                     $("#edit_file").modal("toggle");
-                  
+
                     $('#type option[value="'+dataResult.type+'"]').prop('selected', true);
                     $('.updatefile').attr('action',action);
-                  
+
                 },
                 error: function(error){
                     if(error.statusText="Forbidden"){
@@ -235,6 +235,6 @@
                 }
             });
         });
-  
+
     </script>
 @endsection

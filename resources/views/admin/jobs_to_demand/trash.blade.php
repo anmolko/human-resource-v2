@@ -1,4 +1,4 @@
-@extends('layouts.entry_master')
+@extends('layouts.master')
 @section('title') Jobs to Demand Trash @endsection
 @section('content')
 

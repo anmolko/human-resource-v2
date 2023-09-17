@@ -5,16 +5,9 @@
 				<li class="menu-title">
 					<span>Main</span>
 				</li>
-{{--				<li><a href="{{route('dashboard')}}"><i class="la la-dashboard"></i> <span>Dashboard</span></a></li>--}}
-{{--				<li><a href="{{route('user')}}"><i class="la la-users-cog"></i> <span>User Dashboard</span></a></li>--}}
-{{--				<li><a href="{{route('account')}}"><i class="la la-files-o"></i> <span>Account Dashboard</span></a></li>--}}
-{{--				<li><a href="{{route('candidate')}}"><i class="la la-user-tag"></i> <span>Candidate Dashboard</span></a></li>--}}
-
-				@php $modules=\App\Models\Role::find(session()->get('role_id'))->modules; @endphp
-
                 @foreach($parent_modules as $parent_module)
-                    <li class="submenu">
-                        <a href="{{  $parent_module->url ?? 'javascript:void(0);' }}">
+                    <li class="{{ $parent_module->childModules->count() ? 'submenu':'' }} {{ (\Request::is($parent_module->url.'*')) ? 'active' : '' }} ">
+                        <a href="/{{  $parent_module->url ?? 'javascript:void(0);' }}">
                             <i class="la {{ $parent_module->icon ?? 'la-puzzle-piece' }}"></i> <span>{{ $parent_module->name ?? '' }}</span>
                             @if($parent_module->childModules->count())
                                 <span class="menu-arrow"></span>
@@ -23,8 +16,8 @@
                         @if($parent_module->childModules->count())
                             <ul style="display: none;">
                                 @foreach($parent_module->childModules as $child_modules)
-                                    <li class="submenu">
-                                        <a href="{{  $child_modules->url ?? 'javascript:void(0);' }}"> <span>{{ $child_modules->name ?? '' }}</span>
+                                    <li class="{{ $child_modules->childModules->count() ? 'submenu':'' }}">
+                                        <a href="/{{  $child_modules->url ?? 'javascript:void(0);' }}" class="{{ (\Request::is($child_modules->url.'*')) ? 'active' : '' }}"> <span>{{ $child_modules->name ?? '' }}</span>
                                             @if($child_modules->childModules->count())
                                                 <span class="menu-arrow"></span>
                                             @endif
@@ -32,7 +25,7 @@
                                         @if($child_modules->childModules->count())
                                             <ul style="display: none;">
                                                 @foreach($child_modules->childModules as $sub_child_modules)
-                                                    <li><a href="{{ $sub_child_modules->url }}"><span>{{ $sub_child_modules->name }}</span></a></li>
+                                                    <li><a href="/{{ $sub_child_modules->url }}" class="{{ (\Request::is($sub_child_modules->url.'*')) ? 'active' : '' }}"><span>{{ $sub_child_modules->name }}</span></a></li>
                                                 @endforeach
                                             </ul>
                                         @endif

@@ -1,4 +1,4 @@
-@extends('layouts.entry_master')
+@extends('layouts.master')
 @section('title') Candidate CV Trash @endsection
 @section('content')
 
@@ -56,7 +56,7 @@
                             <th>#</th>
                             <th>Candidate Name</th>
                             <th>About Me</th>
-                            
+
                             <th class="text-right">Action</th>
                         </tr>
                         </thead>
@@ -68,7 +68,7 @@
                                 <td>{{ucwords($trash->personalInfo->candidate_firstname)}} {{ucwords($trash->personalInfo->candidate_middlename)}} {{ucwords($trash->personalInfo->candidate_lastname)}}</td>
 
                                 <td>{{ucwords(@$trash->profile)}}</td>
-                            
+
                                 <td class="text-right">
                                     <div class="dropdown dropdown-action">
                                         <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>

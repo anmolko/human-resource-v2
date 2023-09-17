@@ -1,4 +1,4 @@
-@extends('layouts.entry_master')
+@extends('layouts.master')
 @section('title') {{@$candidate_personal->candidate_firstname}} @endsection
 @section('css')
     <style>
