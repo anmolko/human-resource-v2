@@ -6,8 +6,12 @@ use App\Http\Requests\ModuleCreateRequest;
 use App\Http\Requests\ModuleUpdateRequest;
 use App\Models\Module;
 use App\Models\Role;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class ModuleController extends Controller
@@ -15,7 +19,7 @@ class ModuleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
 
     public function __construct()
@@ -32,7 +36,7 @@ class ModuleController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -42,33 +46,31 @@ class ModuleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param ModuleCreateRequest $request
+     * @return JsonResponse
      */
     public function store(ModuleCreateRequest $request)
     {
-        $module = Module::create([
-            'name'       =>$request->input('name'),
-            'status'     =>$request->input('status'),
-            'key'        =>$request->input('key'),
-            'url'        =>$request->input('url'),
-            'created_by' =>Auth::user()->id,
-        ]);
-        // dd($module);
-        if($module){
+        DB::beginTransaction();
+        try {
+            $request->request->add(['created_by' => auth()->user()->id ]);
+            Module::create($request->all());
+
             Session::flash('success','Module Created Successfully');
-        }
-        else{
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
             Session::flash('error','Module Creation Failed');
         }
-        return redirect()->back();
+
+        return response()->json(route('module.index'));
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -79,7 +81,7 @@ class ModuleController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -92,36 +94,35 @@ class ModuleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ModuleUpdateRequest $request
+     * @param int $id
+     * @return JsonResponse
      */
     public function update(ModuleUpdateRequest $request, $id)
     {
+        $module  = Module::find($id);
 
-        $module             =Module::find($id);
-        $module->name       =$request->input('name');
-        $module->key        =$request->input('key');
-        $module->url        =$request->input('url');
-        $module->status     =$request->input('status');
-        $module->updated_by =Auth::user()->id;
-        // dd($module);
+        DB::beginTransaction();
+        try {
+            $request->request->add(['updated_by' => auth()->user()->id ]);
 
-        $status=$module->update();
-        if($status){
+            $module->update($request->all());
+
             Session::flash('success','Module Updated Successfully');
-        }
-        else{
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
             Session::flash('error','Something Went Wrong. Module could not be Updated');
         }
-        return redirect()->route('module.index');
+
+        return response()->json(route('module.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {

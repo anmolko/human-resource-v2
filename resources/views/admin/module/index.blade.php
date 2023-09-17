@@ -166,10 +166,14 @@
             }
         });
 
+        $( ".select2" ).select2({
+            width:'100%'
+        });
+
         $('#module').DataTable({
             paging: true,
             searching: true,
-            ordering:  true,
+            ordering:  false,
             lengthMenu: [[15, 25, 50, 100, -1], [15, 25, 50,100, "All"]],
 
         });
@@ -293,10 +297,13 @@
             dataType: 'json',
             success: function(dataResult){
                 // $('#id').val(data.id);
+                $('#parent_module_id').attr('value',dataResult.parent_module_id);
                 $('.updatename').attr('value',dataResult.name);
                 $('.updatekey').attr('value',dataResult.key);
                 $('.updateurl').attr('value',dataResult.url);
-                $('.updatemodule option[value="'+dataResult.status+'"]').prop('selected', true);
+                $('#rank').attr('value',dataResult.rank);
+                $('#icon').attr('value',dataResult.icon);
+                $('.updatemodule option[value="'+dataResult.status ?? 1+'"]').prop('selected', true);
                 $('.updatemodule').attr('action',action);
             }
         });

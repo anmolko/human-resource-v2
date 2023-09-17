@@ -9,50 +9,54 @@
             </div>
             <div class="modal-body">
 
-                 {!! Form::open(['method'=>'PUT','class'=>'needs-validation updatemodule','novalidate'=>'']) !!}
+                 {!! Form::open(['method'=>'PUT','class'=>'needs-validation submit_form updatemodule','novalidate'=>'','data-id'=>'update']) !!}
 
                     <div class="form-group">
-                        <label>Module Name <span class="text-danger">*</span></label>
-                        <input class="form-control updatename" id="name"  name="name"  type="text" required>
+                        <label>Parent Module </label>
+                        {!! Form::select('parent_module_id', $modules->pluck('name','id'), null,['class'=>'custom-select mb-3 select2 parent_module_id','id'=>'parent_module_id','placeholder'=>'Select parent module']) !!}
+                        <div class="invalid-feedback">
+                            Please enter parent module.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required">Module Name </label>
+                        <input class="form-control updatename" id="name"  name="name"  type="text">
                         <div class="invalid-feedback">
                             Please enter a module name.
                         </div>
-                        @if($errors->has('name'))
-                        <div class="invalid-feedback">
-                            {{$errors->first('name')}}
-                        </div>
-                        @endif
                     </div>
                     <div class="form-group">
-                        <label>Key <span class="text-danger"></span></label>
-                        <input class="form-control updatekey" type="text"  id="key" name="key"value="" >
-                        @if($errors->has('key'))
-                        <div class="invalid-feedback">
-                            {{$errors->first('key')}}
-                        </div>
-                        @endif
+                        <label class="required">Key </label>
+                        <input class="form-control updatekey" type="text"  id="key" name="key" readonly>
                     </div>
                     <div class="form-group">
-                        <label>Url  <span class="text-danger">*</span></label>
-                        <input class="form-control updateurl" name="url" id="url"  type="text"  required>
+                        <label class="required">Url </label>
+                        <input class="form-control updateurl" name="url" id="url"  type="text" >
                         <div class="invalid-feedback">
                             Please enter a url.
                         </div>
-                        @if($errors->has('url'))
-                        <div class="invalid-feedback">
-                            {{$errors->first('url')}}
-                        </div>
-                        @endif
                     </div>
-                    
-                    <div class="form-group">
+                <div class="form-group">
+                    <label>Icon </label>
+                    <input class="form-control" type="text" name="icon" id="icon">
+                    <small class="text-warning">Applicable only for parent module, not child module</small>
+                </div>
+                <div class="form-group">
+                    <label>Rank </label>
+                    <input class="form-control" type="number" name="rank" id="rank" min="0">
+                    <small class="text-warning">Applicable only for child module, not parent module</small>
+                </div>
+
+
+                <div class="form-group">
                         <label>Status <span class="text-danger">*</span></label>
-                        <select  class="custom-select updatestatus" name="status" required>
+                        <select class="custom-select updatestatus" name="status" id="status">
                             <option value="1">Active </option>
                             <option value="0">Inactive</option>
                         </select>
                     </div>
-                    
+
                     <div class="submit-section">
                         <input class="btn btn-primary submit-btn" type="submit" value="Update" id="submit-module">
                     </div>

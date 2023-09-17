@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ModuleRankUniqueRule;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
@@ -25,13 +26,14 @@ class ModuleUpdateRequest extends FormRequest
      */
     public function rules()
     {
-
         $id=Request::segment(2);
         return [
             'name'=> 'required|unique:modules,name,'.$id,
             'key'=> 'required|unique:modules,key,'.$id,
-            'url'=> 'required|unique:modules,url,'.$id,
+            'url'=> 'required',
+            'rank' => ['required', new ModuleRankUniqueRule()],
             ];
+
     }
     public function messages(){
         return [
@@ -40,9 +42,6 @@ class ModuleUpdateRequest extends FormRequest
             'key.required' => 'Please Enter Module Key',
             'key.unique'=>'Module key already exists. Enter new one',
             'url.required' => 'Please Enter Module URL',
-            'url.unique'=>'Module url already exists. Enter new one',
-
-
         ];
 
 

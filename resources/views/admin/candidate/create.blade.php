@@ -241,7 +241,7 @@
                                         <input type="text" class="form-control" name="registration_no" value="{{$candidate_personal->registration_no}}" readonly>
                                     </div>
                                 </div>
-                               
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Registration Date (AD):</label>
@@ -612,10 +612,10 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Country: <span class="text-danger">*</span></label>
-                                                <select class="custom-select select country select-height" name="country" required>
+                                                <select class="custom-select select country select-height select2" name="country" required>
                                                     <option value disabled selected> Select Country</option>
                                                     @foreach($countries as $key => $value)
-                                                        <option value="{{$key}}">{{ucwords($value)}} </option>
+                                                        <option value="{{$key}}" {{ $key == 'NP' ? 'selected':'' }}>{{ucwords($value)}} </option>
                                                     @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
@@ -845,10 +845,10 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Country: <span class="text-danger">*</span></label>
-                                                <select class="custom-select select-height country" name="country" required>
+                                                <select class="custom-select select-height country select2" name="country" required>
                                                     <option value disabled selected> Select Country</option>
                                                     @foreach($countries as $key => $value)
-                                                        <option value="{{$key}}">{{ucwords($value)}} </option>
+                                                        <option value="{{$key}}" {{ $key == 'NP' ? 'selected':'' }}>{{ucwords($value)}} </option>
                                                     @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
@@ -3237,7 +3237,9 @@
         }
 
         $(document).ready(function () {
-
+            $( ".select2" ).select2({
+                width:'100%'
+            });
             if(medical =="yes"){
                 medicalChecked();
             }

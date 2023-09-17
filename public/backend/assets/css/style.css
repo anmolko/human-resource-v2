@@ -261,6 +261,13 @@ select.form-control[multiple], select.form-control[size] {
     padding: 7px;
 }
 
+.required:after{
+    content: '*';
+    --vz-text-opacity: 1;
+    color: red!important;
+    margin-left: 5px;
+}
+
 /*-----------------
 	2. Table
 -----------------------*/

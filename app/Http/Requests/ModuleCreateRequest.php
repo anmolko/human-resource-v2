@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ModuleRankUniqueRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ModuleCreateRequest extends FormRequest
@@ -26,7 +27,9 @@ class ModuleCreateRequest extends FormRequest
         return [
             'name'=> 'required|max:50|unique:modules',
             'key'=> 'required|unique:modules',
-            'url'=> 'required|unique:modules',
+            'url'=> 'required',
+            'rank' => ['required', new ModuleRankUniqueRule()],
+
         ];
     }
 
@@ -38,9 +41,6 @@ class ModuleCreateRequest extends FormRequest
             'name.max'=>'Name must be less than 50 character',
             'key.required'=> 'Please Enter Key',
             'url.required'=> 'Please Enter Url',
-            'url.unique'=> 'The Module Url Has Been Already Taken',
-
-
         ];
     }
 }

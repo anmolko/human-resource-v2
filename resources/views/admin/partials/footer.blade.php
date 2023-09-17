@@ -18,6 +18,7 @@
 
 		<!-- Select2 JS -->
 		<script src="{{asset('backend/assets/js/select2.min.js')}}"></script>
+		<script src="{{asset('backend/assets/js/general.js')}}"></script>
 
 
 
