@@ -80,6 +80,15 @@
 
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <ul class="nav nav-tabs nav-tabs-solid nav-tabs-rounded nav-justified">
+                                    <li class="nav-item"><a class="nav-link active" href="#all_tab" data-id="all" data-toggle="tab">All</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#parent_tab" data-id="parent" data-toggle="tab">Parent Module</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#child_tab" data-id="child" data-toggle="tab">Child Module</a></li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                         <form action="#" method="post" id="deleted-form" >
                             {{csrf_field()}}
@@ -87,45 +96,46 @@
 
                         </form>
                             <!-- Module Table -->
-                            <table id="module" class="table table-striped custom-table mb-0 ">
+                            <table id="moduleDataTable" class="table table-striped custom-table mb-0 ">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Name </th>
+                                        <th>Type </th>
+                                        <th>Parent Module</th>
                                         <th>Key </th>
-                                        <th>Url</th>
                                         <th>Status</th>
                                         <th class="text-right">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php($i=1)
-                                    @foreach($modules as $module)
-                                    <tr>
-                                        <td> {{$i++}}          </td>
-                                        <td> {{$module->name}} </td>
-                                        <td> {{$module->key}} </td>
-                                        <td> {{$module->url}}  </td>
+{{--                                    @php($i=1)--}}
+{{--                                    @foreach($modules as $module)--}}
+{{--                                    <tr>--}}
+{{--                                        <td> {{$i++}}          </td>--}}
+{{--                                        <td> {{$module->name}} </td>--}}
+{{--                                        <td> {{$module->key}} </td>--}}
+{{--                                        <td> {{$module->url}}  </td>--}}
 
-                                        <td> @if ($module->status==1)
-                                            <i class="fa fa-dot-circle-o text-success"></i> Active
-                                            @else
-                                            <i class="fa fa-dot-circle-o text-danger"></i> Inactive
-                                            @endif
-                                        </td>
-                                        <td class="text-right">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item action-view" href="#"  id="{{$module->id}}" hrm-view-action="{{route('module.viewroles',$module->id)}}" data-toggle="modal" data-target="#view_role"><i class="fa fa-eye m-r-5"></i> View Assign Role</a>
-                                                    <a class="dropdown-item action-edit" href="#" id="{{$module->id}}" hrm-update-action="{{route('module.update',$module->id)}}"  hrm-edit-action="{{route('module.edit',$module->id)}}" data-toggle="modal" data-target="#edit_module"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item action-delete" href="#"  hrm-delete-action="{{route('module.destroy',$module->id)}}" ><i class="fa fa-trash-o m-r-5"></i> Trash</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+{{--                                        <td> @if ($module->status==1)--}}
+{{--                                            <i class="fa fa-dot-circle-o text-success"></i> Active--}}
+{{--                                            @else--}}
+{{--                                            <i class="fa fa-dot-circle-o text-danger"></i> Inactive--}}
+{{--                                            @endif--}}
+{{--                                        </td>--}}
+{{--                                        <td class="text-right">--}}
+{{--                                            <div class="dropdown dropdown-action">--}}
+{{--                                                <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>--}}
+{{--                                                <div class="dropdown-menu dropdown-menu-right">--}}
+{{--                                                    <a class="dropdown-item action-view" href="#"  id="{{$module->id}}" hrm-view-action="{{route('module.viewroles',$module->id)}}" data-toggle="modal" data-target="#view_role"><i class="fa fa-eye m-r-5"></i> View Assign Role</a>--}}
+{{--                                                    <a class="dropdown-item action-edit" href="#" id="{{$module->id}}" hrm-update-action="{{route('module.update',$module->id)}}"  hrm-edit-action="{{route('module.edit',$module->id)}}" data-toggle="modal" data-target="#edit_module"><i class="fa fa-pencil m-r-5"></i> Edit</a>--}}
+{{--                                                    <a class="dropdown-item action-delete" href="#"  hrm-delete-action="{{route('module.destroy',$module->id)}}" ><i class="fa fa-trash-o m-r-5"></i> Trash</a>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </td>--}}
+{{--                                    </tr>--}}
 
-                                    @endforeach
+{{--                                    @endforeach--}}
 
 
                                 </tbody>
@@ -158,156 +168,69 @@
 @endsection
 
 @section('js')
-<script type="text/javascript">
-    $(document).ready(function () {
-        $.ajaxSetup({
-            headers:{
-                'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
-            }
-        });
+     @include('admin.module.includes.script')
+     <script type="text/javascript">
+         let all = true;
+         let parent = null;
+         let child = null;
+         let dataTables = $('#moduleDataTable').DataTable({
+             processing:true,
+             serverSide: true,
+             searching: true,
+             stateSave: true,
+             order:[[1,'asc']],
+             aaSorting: [],
+             ajax: {
+                 "url": '{{ route('module.data') }}',
+                 "type": 'POST',
+                 'data': function (d) {
+                     d._token   = '{{csrf_token()}}';
+                     d.all      = all;
+                     d.parent   = parent;
+                     d.child    = child;
+                 }
+             },
+             columns :[
+                 {data:'DT_RowIndex', name: 'DT_RowIndex', searchable:false, orderable: false},
+                 {data:'name', name: 'name', orderable: true,searchable:true},
+                 {data:'type', name: 'type', orderable: false,searchable:true},
+                 {data:'parent_module', name: 'parent_module', orderable: false,searchable:true},
+                 {data:'key', name: 'key', searchable:true, orderable: false},
+                 // {data:'url', name: 'url', searchable:true, orderable: false},
+                 {data:'status', name: 'status', searchable:false, orderable: false},
+                 {data:'action', name: 'action', searchable:false, orderable: false},
+             ]
+         })
 
-        $( ".select2" ).select2({
-            width:'100%'
-        });
+         $(".nav-link").click(function() {
+             // Remove 'active' class from all nav-links
+             $(".nav-link").removeClass("active");
+             let data_id = $(this).attr("data-id");
 
-        $('#module').DataTable({
-            paging: true,
-            searching: true,
-            ordering:  false,
-            lengthMenu: [[15, 25, 50, 100, -1], [15, 25, 50,100, "All"]],
+             loadDataTable(data_id);
 
-        });
-    });
+             // Add 'active' class to the clicked nav-link
+             $(this).addClass("active");
+         });
 
-
-    $("#name").keyup(function(){
-        var Text = $(this).val();
-        Text = Text.toLowerCase();
-        var regExp = /\s+/g;
-        Text = Text.replace(regExp,'_');
-        $("#key").val(Text);
-    });
-
-    $(".updatename").keyup(function(){
-        var Text = $(this).val();
-        Text = Text.toLowerCase();
-        var regExp = /\s+/g;
-        Text = Text.replace(regExp,'_');
-        $(".updatekey").val(Text);
-    });
-
-    // $(".action-delete").click(function(){
-    //     var action = $(this).attr('hrm-delete-action');
-    //     $('.deletemodule').attr('action',action);
-
-    // })
-
-    $(document).on('click','.action-delete', function (e) {
-        e.preventDefault();
-        var form = $('#deleted-form');
-        var action = $(this).attr('hrm-delete-action');
-        form.attr('action',$(this).attr('hrm-delete-action'));
-        $url = form.attr('action');
-        var form_data = form.serialize();
-            // $('.deleterole').attr('action',action);
-            swal({
-            title: "Are You Sure?",
-            text: "This item will be moved to trash",
-            type: "info",
-            showCancelButton: true,
-            closeOnConfirm: false,
-            showLoaderOnConfirm: true,
-            }, function(){
-                $.post( $url, form_data,function(response) {
-                    if(response == 0){
-                        swal({
-                            title: "Warning!",
-                            text: "You need to Remove Assigned Roles and Permissions First",
-                            type: "info",
-                            showCancelButton: true,
-                            closeOnConfirm: false,
-                            showLoaderOnConfirm: true,
-                        }, function(){
-                            //window.location.href = ""
-                            swal.close();
-                        })
-                    }else{
-                        swal("Trashed!", "Moved to Trash Successfully", "success");
-                        // toastr.success('file deleted Successfully');
-                        $(response).remove();
-                        window.location.reload();
-                    }
-                });
-            })
-    })
+         function loadDataTable(id){
+             if(id =='all'){
+                 all = true;
+                 parent = null;
+                 child = null;
+             }else if(id =='parent'){
+                 all = null;
+                 parent = true;
+                 child = null;
+             }else if(id =='child'){
+                 all = null;
+                 parent = null;
+                 child = true;
+             }
+             dataTables.draw();
+         }
+     </script>
 
 
 
-
-    $(document).on('click','.action-view', function (e) {
-        e.preventDefault();
-        // console.log(action)
-        var id=$(this).attr('id');
-        $.ajax({
-            url: $(this).attr('hrm-view-action'),
-            type: "GET",
-            cache: false,
-            dataType: 'json',
-            success: function(dataResult){
-                if(dataResult==null || dataResult ==0){
-                    var trHTML = "";
-
-                    trHTML = '<p class="role-not-found"> Role is not assigned yet !</p>';
-                $("#view-role-module").html(trHTML);
-
-                }else{
-                    var trHTML = "";
-
-                $.each(dataResult, function( index, value ) {
-                    trHTML +='<button type="button" class="btn btn-info btn-sm">'
-                            + value
-                            + '</button>'
-
-                });
-                $("#view-role-module").html(trHTML);
-
-                }
-
-            }
-        });
-    });
-
-
-    // $(".continue-trash").click(function(){
-    //     $('#formdelete').submit();
-
-    // })
-
-
-    $(document).on('click','.action-edit', function (e) {
-        e.preventDefault();
-        var url =  $(this).attr('hrm-edit-action');
-        // console.log(action)
-        var id=$(this).attr('id');
-        var action = $(this).attr('hrm-update-action');
-        $.ajax({
-            url: $(this).attr('hrm-edit-action'),
-            type: "GET",
-            cache: false,
-            dataType: 'json',
-            success: function(dataResult){
-                // $('#id').val(data.id);
-                $('#parent_module_id').attr('value',dataResult.parent_module_id);
-                $('.updatename').attr('value',dataResult.name);
-                $('.updatekey').attr('value',dataResult.key);
-                $('.updateurl').attr('value',dataResult.url);
-                $('#rank').attr('value',dataResult.rank);
-                $('#icon').attr('value',dataResult.icon);
-                $('.updatemodule option[value="'+dataResult.status ?? 1+'"]').prop('selected', true);
-                $('.updatemodule').attr('action',action);
-            }
-        });
-    });
-
-    </script>
 @endsection

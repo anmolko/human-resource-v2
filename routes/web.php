@@ -60,6 +60,7 @@ Route::delete('/role/{role}', 'App\Http\Controllers\RoleController@destroy')->na
 Route::get('/role/{role}/edit', 'App\Http\Controllers\RoleController@edit')->name('role.edit');
 
 
+
 Route::get('/role-trash','App\Http\Controllers\RoleController@trashindex')->name('role.trash');
 Route::delete('/removeroletrash/{id}','App\Http\Controllers\RoleController@deletetrash')->name('role.remove');
 Route::get('/restoreroletrash/{id}','App\Http\Controllers\RoleController@restoretrash')->name('role.restore');
@@ -71,6 +72,7 @@ Route::post('/permission/{id}/role', 'App\Http\Controllers\RoleController@storep
 Route::get('/permission/{id}/view/permission', 'App\Http\Controllers\RoleController@viewroles')->name('permission.viewroles');
 
 
+Route::post('/module/data', 'App\Http\Controllers\ModuleController@getDataForDataTable')->name('module.data');
 Route::resource('module','App\Http\Controllers\ModuleController');
 Route::get('/module-trash','App\Http\Controllers\ModuleController@trashindex')->name('module.trash');
 Route::delete('/removemoduletrash/{id}','App\Http\Controllers\ModuleController@deletetrash')->name('module.remove');

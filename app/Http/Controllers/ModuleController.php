@@ -6,6 +6,10 @@ use App\Http\Requests\ModuleCreateRequest;
 use App\Http\Requests\ModuleUpdateRequest;
 use App\Models\Module;
 use App\Models\Role;
+use App\Services\ModuleService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,10 +25,14 @@ class ModuleController extends Controller
      *
      * @return void
      */
+    private ModuleService $moduleService;
 
-    public function __construct()
+
+    public function __construct(ModuleService $moduleService)
     {
         $this->middleware('auth');
+        $this->moduleService   = $moduleService;
+
     }
 
     public function index()
@@ -33,10 +41,16 @@ class ModuleController extends Controller
         return view('admin.module.index', compact('modules'));
     }
 
+
+    public function getDataForDataTable(Request $request)
+    {
+        return $this->moduleService->getDataForDatatable($request);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
      */
     public function create()
     {
@@ -81,13 +95,11 @@ class ModuleController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return JsonResponse
      */
     public function edit($id)
     {
-
         $editmodule = Module::find($id);
-
         return response()->json($editmodule);
     }
 
