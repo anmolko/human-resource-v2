@@ -69,7 +69,7 @@
                             </ul>
                         </div>
                         <div class="col-auto float-right ml-auto">
-                            <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_module"><i class="fa fa-plus"></i> Add Module</a>
+                            <a href="#" class="btn add-btn" id="add_module"><i class="fa fa-plus"></i> Add Module</a>
                         </div>
                         <div class="col-auto float-right ml-auto">
                             <a href="{{route('module.trash')}}" class="btn add-btn"><i class="fa fa-eye"></i> View Trash</a>
@@ -229,7 +229,21 @@
              }
              dataTables.draw();
          }
+
+         $("#add_module").click(function(e){
+             e.preventDefault();
+
+             let modals = @json(view('admin.module.includes.main_form',compact('modules'))->render());
+
+             $('#add-section').html('').html(modals);
+
+             $('#add_module_show').modal('toggle');
+         });
      </script>
+
+
+
+
 
 
 

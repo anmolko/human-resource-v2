@@ -121,6 +121,10 @@
             cache: false,
             dataType: 'json',
             success: function(dataResult){
+                let modals = @json(view('admin.module.includes.main_form',compact('modules'))->render());
+
+                $('#edit-module').html('').html(modals);
+
                 // $('#id').val(data.id);
                 $('#parent_module_id').val(dataResult.parent_module_id).trigger('change');
                 $('.updatename').attr('value',dataResult.name);
@@ -130,6 +134,8 @@
                 $('#icon').attr('value',dataResult.icon);
                 $('.updatemodule option[value="'+dataResult.status ?? 1+'"]').prop('selected', true);
                 $('.updatemodule').attr('action',action);
+
+                $('#edit_module').modal('toggle');
             }
         });
     });
