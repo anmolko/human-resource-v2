@@ -28,7 +28,7 @@ class ModuleCreateRequest extends FormRequest
             'name'=> 'required|max:50|unique:modules',
             'key'=> 'required|unique:modules',
             'url'=> 'required',
-            'rank' => ['required', new ModuleRankUniqueRule()],
+            'rank' => ['nullable', new ModuleRankUniqueRule()],
 
         ];
     }

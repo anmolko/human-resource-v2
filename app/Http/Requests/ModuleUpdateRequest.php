@@ -31,7 +31,7 @@ class ModuleUpdateRequest extends FormRequest
             'name'=> 'required|unique:modules,name,'.$id,
             'key'=> 'required|unique:modules,key,'.$id,
             'url'=> 'required',
-            'rank' => ['required', new ModuleRankUniqueRule()],
+            'rank' => ['nullable', new ModuleRankUniqueRule()],
             ];
 
     }

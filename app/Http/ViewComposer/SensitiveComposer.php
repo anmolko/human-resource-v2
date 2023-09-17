@@ -17,7 +17,7 @@ class SensitiveComposer
         $account_list = ['attribute','primary','secondary'];
         $client_list =  ['job-to','oversea','company','demand-info','job-category'];
         $candidate_list =  ['branch-office','reference','candidate-personal','sub-status','candidate-all'];
-        $setting_list = ['setting'];
+        $setting_list = ['user','setting'];
         $employee_list = ['employee'];
         $payroll_list = ['employee-payment','employee-payroll'];
         $configuration_list = ['department','designation'];
@@ -32,6 +32,7 @@ class SensitiveComposer
         $processing_group=[];
         $single_group = [];
         $candidate_group = [];
+        $role = Role::find(session()->get('role_id'))->key;
         if(session()->get('role_id')){
         $modules = Role::find(session()->get('role_id'))->modules;
          foreach($modules as $module){
@@ -40,7 +41,7 @@ class SensitiveComposer
                 }else if(Str::contains($module->url,$account_list)){
                     $account_group[] = $module->url;
                 }else if(Str::contains($module->url,$setting_list)){
-                    $setting_group[] = $module->url;
+                    $setting_group[$module->url] = $module;
                 }else if(Str::contains($module->url,$candidate_list)){
                     $candidate_group[] = $module->url;
                 }else if(Str::contains($module->url,$configuration_list)){
@@ -86,6 +87,7 @@ class SensitiveComposer
         ->with('processing_group', $processing_group)
         ->with('single_group', $single_group)
         ->with('parent_modules', $parent_modules)
+        ->with('role', $role)
         ->with('theme_data', $theme_data);
 
     }

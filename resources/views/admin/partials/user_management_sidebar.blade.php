@@ -75,7 +75,7 @@
                     @php
                     @$role=\App\Models\Role::find(session()->get('role_id'));
                         @endphp
-                    @if(@$role->name == 'admin')
+                    @if($role == 'admin')
 
                     <li class="menu-title">
                         <span>Access Control List</span>

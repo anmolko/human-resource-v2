@@ -54,14 +54,29 @@
 
 
 
+                @if($role == 'admin' || $role == 'super-admin')
+
+                    <li class="menu-title">
+                        <span>Access Control List</span>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="la la-user-secret"></i> <span> ACL Groups </span> <span class="menu-arrow"></span></a>
+                        <ul style="display: none;">
+                            <li class="{{(\Request::is('module*')) ? 'active' : ''  }}"><a class="{{(\Request::is('module*')) ? 'active' : ''  }}" href="{{route('module.index')}}">Modules</a></li>
+                            <li class="{{(\Request::is('role*')) ? 'active' : ''  }}"><a class="{{(\Request::is('role*')) ? 'active' : ''  }}" href="{{route('role.index')}}">Roles </a></li>
+                            <li class="{{(\Request::is('permission*')) ? 'active' : ''  }}"><a class="{{(\Request::is('permission*')) ? 'active' : ''  }}" href="{{route('permission.index')}}">Permissions</a></li>
+                        </ul>
+                    </li>
+                @endif
+
 
 
 				@if(count($setting_group) > 0)
 				<li class="menu-title">
 					<span>Administration</span>
 				</li>
-				@foreach($setting_group  as $setting)
-					<li><a class="{{(\Request::is($setting.'*')) ? 'active' : ''  }}" href="{{url('/'.$setting)}}"><i class="la la-cog"></i><span>Settings</span></a></li>
+				@foreach($setting_group  as $index=>$setting)
+					<li><a class="{{(\Request::is($setting->url.'*')) ? 'active' : ''  }}" href="{{url('/'.$setting->url)}}"><i class="{{ $setting->icon }}"></i><span>{{ ucfirst($setting->name) }}</span></a></li>
 				@endforeach
 
 				@endif

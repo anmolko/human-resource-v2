@@ -5,14 +5,10 @@
                 'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
             }
         });
-
-        $( ".select2" ).select2({
-            width:'100%'
-        });
     });
 
 
-    $("#name").keyup(function(){
+    $(document).on('keyup', '#name', function() {
         var Text = $(this).val();
         Text = Text.toLowerCase();
         var regExp = /\s+/g;
@@ -20,7 +16,7 @@
         $("#key").val(Text);
     });
 
-    $(".updatename").keyup(function(){
+    $(document).on('keyup', '.updatename', function() {
         var Text = $(this).val();
         Text = Text.toLowerCase();
         var regExp = /\s+/g;
@@ -135,7 +131,12 @@
                 $('.updatemodule option[value="'+dataResult.status ?? 1+'"]').prop('selected', true);
                 $('.updatemodule').attr('action',action);
 
+
                 $('#edit_module').modal('toggle');
+                $( ".select2" ).select2({
+                    dropdownParent: $('#edit_module'),
+                    width:'100%'
+                });
             }
         });
     });

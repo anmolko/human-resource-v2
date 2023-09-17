@@ -238,6 +238,11 @@
              $('#add-section').html('').html(modals);
 
              $('#add_module_show').modal('toggle');
+
+             $( ".select2" ).select2({
+                 dropdownParent: $('#add_module_show'),
+                 width:'100%'
+             });
          });
      </script>
 
