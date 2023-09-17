@@ -59,7 +59,7 @@
 
 
 <!-- Page Content -->
-<div class="content container-fluid">
+<div class="content container-fluid" style="padding-top: 180px;">
 
             <!-- Page Header -->
             <div class="page-header">
@@ -71,13 +71,13 @@
                                 <li class="breadcrumb-item active"> Trash</li>
                             </ul>
                     </div>
-                   
+
 
                 </div>
             </div>
             <!-- /Page Header -->
 
-          
+
 
     <div class="row">
         <div class="col-md-12">
@@ -119,7 +119,7 @@
                         </td>
                     </tr>
                     @endforeach
-                   
+
                     </tbody>
                 </table>
                 <!-- /Country Info Table -->
@@ -138,7 +138,7 @@
 @endsection
 @section('js')
     <script type="text/javascript">
-    
+
 
         $(document).ready(function () {
             $.ajaxSetup({
@@ -146,14 +146,14 @@
                     'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
                 }
             });
-           
+
             $( "select[name='country']" ).select2({
                 width: 'style',
             });
 
-           
 
-           
+
+
 
             $('#country-index').DataTable({
                 paging: true,
@@ -163,11 +163,11 @@
 
             });
 
-           
+
 
         });
 
-       
+
         $(document).on('click','.action-per-delete', function (e) {
     e.preventDefault();
         var form = $('#deleted-form');

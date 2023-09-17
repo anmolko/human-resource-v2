@@ -67,7 +67,7 @@
 
 
     <!-- Page Content -->
-    <div class="content container-fluid">
+    <div class="content container-fluid" style="padding-top: 100px;">
         <div class="row">
             <div class="col-md-8 offset-md-2">
 

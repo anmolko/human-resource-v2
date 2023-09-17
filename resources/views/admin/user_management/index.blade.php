@@ -1,4 +1,4 @@
-@extends('layouts.user_management_master')
+@extends('layouts.master')
 @section('title') User Management @endsection
 @section('css')
     <style>

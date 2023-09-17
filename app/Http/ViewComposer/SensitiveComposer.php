@@ -32,7 +32,7 @@ class SensitiveComposer
         $processing_group=[];
         $single_group = [];
         $candidate_group = [];
-        $role = Role::find(session()->get('role_id'))->key;
+        $role = Role::find(session()->get('role_id')) ? Role::find(session()->get('role_id'))->key:'';
         if(session()->get('role_id')){
         $modules = Role::find(session()->get('role_id'))->modules;
          foreach($modules as $module){

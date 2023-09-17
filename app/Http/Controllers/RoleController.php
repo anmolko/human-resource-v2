@@ -8,6 +8,10 @@ use App\Http\Requests\RoleUpdateRequest;
 use App\Models\Role;
 use App\Models\Module;
 use App\Models\Permission;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -33,13 +37,15 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::latest()->get();
-        return view('admin.role.index',compact('roles'));
+        $role_id = Role::latest()->first()->id;
+
+        return view('admin.role.index',compact('roles','role_id'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
      */
     public function create()
     {
@@ -49,8 +55,8 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @param RoleCreateRequest $request
+     * @return RedirectResponse
      */
     public function store(RoleCreateRequest $request)
     {
@@ -100,9 +106,9 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return Response
+     * @param RoleUpdateRequest $request
+     * @param int $id
+     * @return RedirectResponse
      */
     public function update(RoleUpdateRequest $request, $id)
     {
@@ -194,22 +200,22 @@ class RoleController extends Controller
     }
 
     public function assignmodules($id){
-        $role = Role::find($id);
-        $modules = Module::select('id','name','key')->get();
-        $selected = [];
-        foreach ($role->modules as $rm){
+        $current_role       = Role::find($id);
+        $modules    = Module::select('id','name','key')->get();
+        $selected   = [];
+        foreach ($current_role->modules as $rm){
             array_push($selected,$rm->id);
         }
 
-        $module_permissions     = $role->modules;
+        $module_permissions     = $current_role->modules;
         $permissions = Permission::select('id','name','key')->get();
 
         $selected_permissions    = [];
-        foreach ($role->permissions as $permission){
+        foreach ($current_role->permissions as $permission){
             array_push($selected_permissions,$permission->id);
         }
 
-        return view('admin.role.module_assign',compact('role','modules','selected','permissions','selected_permissions','module_permissions'));
+        return view('admin.role.module_assign',compact('current_role','modules','selected','permissions','selected_permissions','module_permissions'));
     }
 
     public function viewmodules($id){

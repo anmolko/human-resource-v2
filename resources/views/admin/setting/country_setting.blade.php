@@ -59,7 +59,7 @@
 
 
 <!-- Page Content -->
-<div class="content container-fluid">
+<div class="content container-fluid" style="padding-top: 100px;">
 
             <!-- Page Header -->
             <div class="page-header">
@@ -78,7 +78,7 @@
             </div>
             <!-- /Page Header -->
 
-          
+
 
     <div class="row">
         <div class="col-md-12">
@@ -113,7 +113,7 @@
                             <div class="dropdown dropdown-action">
                                 <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                            
+
                                     <a class="dropdown-item action-edit" href="#" hrm-update-action="{{route('country-setting.update',$country_setting->id)}}"  hrm-edit-action="{{route('country-setting.edit',$country_setting->id)}}" data-toggle="modal" data-target="#edit_country_setting"><i class="fa fa-edit m-r-5"></i> Edit </a>
                                     <a class="dropdown-item action-delete"  href="#" hrm-delete-action="{{route('country-setting.destroy',$country_setting->id)}}" data-target="#delete_country_setting"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                                 </div>
@@ -121,7 +121,7 @@
                         </td>
                     </tr>
                     @endforeach
-                   
+
                     </tbody>
                 </table>
                 <!-- /Country Info Table -->
@@ -144,7 +144,7 @@
 @endsection
 @section('js')
     <script type="text/javascript">
-    
+
 
         $(document).ready(function () {
             $.ajaxSetup({
@@ -152,14 +152,14 @@
                     'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
                 }
             });
-           
+
             $( "select[name='country']" ).select2({
                 width: 'style',
             });
 
-           
 
-           
+
+
 
             $('#country-index').DataTable({
                 paging: true,
@@ -169,12 +169,12 @@
 
             });
 
-           
+
 
         });
 
-       
-   
+
+
         $(document).on('click','.action-delete', function (e) {
             e.preventDefault();
             var form = $('#deleted-form');
@@ -246,15 +246,15 @@
                     $("#edit_country_setting").modal("toggle");
                     $('#state').attr('value',dataResult.editcountry.state);
                     $('#currency').attr('value',dataResult.editcountry.currency);
-                    
+
                     $('.updatecountry option[value="'+dataResult.editcountry.country_code+'"]').prop('selected', true);
-                   
+
                     $('.updatecountrystate').attr('action',action);
-                  
+
                     $('#select2-editcountry-container').text(dataResult.editcountry.country);
-                      
-                 
-                   
+
+
+
                 },
                 error: function(error){
                     if(error.statusText="Forbidden"){
@@ -264,7 +264,7 @@
                 }
             });
         });
-     
-      
+
+
     </script>
 @endsection

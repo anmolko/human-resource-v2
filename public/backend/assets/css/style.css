@@ -1564,7 +1564,7 @@ table.dataTable thead > tr > td.sorting {
 	transition: all 0.2s ease-in-out;
 }
 .page-wrapper > .content {
-	padding: 30px;
+    padding: 30px;
 }
 .page-header {
 	margin-bottom: 1.875rem;

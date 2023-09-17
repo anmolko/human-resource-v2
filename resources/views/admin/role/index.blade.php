@@ -299,8 +299,9 @@
         });
 
         $.ajax({
-            url: "module/1/role",
+            url: "module/{{$role_id}}/role",
             success: function(response){
+                console.log(response);
                 $('#module-access').html(response);
             }
         })
