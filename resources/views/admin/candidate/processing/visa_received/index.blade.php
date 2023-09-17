@@ -1,4 +1,4 @@
-@extends('layouts.processing_master')
+@extends('layouts.master')
 @section('title') Visa Received Candidate @endsection
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{asset('backend/assets/jquery.dataTables.min.css')}}">
