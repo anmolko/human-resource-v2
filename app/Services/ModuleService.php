@@ -25,7 +25,7 @@ class ModuleService {
 
         $query = $this->model->query()->orderBy('created_at', 'desc');
 
-        return $this->dataTables->eloquent($query)
+        return Datatables::of($query)
             ->filter(function ($query) use ($request) {
                 // Check if 'status' parameter is present in the request
                 if ($request['parent']) {
@@ -34,6 +34,15 @@ class ModuleService {
                 if ($request['child']) {
                     $query->whereNotNull('parent_module_id'); // Filter by 'status' parameter
                 }
+                if ($request->has('search') && !empty($request->search['value'])) {
+                    $searchValue = $request->search['value'];
+                    $query->where('name', 'like', "%$searchValue%")
+                        ->orWhere('key', 'like', "%$searchValue%");
+                    // Add other columns here
+                }
+            })
+            ->addColumn('title', function ($item) {
+                return $item->name;
             })
             ->editColumn('type',function ($item){
                 return $item->parent_module_id ? 'Child Module':'Parent Module';
@@ -52,12 +61,6 @@ class ModuleService {
                 return view('admin.module.includes.dataTable_action', compact('params'));
 
             })
-            ->filterColumn('type', function($query, $keyword) {
-//                $query->whereHas('country', function($country) use($keyword){
-//                    $country->where('title', 'like', "%" . $keyword . "%");
-//                });
-            })
-
             ->rawColumns(['action','status','type'])
             ->addIndexColumn()
             ->make(true);

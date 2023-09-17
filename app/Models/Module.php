@@ -33,7 +33,7 @@ class Module extends Model
 
     public function childModules()
     {
-        return $this->hasMany(Module::class, 'parent_module_id');
+        return $this->hasMany(Module::class, 'parent_module_id')->orderBy('rank','asc');
     }
 
 //    public static function boot()

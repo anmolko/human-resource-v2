@@ -122,7 +122,7 @@
             dataType: 'json',
             success: function(dataResult){
                 // $('#id').val(data.id);
-                $('#parent_module_id').attr('value',dataResult.parent_module_id);
+                $('#parent_module_id').val(dataResult.parent_module_id).trigger('change');
                 $('.updatename').attr('value',dataResult.name);
                 $('.updatekey').attr('value',dataResult.key);
                 $('.updateurl').attr('value',dataResult.url);

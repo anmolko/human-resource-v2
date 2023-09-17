@@ -3,6 +3,7 @@
 
 namespace App\Http\ViewComposer;
 
+use App\Models\Module;
 use Illuminate\View\View;
 use App\Models\CompanySetting;
 use App\Models\ThemeSetting;
@@ -29,11 +30,11 @@ class SensitiveComposer
         $payroll_group=[];
         $configuration_group=[];
         $processing_group=[];
-        $single_group=[];
-        $candidate_group=[];
+        $single_group = [];
+        $candidate_group = [];
         if(session()->get('role_id')){
-        $modules=Role::find(session()->get('role_id'))->modules;
-            foreach($modules as $module){
+        $modules = Role::find(session()->get('role_id'))->modules;
+         foreach($modules as $module){
                 if(Str::contains($module->url,$voucher_list)){
                     $voucher_group[] = $module->url;
                 }else if(Str::contains($module->url,$account_list)){
@@ -57,6 +58,19 @@ class SensitiveComposer
                 }
             }
         }
+
+//        $parent_modules = Role::find(session()->get('role_id'))
+//            ->modules()
+//            ->whereNull('parent_module_id')
+//            ->orderBy('rank', 'ASC')
+//            ->get();
+
+        $parent_modules = Module::whereNull('parent_module_id')
+            ->whereNotNull('rank')
+            ->orderBy('rank', 'ASC')
+            ->get();
+
+
         $company_data = CompanySetting::first();
         $theme_data = ThemeSetting::first();
         $view
@@ -71,6 +85,7 @@ class SensitiveComposer
         ->with('payroll_group', $payroll_group)
         ->with('processing_group', $processing_group)
         ->with('single_group', $single_group)
+        ->with('parent_modules', $parent_modules)
         ->with('theme_data', $theme_data);
 
     }
