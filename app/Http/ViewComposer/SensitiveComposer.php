@@ -32,7 +32,9 @@ class SensitiveComposer
         $processing_group=[];
         $single_group = [];
         $candidate_group = [];
-        $role = Role::find(session()->get('role_id')) ? Role::find(session()->get('role_id'))->key:'';
+        $role = Role::find(session()->get('role_id'));
+        $role_key = $role ? Role::find(session()->get('role_id'))->key:'';
+
         if(session()->get('role_id')){
         $modules = Role::find(session()->get('role_id'))->modules;
          foreach($modules as $module){
@@ -66,10 +68,17 @@ class SensitiveComposer
 //            ->orderBy('rank', 'ASC')
 //            ->get();
 
-        $parent_modules = Module::whereNull('parent_module_id')
-            ->whereNotNull('rank')
-            ->orderBy('rank', 'ASC')
-            ->get();
+
+        if ($role){
+            $parent_modules = $role->modules()
+                ->whereNull('parent_module_id')
+                ->whereNotNull('rank')
+                ->orderBy('rank', 'ASC')
+                ->get();
+        }else{
+            $parent_modules = [];
+        }
+
 
 
         $company_data = CompanySetting::first();
@@ -87,7 +96,7 @@ class SensitiveComposer
         ->with('processing_group', $processing_group)
         ->with('single_group', $single_group)
         ->with('parent_modules', $parent_modules)
-        ->with('role', $role)
+        ->with('role', $role_key)
         ->with('theme_data', $theme_data);
 
     }
