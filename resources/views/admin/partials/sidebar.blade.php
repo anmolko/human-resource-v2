@@ -69,7 +69,9 @@
 					<span>Administration</span>
 				</li>
 				@foreach($setting_group  as $index=>$setting)
-					<li><a class="{{(\Request::is($setting->url.'*')) ? 'active' : ''  }}" href="{{url('/'.$setting->url)}}"><i class="{{ $setting->icon }}"></i><span>{{ ucfirst($setting->name) }}</span></a></li>
+					<li class="{{(\Request::is($setting->url.'*')) ? 'active' : ''  }}">
+                        <a class="{{(\Request::is($setting->url.'*')) ? 'active' : ''  }}" href="{{url('/'.$setting->url)}}">
+                            <i class="{{ $setting->icon }}"></i><span>{{ ucfirst($setting->name) }}</span></a></li>
 				@endforeach
 
 				@endif

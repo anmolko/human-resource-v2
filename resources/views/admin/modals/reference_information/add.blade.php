@@ -52,7 +52,7 @@
 
                 <div class="form-group">
                     <label>Branch Office  <span class="text-danger">*</span></label>
-                    <select class="custom-select select-height" name="branch_office_id" required>
+                    <select class="custom-select select-height select2" name="branch_office_id" required>
                         <option value disabled selected> Select Branch Office </option>
                                 @foreach($branchoffices as $branchoffice)
                                     <option value="{{$branchoffice->id}}">{{ucwords($branchoffice->branch_office_name)}} </option>
@@ -108,13 +108,13 @@
                             <label>Email <span class="text-danger">*</span></label>
                             <input class="form-control" name="country" value="NP" type="hidden" required>
 
-                            <input class="form-control" name="email_address" type="email" required>
+                            <input class="form-control" name="email" type="email" autocomplete="new-email" required>
                             <div class="invalid-feedback">
                                 Please enter the Email.
                             </div>
-                            @if($errors->has('email_address'))
+                            @if($errors->has('email'))
                                 <div class="invalid-feedback">
-                                    {{$errors->first('email_address')}}
+                                    {{$errors->first('email')}}
                                 </div>
                             @endif
                         </div>
@@ -177,6 +177,39 @@
                             @if($errors->has('passport_image'))
                                 <div class="invalid-feedback">
                                     {{$errors->first('passport_image')}}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Assign Role </label>
+                            {!! Form::select('role_id',  $roles, null,['class'=>'custom-select select-height mb-3 select2','data-id'=>'create','placeholder'=>'Select role']) !!}
+                            <small class="text-primary">Role selected agents can login as a user in the system.</small>
+
+                            <div class="invalid-feedback">
+                                Please select a role.
+                            </div>
+                            @if($errors->has('mobile_no'))
+                                <div class="invalid-feedback">
+                                    {{$errors->first('mobile_no')}}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="password-create">Password</label>
+                            <input class="form-control password" name="password" type="password" autocomplete="new-password">
+                            <div class="invalid-feedback">
+                                Please enter the password.
+                            </div>
+                            @if($errors->has('contact_no'))
+                                <div class="invalid-feedback">
+                                    {{$errors->first('contact_no')}}
                                 </div>
                             @endif
                         </div>

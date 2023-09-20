@@ -107,7 +107,7 @@
                                         <td>{{ucwords($value)}} </td>
                                             @endif
                                 @endforeach
-                                <td>{{$reference->email_address}}</td>
+                                <td>{{$reference->email}}</td>
                                 <td> @if ($reference->status=='continued')
                                             <i class="fa fa-dot-circle-o text-success"></i> Continued
                                             @else
@@ -186,8 +186,8 @@
                 }
             });
 
-            $( "select[name='country']" ).select2({
-                width: 'style',
+            $( ".select2" ).select2({
+                width:'100%'
             });
 
             <?php if(@$theme_data->default_date_format=='nepali'){ ?>
@@ -270,18 +270,12 @@
             })
 
             <?php }?>
-
-
-
             $('#reference-index').DataTable({
                 paging: true,
                 searching: true,
                 orderable: false,
                 lengthMenu: [[15, 25, 50, 100, -1], [15, 25, 50,100, "All"]],
             });
-
-
-
         });
 
         $(document).on('change','input[name="name_of_professional"]', function (e) {
@@ -302,7 +296,6 @@
             }
 
         })
-
 
         $(document).on('click','.action-delete', function (e) {
             e.preventDefault();
@@ -381,7 +374,7 @@
                     $('#contact_no').attr('value',dataResult.editreference.contact_no);
                     $('#mobile_no').attr('value',dataResult.editreference.mobile_no);
                     $('#website').attr('value',dataResult.editreference.website);
-                    $('#email_address').attr('value',dataResult.editreference.email_address);
+                    $('#email_address').attr('value',dataResult.editreference.email);
 
                     if(dataResult.editreference.name_of_organization !=null){
                         $('input[name="name_of_professional"]').attr("checked", "true");
@@ -404,8 +397,9 @@
                     $('#name_of_organization').attr('value',dataResult.editreference.name_of_organization);
                     $('#membership_no').attr('value',dataResult.editreference.membership_no);
 
+                    $('#role_id').val(dataResult.editreference.role_id).trigger('change');
+                    $('#branch_office').val(dataResult.editreference.branch_office_id).trigger('change');
 
-                    $('select[name="branch_office_id"] option[value="'+dataResult.editreference.branch_office.id+'"]').prop('selected', true);
                     // $('select[name="status"] option[value="'+dataResult.editreference.status+'"]').prop('selected', true);
 
                     // $('.updatecountry option[value="'+dataResult.editreference.country+'"]').prop('selected', true);
@@ -453,6 +447,29 @@
             });
         });
 
+        $(document).on('change','select[name="role_id"]', function () {
+            let data_id = $(this).attr('data-id');
+            let value = $(this).val();
+
+            if (data_id == 'create'){
+                if (value !== ''){
+                    $(".password-create").addClass("required");
+                    $(".password").prop("required", true);
+                }else{
+                    $(".password-create").removeClass("required");
+                    $(".password").prop("required", false);
+                }
+            }else{
+                if (value !== ''){
+                    $(".password-update").addClass("required");
+                    $("#password").prop("required", true);
+                }else{
+                    $(".password-update").removeClass("required");
+                    $("#password").prop("required", false);
+
+                }
+            }
+        })
 
     </script>
 @endsection

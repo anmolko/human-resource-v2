@@ -132,7 +132,7 @@
                                         </tr>
                                         <tr>
                                             <th>Email:</th>
-                                            <td class="text-right ">{{ucwords($reference->email_address)}}</td>
+                                            <td class="text-right ">{{ucwords($reference->email)}}</td>
                                         </tr>
 
                                         <tr>
