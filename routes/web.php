@@ -18,6 +18,12 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+
+Route::prefix('reference/')->name('reference.')->group(function () {
+    Route::get('/login', [App\Http\Controllers\Reference\LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [App\Http\Controllers\Reference\LoginController::class, 'login'])->name('login.submit');
+});
+
 Auth::routes();
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');

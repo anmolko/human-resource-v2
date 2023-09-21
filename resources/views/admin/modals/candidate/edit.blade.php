@@ -158,7 +158,7 @@
                                             <select class="custom-select select2" name="reference_information_id" id="reference_information_id" >
                                                 <option value disabled selected> Select Reference Name</option>
                                                 @foreach($reference as $ref)
-                                                    <option value="{{$ref->id}}"> {{$ref->reference_name}} </option>
+                                                    <option value="{{$ref->id}}"> {{$ref->name}} </option>
                                                 @endforeach
 
                                             </select>

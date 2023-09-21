@@ -134,7 +134,7 @@
                                 <div class="form-group row mb-0">
                                     <label for="referred" class="alt2 col-sm-3 col-form-label">Referred by: </label>
                                     <div class="col-sm-9 alt3">
-                                        <input type="text" class="form-control print-input text-uppercase font-weight-bold" value="{{@$candidate_personal->referenceInfo->reference_name}}" id="referred" disabled>
+                                        <input type="text" class="form-control print-input text-uppercase font-weight-bold" value="{{@$candidate_personal->referenceInfo->name}}" id="referred" disabled>
                                     </div>
                                 </div>
 

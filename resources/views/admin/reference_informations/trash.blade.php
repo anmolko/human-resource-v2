@@ -66,7 +66,7 @@
                                     @foreach($trashed as $trash)
                                     <tr>
                                         <td> {{$i++}}          </td>
-                                        <td> {{ucwords($trash->reference_name)}}  </td>
+                                        <td> {{ucwords($trash->name)}}  </td>
                                         <td>{{ucwords($trash->branchOffice->branch_office_name)}}</td>
                                         <td>{{ucwords($trash->address)}}</td>
                                         <td> @if ($trash->status=='continued')

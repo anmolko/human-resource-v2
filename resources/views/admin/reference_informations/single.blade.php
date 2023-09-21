@@ -89,7 +89,7 @@
                                     <tbody>
                                         <tr>
                                             <th>Reference Name:</th>
-                                            <td class="text-right referencename">{{ucwords($reference->reference_name)}}</td>
+                                            <td class="text-right referencename">{{ucwords($reference->name)}}</td>
                                         </tr>
                                         @if(!empty($reference->optional_name))
                                         <tr>
@@ -158,9 +158,9 @@
                                             <th>Image:</th>
                                             <td class="text-right">
                                                 <a class="thumbnail-order" href="#thumb">
-                                                    <img src="<?php if(!empty($reference->image)){ echo '/images/referenceinfo/'.$reference->image; } else { echo '/images/profiles/others.png'; }  ?>" style="width:8rem;" alt="{{$reference->reference_name}}">
+                                                    <img src="<?php if(!empty($reference->image)){ echo '/images/referenceinfo/'.$reference->image; } else { echo '/images/profiles/others.png'; }  ?>" style="width:8rem;" alt="{{$reference->name}}">
                                                     <span>
-                                                         <img src="<?php if(!empty($reference->image)){ echo '/images/referenceinfo/'.$reference->image; } else { echo '/images/profiles/others.png'; }  ?>" style="height:15rem;" alt="{{$reference->reference_name}}">
+                                                         <img src="<?php if(!empty($reference->image)){ echo '/images/referenceinfo/'.$reference->image; } else { echo '/images/profiles/others.png'; }  ?>" style="height:15rem;" alt="{{$reference->name}}">
                                                     </span>
                                                 </a>
                                             </td>

@@ -60,7 +60,7 @@
 {{--                        <div class="greyed">Application for employment</div>--}}
                         <div class="body-margin">
                             <div class="row g-5 mb-3">
-                                <div class="col-md-6" style="font-size: 14px">Referred by: <b>{{strtoupper(@$candidate_personal->referenceInfo->reference_name)}}</b></div>
+                                <div class="col-md-6" style="font-size: 14px">Referred by: <b>{{strtoupper(@$candidate_personal->referenceInfo->name)}}</b></div>
                                 <div class="col-md-6" style="font-size: 14px">Company name: <b>{{strtoupper($candidate_personal->demandJobInfo->demandInfo->company_name)}}</b></div>
                             </div>
                             <div class="row g-5">

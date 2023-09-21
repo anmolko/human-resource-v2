@@ -194,7 +194,7 @@
                                         <ul class="personal-info">
                                             <li>
                                                 <div class="title">Reference Names:</div>
-                                                <div class="text">{{$candidate_personal->referenceInfo ? $candidate_personal->referenceInfo->reference_name:'Direct Office'}}
+                                                <div class="text">{{$candidate_personal->referenceInfo ? $candidate_personal->referenceInfo->name:'Direct Office'}}
                                                 </div>
                                             </li>
                                             <li>

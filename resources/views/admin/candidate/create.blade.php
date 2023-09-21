@@ -298,7 +298,7 @@
                                         <select class="custom-select select-height" name="reference_information_id" id="reference_information_id" disabled>
                                             <option value disabled selected> Select Reference Name</option>
                                             @foreach($reference as $ref)
-                                                <option value="{{$ref->id}}" {{($candidate_personal->reference_information_id == $ref->id) ? "selected" : ""}}> {{$ref->reference_name}} </option>
+                                                <option value="{{$ref->id}}" {{($candidate_personal->reference_information_id == $ref->id) ? "selected" : ""}}> {{$ref->name}} </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -1538,7 +1538,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Reference Agent's Name:</label>
-                                        <input type="text" class="form-control demand-reference-agent" value="{{$candidate_personal->referenceInfo->reference_name}}" name="reference_agent" readonly/>
+                                        <input type="text" class="form-control demand-reference-agent" value="{{$candidate_personal->referenceInfo->name}}" name="reference_agent" readonly/>
                                         <div class="invalid-feedback">
                                             Please enter the receivable salary.
                                         </div>

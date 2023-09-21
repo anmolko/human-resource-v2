@@ -100,7 +100,7 @@
                         @foreach($reference_info as $reference)
                             <tr >
                             <td> {{$i++}} </td>
-                                <td>{{ucwords($reference->reference_name)}} </td>
+                                <td>{{ucwords($reference->name)}} </td>
                                 <td>{{ucwords(@$reference->branchOffice->branch_office_name)}}</td>
                                 @foreach(@$countries as $key => $value)
                                     @if($key== $reference->country)
@@ -367,7 +367,7 @@
                     // console.log(dataResult);
                     // console.log(dataResult.editreference.branch_office.id);
                     $("#updatereference").modal("toggle");
-                    $('#reference_name').attr('value',dataResult.editreference.reference_name);
+                    $('#name').attr('value',dataResult.editreference.name);
                     $('#optional_name').attr('value',dataResult.editreference.optional_name);
                     $('#company').attr('value',dataResult.editreference.company);
                     $('#address').attr('value',dataResult.editreference.address);

@@ -23,13 +23,13 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Reference Name <span class="text-danger">*</span></label>
-                            <input class="form-control" name="reference_name" id="reference_name" type="text" required>
+                            <input class="form-control" name="name" id="name" type="text" required>
                             <div class="invalid-feedback">
                                 Please enter Reference Name.
                             </div>
-                            @if($errors->has('reference_name'))
+                            @if($errors->has('name'))
                                 <div class="invalid-feedback">
-                                    {{$errors->first('reference_name')}}
+                                    {{$errors->first('name')}}
                                 </div>
                             @endif
                         </div>

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReferenceInformationRequest;
 use App\Models\Role;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\BranchOffice;
 use App\Models\ReferenceInformation;
@@ -53,14 +55,14 @@ class ReferenceInformationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @param ReferenceInformationRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(ReferenceInformationRequest $request)
     {
         $data=[
             'role_id'               => $request->input('role_id'),
-            'reference_name'        => $request->input('reference_name'),
+            'name'        => $request->input('name'),
             'optional_name'         => $request->input('optional_name'),
             'branch_office_id'      => $request->input('branch_office_id'),
             'company'               => $request->input('company'),
@@ -102,10 +104,10 @@ class ReferenceInformationController extends Controller
         $reference = ReferenceInformation::create($data);
 
         if($reference){
-//            $slug = str_replace(" ","_",strtolower($request->input('reference_name')));
+//            $slug = str_replace(" ","_",strtolower($request->input('name')));
 //            $secondarygroup = SecondaryGroup::create([
 //                'primary_group_id' =>9,
-//                'name'        =>$request->input('reference_name'),
+//                'name'        =>$request->input('name'),
 //                'imported_from' => 'true',
 //                'status'      =>1,
 //                'slug'        =>$slug,
@@ -159,16 +161,16 @@ class ReferenceInformationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return Response
+     * @param ReferenceInformationRequest $request
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(ReferenceInformationRequest $request, $id)
     {
         $reference                         =  ReferenceInformation::find($id);
-        $old_reference_name                 = $reference->reference_name;
+        $old_name                 = $reference->name;
         $reference->role_id                =  $request->input('role_id');
-        $reference->reference_name         =  $request->input('reference_name');
+        $reference->name         =  $request->input('name');
         $reference->optional_name          =  $request->input('optional_name');
         $reference->branch_office_id       =  $request->input('branch_office_id');
         $reference->company                =  $request->input('company');
@@ -217,11 +219,11 @@ class ReferenceInformationController extends Controller
         $status = $reference->update();
         if($status){
 
-//            $oldslug           = str_replace(" ","_",strtolower($old_reference_name));
+//            $oldslug           = str_replace(" ","_",strtolower($old_name));
 //            $secondarygroup     = SecondaryGroup::where("slug",$oldslug)->first();
-//            $slug = str_replace(" ","_",strtolower($request->input('reference_name')));
+//            $slug = str_replace(" ","_",strtolower($request->input('name')));
 //
-//            $secondarygroup->name        = $request->input('reference_name');
+//            $secondarygroup->name        = $request->input('name');
 //            $secondarygroup->slug        = $slug;
 //            $secondarygroup->updated_by  = Auth::user()->id;
 //            $secondarygroup->update();

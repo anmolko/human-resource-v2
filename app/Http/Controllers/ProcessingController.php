@@ -202,13 +202,13 @@ class ProcessingController extends Controller
 
                 if($candidate_personal->reference_amount !== null ){
 
-                    $slug               = str_replace(" ","_",strtolower($candidate_personal->referenceInfo->reference_name));
+                    $slug               = str_replace(" ","_",strtolower($candidate_personal->referenceInfo->name));
                     $secondarygroup     = SecondaryGroup::where("slug",$slug)->first();
                     $ref                = 'JRN-'.str_pad(time() + 1, 8, "0", STR_PAD_LEFT);
                     $journal_entry     = JournalEntry::create([
                         'date'         => Carbon::now()->isoFormat('YYYY-MM-DD'),
                         'ref_no'       => $ref,
-                        'narration'    => "Journal Entry addition for ".$candidate_personal->referenceInfo->reference_name." for the reference commisson fee",
+                        'narration'    => "Journal Entry addition for ".$candidate_personal->referenceInfo->name." for the reference commisson fee",
                         'total_amount' => $candidate_personal->reference_amount,
                         'candidate_personal_id' =>$request->input('candidate_personal_information_id'),
                         'processing_status' =>'ticket-received',

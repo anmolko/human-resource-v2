@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AttributeCreateRequest;
+use App\Http\Requests\ReferenceInformationRequest;
 use App\Http\Requests\AttributeUpdateRequest;
 use App\Models\Attribute;
 use Illuminate\Http\Request;
@@ -45,7 +45,7 @@ class AttributeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AttributeCreateRequest $request)
+    public function store(ReferenceInformationRequest $request)
     {
         $attribute = Attribute::create([
             'name'        =>$request->input('name'),
