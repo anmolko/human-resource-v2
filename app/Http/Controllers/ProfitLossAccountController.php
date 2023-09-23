@@ -26,7 +26,8 @@ class ProfitLossAccountController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web,agent');
+
     }
 
 
@@ -56,10 +57,10 @@ class ProfitLossAccountController extends Controller
 
         /**
          *  Journal Entry,Receipt & Payment (Profit and Loss A/C)
-         * 
+         *
          */
 
-        
+
 
          //receipt direct expenses
         $receipt_direct_expenses_data = ReceiptVoucher::with('receiptParticulars')
@@ -76,7 +77,7 @@ class ProfitLossAccountController extends Controller
         })
         ->whereBetween('date', [$request->input('date_from'), $request->input('date_to')])->orderBy('date','desc')->get();
 
-        
+
         $receipt_direct_expenses_opening_data = ReceiptVoucher::with('receiptParticulars')
         ->whereHas('receiptParticulars',function($query){
             $query->whereHas('debit', function ($query) {
@@ -179,7 +180,7 @@ class ProfitLossAccountController extends Controller
             });
           })
           ->whereBetween('date', [$request->input('date_from'), $request->input('date_to')])->orderBy('date','desc')->get();
-  
+
           $receipt_indirect_expenses_opening_data = ReceiptVoucher::with('receiptParticulars')
           ->whereHas('receiptParticulars',function($query){
             $query->whereHas('debit', function ($query) {
@@ -240,7 +241,7 @@ class ProfitLossAccountController extends Controller
                 });
             });
         })
-    
+
         ->whereBetween('date', [$request->input('date_from'), $request->input('date_to')])->orderBy('date','desc')->get();
 
         $journal_indirect_expenses_opening_data = JournalEntry::with('journalParticulars')
@@ -329,8 +330,8 @@ class ProfitLossAccountController extends Controller
         })
          ->where('date','>=',$companyDetail->from)
          ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
- 
- 
+
+
 
         //journal indirect income
         $journal_indirect_income_data = JournalEntry::with('journalParticulars')
@@ -433,7 +434,7 @@ class ProfitLossAccountController extends Controller
         })
           ->where('date','>=',$companyDetail->from)
           ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
-  
+
 
 
         //journal direct income
@@ -490,8 +491,8 @@ class ProfitLossAccountController extends Controller
             });
          })
          ->whereBetween('date', [$request->input('date_from'), $request->input('date_to')])->orderBy('date','desc')->get();
- 
-         
+
+
         $receipt_purchases_opening_data = ReceiptVoucher::with('receiptParticulars')
         ->whereHas('receiptParticulars',function($query){
             $query->whereHas('debit', function ($query) {
@@ -523,7 +524,7 @@ class ProfitLossAccountController extends Controller
          })
          ->whereBetween('date', [$request->input('date_from'), $request->input('date_to')])->orderBy('date','desc')->get();
 
-          
+
         $payment_purchases_opening_data = PaymentVoucher::with('PaymentParticulars')
         ->whereHas('PaymentParticulars',function($query){
             $query->whereHas('debit', function ($query) {
@@ -553,7 +554,7 @@ class ProfitLossAccountController extends Controller
             });
         })
         ->whereBetween('date', [$request->input('date_from'), $request->input('date_to')])->orderBy('date','desc')->get();
-        
+
         $journal_purchases_opening_data = JournalEntry::with('journalParticulars')
         ->whereHas('journalParticulars',function($query){
             $query->whereHas('debit', function ($query) {
@@ -624,7 +625,7 @@ class ProfitLossAccountController extends Controller
             });
          })
          ->whereBetween('date', [$request->input('date_from'), $request->input('date_to')])->orderBy('date','desc')->get();
-         
+
          $payment_sales_opening_data = PaymentVoucher::with('PaymentParticulars')
          ->whereHas('PaymentParticulars',function($query){
             $query->whereHas('debit', function ($query) {
@@ -639,7 +640,7 @@ class ProfitLossAccountController extends Controller
         })
          ->where('date','>=',$companyDetail->from)
          ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
- 
+
 
         //journal sales
         $journal_sales_data = JournalEntry::with('journalParticulars')
@@ -655,7 +656,7 @@ class ProfitLossAccountController extends Controller
             });
         })
         ->whereBetween('date', [$request->input('date_from'), $request->input('date_to')])->orderBy('date','desc')->get();
-        
+
 
         $journal_sales_opening_data = JournalEntry::with('journalParticulars')
         ->whereHas('journalParticulars',function($query){
@@ -671,7 +672,7 @@ class ProfitLossAccountController extends Controller
         })
          ->where('date','>=',$companyDetail->from)
          ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
- 
+
         $secondaryvalue_sales    = SecondaryGroup::with('primaryGroup')
         ->whereHas('primaryGroup',function($query){
                     $query->where('nature', 'profit & loss a/c')->where('classfication', 'sales');
@@ -682,13 +683,13 @@ class ProfitLossAccountController extends Controller
 
         /**
          *  End of Journal Entry,Receipt & Payment (Profit and Loss A/C)
-         * 
+         *
          */
-        
 
-      
+
+
         return view('admin.profit_loss.individual',compact('from','to','journal_sales','journal_direct_expenses','journal_indirect_expenses','journal_indirect_income','journal_direct_income','journal_purchases','journal_sales'));
-        
+
     }
-    
+
 }

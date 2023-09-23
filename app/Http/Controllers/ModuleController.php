@@ -30,7 +30,8 @@ class ModuleController extends Controller
 
     public function __construct(ModuleService $moduleService)
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web,agent');
+
         $this->moduleService   = $moduleService;
 
     }

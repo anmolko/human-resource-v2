@@ -20,11 +20,12 @@ class DeductionController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web,agent');
+
     }
 
 
-   
+
 
     public function index()
     {
@@ -148,7 +149,7 @@ class DeductionController extends Controller
         return '#deduction'.$id;
     }
 
-  
+
 
     public function restoretrash($id){
         $restoretrash =  Deduction::withTrashed()->where('id', $id)->restore();

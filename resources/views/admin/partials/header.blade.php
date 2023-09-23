@@ -240,7 +240,8 @@
 
                     <li class="nav-item dropdown has-arrow main-drop">
                         <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                            <span class="user-img"><img src="<?php if(!empty(Auth::user()->image)){ echo '/images/user/'.Auth::user()->image; } else { if(Auth::user()->gender=="male") {echo '/images/profiles/male.png'; } elseif(Auth::user()->gender=="female") {echo '/images/profiles/female.png'; } elseif(Auth::user()->gender=="others") {echo '/images/profiles/others.png'; } } ?>" alt="{{ Auth::user()->name}}">
+
+                            <span class="user-img"><img src="{{ get_user_image() }}" alt="{{ Auth::user()->name}}">
                             <span class="status online"></span></span>
                             <span>{{ ucfirst(Auth::user()->name)}}</span>
                         </a>

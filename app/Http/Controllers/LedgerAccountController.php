@@ -31,7 +31,8 @@ class LedgerAccountController extends Controller
 
     public function __construct(SecondaryGroup $secondary_groups,PrimaryGroup $primary_groups,JournalEntry $journal_entries,JournalParticular $journal_particulars)
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web,agent');
+
         $this->secondary_groups     = $secondary_groups;
         $this->primary_groups       = $primary_groups;
         $this->journal_entries      = $journal_entries;
@@ -74,14 +75,14 @@ class LedgerAccountController extends Controller
                 })
                 ->whereBetween('date', [$request->input('date_from'), $request->input('date_to')])->orderBy('date','desc')->get();
 
-                
+
         $journal_opening_data = JournalEntry::with('journalParticulars')
         ->whereHas('journalParticulars',function($query)use($account_id){
             $query->where('by_debit_id', $account_id)->orWhere('to_credit_id', $account_id);
         })
         ->where('date','>=',$companyDetail->from)
         ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
-       
+
 
 
         $payment_data = PaymentVoucher::with('PaymentParticulars')
@@ -111,7 +112,7 @@ class LedgerAccountController extends Controller
         ->where('date','>=',$companyDetail->from)
         ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
 
-        
+
         $contra_data = ContraVoucher::with('contraParticulars')
         ->whereHas('contraParticulars',function($query)use($account_id){
             $query->where('by_debit_id', $account_id)->orWhere('to_credit_id', $account_id);
@@ -129,7 +130,7 @@ class LedgerAccountController extends Controller
         return view('admin.ledger.individual',compact('contra_opening_data','journal_opening_data','payment_opening_data','receipt_opening_data','account','from','to','data','payment_data','receipt_data','contra_data'));
 
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *

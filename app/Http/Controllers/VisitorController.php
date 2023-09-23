@@ -19,7 +19,8 @@ class VisitorController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web,agent');
+
     }
 
     public function index()
@@ -70,7 +71,7 @@ class VisitorController extends Controller
             }
         }
 
-     
+
         $status = Visitor::create($data);
         if($status){
             Session::flash('success','New Visitor Created Successfully');
@@ -168,7 +169,7 @@ class VisitorController extends Controller
     public function destroy($id)
     {
         $deletevisitor= Visitor::find($id);
-        
+
         $deletevisitor->delete();
         return '#visitor'.$id;
     }

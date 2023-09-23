@@ -1475,4 +1475,27 @@ if (!function_exists('get_districts')) {
 
         return $data;
     }
+
+    if (!function_exists('get_user_image')) {
+        function get_user_image(): string
+        {
+
+            if (auth()->user()->image){
+                return asset('/images/user/'.auth()->user()->image);
+            }else{
+                if (auth()->user()->gender == 'male'){
+                    return asset('/images/profiles/male.png');
+                }else if (auth()->user()->gender == 'female'){
+                    return asset('/images/profiles/female.png');
+                }else if (auth()->user()->gender == 'others'){
+                    return asset('/images/profiles/others.png');
+                }else{
+                    return asset('/images/profiles/male.png');
+                }
+            }
+        }
+    }
+
+
+
 }

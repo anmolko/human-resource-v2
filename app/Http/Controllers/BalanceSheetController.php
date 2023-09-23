@@ -26,7 +26,8 @@ class BalanceSheetController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web,agent');
+
     }
 
 
@@ -57,7 +58,7 @@ class BalanceSheetController extends Controller
 
         /**
          *  Contra, Journal Entry,Receipt & Payment (Balance Sheet)
-         * 
+         *
          */
 
         //contra capital account
@@ -152,7 +153,7 @@ class BalanceSheetController extends Controller
           ->where('date','>=',$companyDetail->from)
           ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
 
-        
+
           //journal capital account
         $journal_capital_account_data = JournalEntry::with('journalParticulars')
         ->whereHas('journalParticulars',function($query){
@@ -192,11 +193,11 @@ class BalanceSheetController extends Controller
 
         $primary_capital_account    = PrimaryGroup::where('nature', 'liabilities')
                                             ->where('classfication', 'capital account')->get();
-       
+
 
         $journal_capital_account = getBalanceSheetLiabilitiyInfo($primary_capital_account,$secondaryvalue_capital_account,$journal_capital_account_data,$receipt_capital_account_data,$payment_capital_account_data,$contra_capital_account_data,$journal_capital_account_opening_data,$payment_capital_account_opening_data,$receipt_capital_account_opening_data,$contra_capital_account_opening_data);
 
-            
+
          //contra current liabilities
          $contra_current_liabilities_data = ContraVoucher::with('contraParticulars')
          ->whereHas('contraParticulars',function($query){
@@ -211,7 +212,7 @@ class BalanceSheetController extends Controller
             });
          })
          ->whereBetween('date', [$request->input('date_from'), $request->input('date_to')])->orderBy('date','desc')->get();
- 
+
          $contra_current_liabilities_opening_data = ContraVoucher::with('contraParticulars')
          ->whereHas('contraParticulars',function($query){
             $query->whereHas('credit', function ($query) {
@@ -226,7 +227,7 @@ class BalanceSheetController extends Controller
         })
          ->where('date','>=',$companyDetail->from)
          ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
-         
+
         //receipt current liabilities
         $receipt_current_liabilities_data = ReceiptVoucher::with('receiptParticulars')
         ->whereHas('receiptParticulars',function($query){
@@ -256,7 +257,7 @@ class BalanceSheetController extends Controller
         })
         ->where('date','>=',$companyDetail->from)
         ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
-       
+
 
         //payment current liabilities
         $payment_current_liabilities_data = PaymentVoucher::with('PaymentParticulars')
@@ -287,7 +288,7 @@ class BalanceSheetController extends Controller
         })
         ->where('date','>=',$companyDetail->from)
         ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
-       
+
 
         //journal current liabilities
         $journal_current_liabilities_data = JournalEntry::with('journalParticulars')
@@ -318,7 +319,7 @@ class BalanceSheetController extends Controller
         })
         ->where('date','>=',$companyDetail->from)
         ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
-      
+
         $secondaryvalue_current_liabilities    = SecondaryGroup::with('primaryGroup')
         ->whereHas('primaryGroup',function($query){
                     $query->where('nature', 'liabilities')->where('classfication', 'current liabilities');
@@ -330,7 +331,7 @@ class BalanceSheetController extends Controller
 
         $journal_current_liabilities = getBalanceSheetLiabilitiyInfo($primary_current_liabilities,$secondaryvalue_current_liabilities,$journal_current_liabilities_data,$receipt_current_liabilities_data,$payment_current_liabilities_data,$contra_current_liabilities_data,$journal_current_liabilities_opening_data,$payment_current_liabilities_opening_data,$receipt_current_liabilities_opening_data,$contra_current_liabilities_opening_data);
 
-    
+
         //contra non current liabilities
         $contra_non_current_liabilities_data = ContraVoucher::with('contraParticulars')
         ->whereHas('contraParticulars',function($query){
@@ -346,7 +347,7 @@ class BalanceSheetController extends Controller
         })
         ->whereBetween('date', [$request->input('date_from'), $request->input('date_to')])->orderBy('date','desc')->get();
 
-        
+
         $contra_non_current_liabilities_opening_data = ContraVoucher::with('contraParticulars')
         ->whereHas('contraParticulars',function($query){
             $query->whereHas('credit', function ($query) {
@@ -361,7 +362,7 @@ class BalanceSheetController extends Controller
         })
         ->where('date','>=',$companyDetail->from)
         ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
-      
+
         //receipt non current liabilities
         $receipt_non_current_liabilities_data = ReceiptVoucher::with('receiptParticulars')
         ->whereHas('receiptParticulars',function($query){
@@ -391,7 +392,7 @@ class BalanceSheetController extends Controller
         })
         ->where('date','>=',$companyDetail->from)
         ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
-      
+
 
         //payment non current liabilities
         $payment_non_current_liabilities_data = PaymentVoucher::with('PaymentParticulars')
@@ -422,7 +423,7 @@ class BalanceSheetController extends Controller
         })
         ->where('date','>=',$companyDetail->from)
         ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
-      
+
 
         //journal non current liabilities
         $journal_non_current_liabilities_data = JournalEntry::with('journalParticulars')
@@ -453,7 +454,7 @@ class BalanceSheetController extends Controller
         })
         ->where('date','>=',$companyDetail->from)
         ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
-      
+
 
         $secondaryvalue_non_current_liabilities    = SecondaryGroup::with('primaryGroup')
         ->whereHas('primaryGroup',function($query){
@@ -466,7 +467,7 @@ class BalanceSheetController extends Controller
 
         $journal_non_current_liabilities = getBalanceSheetLiabilitiyInfo($primary_non_current_liabilities,$secondaryvalue_non_current_liabilities,$journal_non_current_liabilities_data,$receipt_non_current_liabilities_data,$payment_non_current_liabilities_data,$contra_non_current_liabilities_data,$journal_non_current_liabilities_opening_data,$payment_non_current_liabilities_opening_data,$receipt_non_current_liabilities_opening_data,$contra_non_current_liabilities_opening_data);
 
-    
+
         //contra non current assets
         $contra_non_current_assets_data = ContraVoucher::with('contraParticulars')
         ->whereHas('contraParticulars',function($query){
@@ -598,7 +599,7 @@ class BalanceSheetController extends Controller
 
         $journal_non_current_assets = getBalanceSheetAssetInfo($primary_non_current_assets,$secondaryvalue_non_current_assets,$journal_non_current_assets_data,$receipt_non_current_assets_data,$payment_non_current_assets_data,$contra_non_current_assets_data,$journal_non_current_assets_opening_data,$payment_non_current_assets_opening_data,$receipt_non_current_assets_opening_data,$contra_non_current_assets_opening_data);
 
-        
+
          //contra current assets
          $contra_current_assets_data = ContraVoucher::with('contraParticulars')
          ->whereHas('contraParticulars',function($query){
@@ -628,8 +629,8 @@ class BalanceSheetController extends Controller
         })
          ->where('date','>=',$companyDetail->from)
          ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
- 
-    
+
+
         //receipt current assets
         $receipt_current_assets_data = ReceiptVoucher::with('receiptParticulars')
         ->whereHas('receiptParticulars',function($query){
@@ -690,7 +691,7 @@ class BalanceSheetController extends Controller
           })
           ->where('date','>=',$companyDetail->from)
           ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
-  
+
 
         //journal current assets
         $journal_current_assets_data = JournalEntry::with('journalParticulars')
@@ -735,7 +736,7 @@ class BalanceSheetController extends Controller
         $journal_current_assets = getBalanceSheetAssetInfo($primary_current_assets,$secondaryvalue_current_assets,$journal_current_assets_data,$receipt_current_assets_data,$payment_current_assets_data,$contra_current_assets_data,$journal_current_assets_opening_data,$payment_current_assets_opening_data,$receipt_current_assets_opening_data,$contra_current_assets_opening_data);
 
 
-        
+
         //contra fixed assets
         $contra_fixed_assets_data = ContraVoucher::with('contraParticulars')
         ->whereHas('contraParticulars',function($query){
@@ -766,7 +767,7 @@ class BalanceSheetController extends Controller
         ->where('date','>=',$companyDetail->from)
         ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
 
-    
+
         //receipt fixed assets
         $receipt_fixed_assets_data = ReceiptVoucher::with('receiptParticulars')
         ->whereHas('receiptParticulars',function($query){
@@ -868,8 +869,8 @@ class BalanceSheetController extends Controller
 
         $journal_fixed_assets = getBalanceSheetAssetInfo($primary_fixed_assets,$secondaryvalue_fixed_assets,$journal_fixed_assets_data,$receipt_fixed_assets_data,$payment_fixed_assets_data,$contra_fixed_assets_data,$journal_fixed_assets_opening_data,$payment_fixed_assets_opening_data,$receipt_fixed_assets_opening_data,$contra_fixed_assets_opening_data);
 
-        
-    
+
+
         //contra investment
         $contra_investment_data = ContraVoucher::with('contraParticulars')
         ->whereHas('contraParticulars',function($query){
@@ -884,7 +885,7 @@ class BalanceSheetController extends Controller
             });
         })
         ->whereBetween('date', [$request->input('date_from'), $request->input('date_to')])->orderBy('date','desc')->get();
-       
+
         $contra_investment_opening_data = ContraVoucher::with('contraParticulars')
         ->whereHas('contraParticulars',function($query){
             $query->whereHas('credit', function ($query) {
@@ -899,7 +900,7 @@ class BalanceSheetController extends Controller
         })
         ->where('date','>=',$companyDetail->from)
         ->where('date', '<',$request->input('date_from'))->orderBy('date','desc')->get();
-    
+
         //receipt investment
         $receipt_investment_data = ReceiptVoucher::with('receiptParticulars')
         ->whereHas('receiptParticulars',function($query){
@@ -1005,7 +1006,7 @@ class BalanceSheetController extends Controller
 
         /**
          *  End of Contra, Journal Entry,Receipt & Payment (Balance Sheet)
-         * 
+         *
          */
 
         if($companyDetail->from){
@@ -1015,12 +1016,12 @@ class BalanceSheetController extends Controller
 
         }
 
-        
+
         $profitloss = $this->profitLoss($start_company_date,$request->input('date_to'));
 
-   
+
         return view('admin.balance_sheet.individual',compact('profitloss','from','to','journal_capital_account','journal_current_liabilities','journal_non_current_liabilities','journal_non_current_assets','journal_current_assets','journal_fixed_assets','journal_investment'));
-        
+
     }
 
 
@@ -1031,7 +1032,7 @@ class BalanceSheetController extends Controller
 
         /**
          *  Journal Entry,Receipt & Payment (Profit and Loss A/C)
-         * 
+         *
          */
 
        //receipt direct expenses
@@ -1049,7 +1050,7 @@ class BalanceSheetController extends Controller
        })
        ->whereBetween('date', [$date_from, $date_to])->orderBy('date','desc')->get();
 
-       
+
        $receipt_direct_expenses_opening_data = ReceiptVoucher::with('receiptParticulars')
        ->whereHas('receiptParticulars',function($query){
            $query->whereHas('debit', function ($query) {
@@ -1152,7 +1153,7 @@ class BalanceSheetController extends Controller
            });
          })
          ->whereBetween('date', [$date_from, $date_to])->orderBy('date','desc')->get();
- 
+
          $receipt_indirect_expenses_opening_data = ReceiptVoucher::with('receiptParticulars')
          ->whereHas('receiptParticulars',function($query){
            $query->whereHas('debit', function ($query) {
@@ -1213,7 +1214,7 @@ class BalanceSheetController extends Controller
                });
            });
        })
-   
+
        ->whereBetween('date', [$date_from, $date_to])->orderBy('date','desc')->get();
 
        $journal_indirect_expenses_opening_data = JournalEntry::with('journalParticulars')
@@ -1406,7 +1407,7 @@ class BalanceSheetController extends Controller
        })
          ->where('date','>=',$companyDetail->from)
          ->where('date', '<',$date_from)->orderBy('date','desc')->get();
- 
+
 
 
        //journal direct income
@@ -1464,7 +1465,7 @@ class BalanceSheetController extends Controller
         })
         ->whereBetween('date', [$date_from, $date_to])->orderBy('date','desc')->get();
 
-        
+
        $receipt_purchases_opening_data = ReceiptVoucher::with('receiptParticulars')
        ->whereHas('receiptParticulars',function($query){
            $query->whereHas('debit', function ($query) {
@@ -1496,7 +1497,7 @@ class BalanceSheetController extends Controller
         })
         ->whereBetween('date', [$date_from, $date_to])->orderBy('date','desc')->get();
 
-         
+
        $payment_purchases_opening_data = PaymentVoucher::with('PaymentParticulars')
        ->whereHas('PaymentParticulars',function($query){
            $query->whereHas('debit', function ($query) {
@@ -1526,7 +1527,7 @@ class BalanceSheetController extends Controller
            });
        })
        ->whereBetween('date', [$date_from, $date_to])->orderBy('date','desc')->get();
-       
+
        $journal_purchases_opening_data = JournalEntry::with('journalParticulars')
        ->whereHas('journalParticulars',function($query){
            $query->whereHas('debit', function ($query) {
@@ -1597,7 +1598,7 @@ class BalanceSheetController extends Controller
            });
         })
         ->whereBetween('date', [$date_from, $date_to])->orderBy('date','desc')->get();
-        
+
         $payment_sales_opening_data = PaymentVoucher::with('PaymentParticulars')
         ->whereHas('PaymentParticulars',function($query){
            $query->whereHas('debit', function ($query) {
@@ -1628,7 +1629,7 @@ class BalanceSheetController extends Controller
            });
        })
        ->whereBetween('date', [$date_from, $date_to])->orderBy('date','desc')->get();
-       
+
 
        $journal_sales_opening_data = JournalEntry::with('journalParticulars')
        ->whereHas('journalParticulars',function($query){
@@ -1655,40 +1656,40 @@ class BalanceSheetController extends Controller
 
         /**
          *  End of Journal Entry,Receipt & Payment (Profit and Loss A/C)
-         * 
+         *
          */
-       
+
         $left_section_first = @$journal_purchases['grand_amount'] + @$journal_direct_expenses['grand_amount'];
         $right_section_first = @$journal_sales['grand_amount'] + @$journal_direct_income['grand_amount'];
 
         if($right_section_first > $left_section_first){
-            $gross_profit = $right_section_first - $left_section_first; 
+            $gross_profit = $right_section_first - $left_section_first;
 
         }else{
-            $gross_profit = 0; 
+            $gross_profit = 0;
         }
 
         $first_left_total = $gross_profit + $left_section_first;
-        
+
         if($left_section_first > $right_section_first){
-          $gross_loss = $left_section_first - $right_section_first; 
+          $gross_loss = $left_section_first - $right_section_first;
 
         }else{
-            $gross_loss = 0; 
+            $gross_loss = 0;
         }
 
-       $first_right_total = $gross_loss  + $right_section_first ; 
+       $first_right_total = $gross_loss  + $right_section_first ;
 
         $left_section_second = @$gross_loss + @$journal_indirect_expenses['grand_amount'];
         $right_section_second = @$gross_profit + @$journal_indirect_income['grand_amount'];
 
        if($right_section_second > $left_section_second){
-        $nett_profit = $right_section_second - $left_section_second; 
+        $nett_profit = $right_section_second - $left_section_second;
 
        }else{
-        $nett_profit = 0; 
+        $nett_profit = 0;
        }
-      
+
         $second_left_total = $nett_profit  + $left_section_second ;
 
         if($left_section_second > $right_section_second){
@@ -1697,7 +1698,7 @@ class BalanceSheetController extends Controller
         }else{
             $nett_loss = 0;
         }
-        
+
          $second_right_total = $nett_loss  + $right_section_second ;
 
          $data = array(

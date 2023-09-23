@@ -19,8 +19,6 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-
-
     /**
      * Show the application's login form.
      *
@@ -50,12 +48,17 @@ class LoginController extends Controller
         }
 
         $employee = ReferenceInformation::where('email',$request['email'])->first();
-        if ($this->attemptLogin($request)) {
-            Auth::login($employee);
 
-            // Redirect to the employee dashboard or any other employee-specific route
-            return redirect('/dashboard');
-//            return $this->sendLoginResponse($request);
+        if (Auth::guard('agent')->attempt(['email' => $request->email, 'password' =>  $request->password])) {
+            $user = Auth::guard('agent')->user();
+            if($user->status == 'discontinued'){
+                $request->session()->flush();
+                return redirect()->route('reference.login')->with('error', 'This account is not activated. Please contact the administrator.');
+            }else if($user->status == 'continued'){
+                session()->put('role_id',$user->role->id);
+                // return redirect()->route('dashboard');
+            }
+            return redirect()->route('dashboard');
         }
 
         // Authentication failed; redirect back to the employee login form
@@ -79,16 +82,6 @@ class LoginController extends Controller
     }
 
 
-    /**
-     * Attempt to log the user into the application.
-     *
-     * @param Request $request
-     * @return bool
-     */
-    protected function attemptLogin(Request $request)
-    {
-        return $this->guard()->attempt(['email' => $request->email, 'password' => $request->password]);
-    }
 
     /**
      * Get the guard to be used during authentication.
@@ -99,6 +92,4 @@ class LoginController extends Controller
     {
         return Auth::guard('agent');
     }
-
-
 }

@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="profile-img-wrap edit-img">
-                                <img class="inline-block" id="current-img" src="<?php if(!empty($userinfo->image)){ echo '/images/user/'.$userinfo->image; } else { if($userinfo->gender=="male") {echo '/images/profiles/male.png'; } elseif($userinfo->gender=="female") {echo '/images/profiles/female.png'; } elseif($userinfo->gender=="others") {echo '/images/profiles/others.png'; } } ?>" alt="{{$userinfo->name}}" >
+                                <img class="inline-block" id="current-img" src="{{ get_user_image() }}" alt="{{$userinfo->name}}" >
                                 <div class="fileupload btn">
                                     <span class="btn-text">edit</span>
                                     <input class="upload" type="file" id="image" onchange="loadFile(event)" name="image">

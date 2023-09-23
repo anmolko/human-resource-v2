@@ -18,7 +18,8 @@ class VisaStampController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web,agent');
+
     }
 
 
@@ -56,7 +57,7 @@ class VisaStampController extends Controller
             'created_by'                            =>Auth::user()->id,
         ];
         $status = VisaStamp::create($data);
-        
+
         if($status){
             Session::flash('success','New Visa Stamping Created Successfully');
         }

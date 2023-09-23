@@ -21,7 +21,8 @@ class CompanySettingController extends Controller
 
     public function __construct(CompanySetting $companySetting)
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web,agent');
+
         $this->companySetting = $companySetting;
     }
 

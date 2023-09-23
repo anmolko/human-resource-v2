@@ -32,6 +32,7 @@ class SensitiveComposer
         $processing_group=[];
         $single_group = [];
         $candidate_group = [];
+
         $role = Role::find(session()->get('role_id'));
         $role_key = $role ? Role::find(session()->get('role_id'))->key:'';
 
@@ -78,7 +79,6 @@ class SensitiveComposer
         }else{
             $parent_modules = [];
         }
-
 
 
         $company_data = CompanySetting::first();

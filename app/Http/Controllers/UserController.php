@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Permission;
+use App\Models\ReferenceInformation;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,7 +25,8 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web,agent');
+
     }
 
 
@@ -97,7 +99,9 @@ class UserController extends Controller
     public function show($id)
     {
         $edituser = User::with('roles')->find($id);
-        $userrole = $edituser->roles->first();
+
+        $userrole = $this->getRole($edituser);
+
         $dateofjoin = Carbon::parse($edituser->created_at)->isoFormat('MMMM Do, YYYY');
         $dob = Carbon::parse($edituser->dob)->isoFormat('MMMM Do, YYYY');
         $lastlogin = Carbon::parse($edituser->last_login_at)->isoFormat('MMMM Do, YYYY, h:mm:ss a');
@@ -115,7 +119,6 @@ class UserController extends Controller
             $module_per = '<li>
                 <div class="title">Module name</div>
                 <div class="text">';
-
         }
 
         $data_arr = array(
@@ -128,6 +131,7 @@ class UserController extends Controller
             "last_login"=>$lastlogin,
             "module_per"=>$module_per
         );
+
         return response()->json($data_arr);
     }
 
@@ -248,16 +252,33 @@ class UserController extends Controller
 
     public function profile(){
         $user_id = Auth::user()->id;
-        $userinfo = User::find($user_id);
-        $userrole = $userinfo->roles->first();
-        foreach ($userinfo->roles as $role){
-            $permission_count = $role->permissions->count();
+
+        if (\auth()->user() instanceof User) {
+            $userinfo = User::find($user_id);
+            $userrole = $userinfo->roles->first();
+        }else if(\auth()->user() instanceof ReferenceInformation){
+            $userinfo = ReferenceInformation::find($user_id);
+            $userrole = $userinfo->role;
         }
 
-        foreach ($userinfo->roles as $roles){
-            $modules_count = $roles->modules->count();
-        }
+//        foreach ($userinfo->roles as $role){
+            $permission_count = $userrole->permissions->count();
+//        }
+
+//        foreach ($userinfo->roles as $roles){
+            $modules_count = $userrole->modules->count();
+//        }
         return view('admin.profile.profile',compact('userinfo','permission_count','modules_count','userrole'));
 
+    }
+
+    public function getRole($user){
+        if (\auth()->user() instanceof User) {
+            $userrole = $user->roles->first();
+        }else if(\auth()->user() instanceof ReferenceInformation){
+            $userrole = $user->role;
+        }
+
+        return $userrole;
     }
 }

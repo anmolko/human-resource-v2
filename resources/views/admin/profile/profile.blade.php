@@ -70,7 +70,7 @@
                             <div class="profile-view">
                                 <div class="profile-img-wrap">
                                     <div class="profile-img">
-                                        <a data-target="#profile_info" data-toggle="modal" href="#"><img alt="{{$userinfo->name}}" src="<?php if(!empty($userinfo->image)){ echo '/images/user/'.$userinfo->image; } else { if($userinfo->gender=="male") {echo '/images/profiles/male.png'; } elseif($userinfo->gender=="female") {echo '/images/profiles/female.png'; } elseif($userinfo->gender=="others") {echo '/images/profiles/others.png'; } } ?>" /></a>
+                                        <a data-target="#profile_info" data-toggle="modal" href="#"><img alt="{{$userinfo->name}}" src="{{ get_user_image() }}" /></a>
                                     </div>
                                 </div>
                                 <div class="profile-basic">

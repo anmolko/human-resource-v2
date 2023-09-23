@@ -20,7 +20,8 @@ class FolderController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web,agent');
+
     }
 
     public function index()
@@ -130,7 +131,7 @@ class FolderController extends Controller
     public function edit($id)
     {
         $file      = File::find($id);
-        
+
         return response()->json($file);
     }
 
@@ -220,7 +221,7 @@ class FolderController extends Controller
             }
         }
 
-            
+
         $trash_status    = $file->delete();
         return  '#file_'.$id;
 

@@ -22,7 +22,8 @@ class CandidateLicenseController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web,agent');
+
     }
 
 
@@ -76,7 +77,7 @@ class CandidateLicenseController extends Controller
 
         $license_info = CandidateLicenseInformation::create($license_data);
         $folder_info = Folder::where('candidate_id',$request->input('candidate_personal_information_id'))->first();
-        
+
         File::create([
             'folder_id'         => $folder_info->id,
             'filename'          => $name1,
@@ -166,7 +167,7 @@ class CandidateLicenseController extends Controller
                 }
             }
 
-            
+
             $folder_info = File::where('filename',$old_image)->first();
             $folder_info->filename             =  $name1;
             $folder_info->update();

@@ -19,10 +19,11 @@ class BonusController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web,agent');
+
     }
 
-    
+
     public function index()
     {
         //
@@ -46,7 +47,7 @@ class BonusController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $this->validate(request(), [
             'name' => 'required|max:100',
             'month' => 'required',
@@ -140,12 +141,12 @@ class BonusController extends Controller
     public function destroy($id)
     {
         $deletebonus= Bonus::find($id);
-        
+
         $deletebonus->delete();
         return '#bonus'.$id;
     }
 
-  
+
     public function restoretrash($id){
         $restoretrash =  Bonus::withTrashed()->where('id', $id)->restore();
         if($restoretrash){
@@ -159,7 +160,7 @@ class BonusController extends Controller
 
     public function deletetrash($id){
         $trashremoval = Bonus::onlyTrashed()->where('id', $id)->get();
-       
+
         Bonus::onlyTrashed()->where('id', $id)->forceDelete();
         return '#bonus';
     }

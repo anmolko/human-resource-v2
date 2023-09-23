@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 class ReferenceInformation extends Authenticatable
 {
     use HasFactory, Notifiable;
-    use SoftDeletes , UserWiseFilter;
+    use SoftDeletes;
 
     protected $table ='reference_informations';
     protected $fillable =['id','role_id','name','optional_name','branch_office_id','company','country','address','contact_no','mobile_no','email','identification_image','status','image','name_of_organization','membership_no','created_by','updated_by'];
