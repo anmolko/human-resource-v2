@@ -4,9 +4,8 @@ namespace App\Models;
 
 use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class VisaStamp extends Model
+class VisaStamp extends BackendBaseModel
 {
     use HasFactory, UserWiseFilter;
     protected $table ='visa_stamps';

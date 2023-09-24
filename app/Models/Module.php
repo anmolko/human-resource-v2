@@ -3,11 +3,9 @@
 namespace App\Models;
 
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Validation\ValidationException;
 
-class Module extends Model
+class Module extends BackendBaseModel
 {
     use SoftDeletes;
     protected $table ='modules';

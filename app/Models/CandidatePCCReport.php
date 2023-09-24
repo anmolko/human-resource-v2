@@ -4,10 +4,9 @@ namespace App\Models;
 
 use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CandidatePCCReport extends Model
+class CandidatePCCReport extends BackendBaseModel
 {
     use HasFactory, SoftDeletes, UserWiseFilter;
     protected $table    ='can_pcc_report';

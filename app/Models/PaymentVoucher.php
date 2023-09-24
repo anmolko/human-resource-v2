@@ -3,11 +3,10 @@ namespace App\Models;
 
 use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class PaymentVoucher extends Model
+class PaymentVoucher extends BackendBaseModel
 {
     use HasFactory;
     use SoftDeletes, UserWiseFilter;

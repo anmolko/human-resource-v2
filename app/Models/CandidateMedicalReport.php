@@ -4,9 +4,8 @@ namespace App\Models;
 
 use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class CandidateMedicalReport extends Model
+class CandidateMedicalReport extends BackendBaseModel
 {
     use HasFactory, UserWiseFilter;
     protected $table ='can_medical_report';

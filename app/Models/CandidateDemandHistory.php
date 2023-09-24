@@ -4,9 +4,8 @@ namespace App\Models;
 
 use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class CandidateDemandHistory extends Model
+class CandidateDemandHistory extends BackendBaseModel
 {
     use HasFactory, UserWiseFilter;
     protected $table ='can_demand_history';

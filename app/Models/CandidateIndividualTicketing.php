@@ -4,9 +4,8 @@ namespace App\Models;
 
 use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class CandidateIndividualTicketing extends Model
+class CandidateIndividualTicketing extends BackendBaseModel
 {
     use HasFactory, UserWiseFilter;
     protected $table ='can_individual_tickets';

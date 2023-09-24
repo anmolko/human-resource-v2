@@ -4,10 +4,9 @@ namespace App\Models;
 
 use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Bonus extends Model
+class Bonus extends BackendBaseModel
 {
     use HasFactory;
     use SoftDeletes, UserWiseFilter;
@@ -19,3 +18,4 @@ class Bonus extends Model
         return $this->belongsTo('App\Models\PayrollInformation','payroll_id','id')->with('employee');
     }
 }
+

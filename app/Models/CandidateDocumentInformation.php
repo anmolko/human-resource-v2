@@ -4,10 +4,9 @@ namespace App\Models;
 
 use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CandidateDocumentInformation extends Model
+class CandidateDocumentInformation extends BackendBaseModel
 {
     use HasFactory;
     use SoftDeletes, UserWiseFilter;

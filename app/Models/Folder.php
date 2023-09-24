@@ -4,9 +4,8 @@ namespace App\Models;
 
 use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Folder extends Model
+class Folder extends BackendBaseModel
 {
     use HasFactory , UserWiseFilter;
 

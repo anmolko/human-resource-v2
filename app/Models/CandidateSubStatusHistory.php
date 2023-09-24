@@ -4,9 +4,8 @@ namespace App\Models;
 
 use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class CandidateSubStatusHistory extends Model
+class CandidateSubStatusHistory extends BackendBaseModel
 {
     use HasFactory, UserWiseFilter;
     protected $table ='candidate_sub_status_history';

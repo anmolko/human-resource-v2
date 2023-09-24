@@ -4,10 +4,9 @@ namespace App\Models;
 
 use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Increment extends Model
+class Increment extends BackendBaseModel
 {
     use HasFactory;
     use SoftDeletes, UserWiseFilter;

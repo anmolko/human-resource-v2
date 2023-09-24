@@ -4,9 +4,8 @@ namespace App\Models;
 
 use App\Traits\UserWiseFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class CandidateVisaInformation extends Model
+class CandidateVisaInformation extends BackendBaseModel
 {
     use HasFactory, UserWiseFilter;
     protected $table ='candidate_visa_info';
