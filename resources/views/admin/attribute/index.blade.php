@@ -108,9 +108,9 @@
                                         <i class="fa fa-dot-circle-o text-danger"></i> Inactive
                                         @endif
                                     </td>
-                                    <td> {{ucwords(App\Models\User::find($attribute->created_by)->name)}}</td>
+                                    <td> {{ucwords( $attribute->createdBy() ? $attribute->createdBy()->name :'' )}}</td>
                                     <td>@if(isset($attribute->updated_by))
-                                            {{ucwords(App\Models\User::find($attribute->updated_by)->name)}}
+                                            {{ucwords($attribute->updatedBy()->name)}}
                                         @else
                                             This is not Updated Yet.
                                         @endif

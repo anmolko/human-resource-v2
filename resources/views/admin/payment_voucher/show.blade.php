@@ -58,7 +58,7 @@
                                 <td>{{ucwords(@$payment->narration)}}</td>
                                 <td>{{ucwords(@$payment->total_amount)}}</td>
 
-                                <td> {{ucwords(App\Models\User::find(@$payment->created_by)->name)}}</td>
+                                <td> {{ucwords($payment->createdBy)}}</td>
                                 <td>@if(isset($payment->updated_by))
                                         {{ucwords(App\Models\User::find($payment->updated_by)->name)}}
                                     @else

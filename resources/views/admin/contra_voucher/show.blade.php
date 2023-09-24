@@ -58,9 +58,9 @@
                                 <td>{{ucwords(@$contra->narration)}}</td>
                                 <td>{{ucwords(@$contra->total_amount)}}</td>
 
-                                <td> {{ucwords(App\Models\User::find(@$contra->created_by)->name)}}</td>
+                                <td> {{ucwords( $contra->createdBy() ? $contra->createdBy()->name :'' )}}</td>
                                 <td>@if(isset($contra->updated_by))
-                                        {{ucwords(App\Models\User::find($contra->updated_by)->name)}}
+                                        {{ucwords($contra->updatedBy()->name)}}
                                     @else
                                         This is not Updated Yet.
                                     @endif

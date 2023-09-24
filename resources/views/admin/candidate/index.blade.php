@@ -206,7 +206,7 @@
                                 <td>{{@$personal->serial_no}}</td>
                                 <td>{{@$personal->contact_no}},<br/> {{@$personal->mobile_no}}</td>
                                 <td>{{ucwords(@$personal->passport_no)}}</td>
-                                <td> {{ucwords(App\Models\User::find($personal->created_by)->name)}}</td>
+                                <td> {{ucwords( $personal->createdBy() ? $personal->createdBy()->name :'' )}}</td>
                                 <td class="text-right">
 {{--                                    <div class="dropdown dropdown-action">--}}
 {{--                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>--}}

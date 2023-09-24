@@ -57,9 +57,9 @@
                                     <td>{{ucwords(@$journal_entrie->ref_no)}}</td>
                                     <td>{{ucwords(@$journal_entrie->narration)}}</td>
                                     <td>{{ucwords(@$journal_entrie->total_amount)}}</td>
-                                    <td> {{ucwords(App\Models\User::find($journal_entrie->created_by)->name)}}</td>
+                                    <td> {{ucwords( $journal_entrie->createdBy() ? $journal_entrie->createdBy()->name :'' )}}</td>
                                     <td>@if(isset($journal_entrie->updated_by))
-                                            {{ucwords(App\Models\User::find($journal_entrie->updated_by)->name)}}
+                                            {{ucwords($journal_entrie->updatedBy()->name)}}
                                         @else
                                             This is not Updated Yet.
                                         @endif

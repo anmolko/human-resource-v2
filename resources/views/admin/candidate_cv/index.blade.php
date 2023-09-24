@@ -107,9 +107,9 @@
                                 <td>{{ucwords($candidate_cv->personalInfo->candidate_firstname)}} {{ucwords($candidate_cv->personalInfo->candidate_middlename)}} {{ucwords($candidate_cv->personalInfo->candidate_lastname)}}</td>
                                 <td>{{ucwords(@$candidate_cv->profile)}}</td>
 
-                                <td> {{ucwords(App\Models\User::find($candidate_cv->created_by)->name)}}</td>
+                                <td> {{ucwords( $candidate_cv->createdBy() ? $candidate_cv->createdBy()->name :'' )}}</td>
                                 <td>@if(isset($candidate_cv->updated_by))
-                                        {{ucwords(App\Models\User::find($candidate_cv->updated_by)->name)}}
+                                        {{ucwords($candidate_cv->updatedBy()->name)}}
                                     @else
                                         This is not Updated Yet.
                                     @endif

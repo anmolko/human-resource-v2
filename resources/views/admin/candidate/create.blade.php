@@ -1278,12 +1278,11 @@
                                                     <td>{{ucfirst($language->speaking)}}</td>
                                                     <td>{{ucfirst($language->reading)}}</td>
                                                     <td>{{ucfirst($language->writing)}} </td>
-                                                    <td>{{ucfirst(App\Models\User::find($language->created_by)->name)}} </td>
-                                                    <td>
-                                                        @if($language->updated_by == null)
-                                                            No updates yet.
+                                                    <td> {{ucwords( $language->createdBy() ? $language->createdBy()->name :'' )}}</td>
+                                                    <td>@if(isset($language->updated_by))
+                                                            {{ucwords($language->updatedBy()->name)}}
                                                         @else
-                                                            {{ucfirst(\App\Models\User::find(@$language->updated_by)->name)}}
+                                                            This is not Updated Yet.
                                                         @endif
                                                     </td>
                                                     <td class="text-right">
@@ -2977,12 +2976,11 @@
                                                     <img src="/images/bank/{{$bank->cheque_image}}" style="width:8rem;" alt="{{$bank->bank_details}}" />
                                             </td>
                                             <td>{{ucfirst($bank->bank_remarks)}}</td>
-                                            <td>{{ucfirst(App\Models\User::find($bank->created_by)->name)}} </td>
-                                            <td>
-                                                @if($bank->updated_by == null)
-                                                    No updates yet.
+                                            <td> {{ucwords( $bank->createdBy() ? $bank->createdBy()->name :'' )}}</td>
+                                            <td>@if(isset($bank->updated_by))
+                                                    {{ucwords($bank->updatedBy()->name)}}
                                                 @else
-                                                    {{ucfirst(\App\Models\User::find(@$bank->updated_by)->name)}}
+                                                    This is not Updated Yet.
                                                 @endif
                                             </td>
                                             <td class="text-right">

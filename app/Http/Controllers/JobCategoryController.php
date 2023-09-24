@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\JobCategory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Queue\Jobs\Job;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 
@@ -14,7 +16,7 @@ class JobCategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
 
     public function __construct()
@@ -27,6 +29,7 @@ class JobCategoryController extends Controller
     public function index()
     {
         $categories = JobCategory::latest()->get();
+//        dd($categories);
         return view('admin.job_category.index',compact('categories'));
 
     }
@@ -34,7 +37,7 @@ class JobCategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -44,16 +47,16 @@ class JobCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
         $category = JobCategory::create([
-            'name'        =>$request->input('name'),
-            'description' =>$request->input('description'),
-            'status'      =>$request->input('status'),
-            'created_by' =>Auth::user()->id,
+            'name'        => $request->input('name'),
+            'description' => $request->input('description'),
+            'status'      => $request->input('status'),
+            'created_by'  => Auth::user()->id,
         ]);
         if($category){
             Session::flash('success','Job Category Created Successfully');
@@ -61,6 +64,7 @@ class JobCategoryController extends Controller
         else{
             Session::flash('error','Job Category Creation Failed');
         }
+
         return redirect()->back();
     }
 
@@ -68,7 +72,7 @@ class JobCategoryController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -79,7 +83,7 @@ class JobCategoryController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -90,9 +94,9 @@ class JobCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -115,7 +119,7 @@ class JobCategoryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {

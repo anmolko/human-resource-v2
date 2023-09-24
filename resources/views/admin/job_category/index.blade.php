@@ -97,9 +97,9 @@
                                         <i class="fa fa-dot-circle-o text-danger"></i> Inactive
                                     @endif
                                 </td>
-                                <td> {{ucwords(App\Models\User::find($category->created_by)->name)}}</td>
+                                <td> {{ucwords( $category->createdBy() ? $category->createdBy()->name :'' )}}</td>
                                 <td>@if(isset($category->updated_by))
-                                        {{ucwords(App\Models\User::find($category->updated_by)->name)}}
+                                        {{ucwords($category->updatedBy()->name)}}
                                     @else
                                         This is not Updated Yet.
                                     @endif

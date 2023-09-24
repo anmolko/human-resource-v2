@@ -14,19 +14,57 @@ class BackendBaseModel extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     public function createdBy(){
-        if (Auth::user() instanceof User) {
-            return $this->hasOne(User::class,'created_by','id')->where('created_type', '=', 'users');
-        }else if(Auth::user() instanceof ReferenceInformation){
-            return $this->hasOne(ReferenceInformation::class,'created_by','id')->where('created_type', '=', 'reference_agents');
+
+        if (auth()->check()) {
+            $user = auth()->user();
+            $role = auth()->user()->roles ? auth()->user()->roles->first():auth()->user()->role;
+
+            if( $role->key !== 'admin' && $role->key !== 'admins' &&  $role->key !== 'super-admin' && $role->key !== 'super-admins' ){
+                if ($user instanceof ReferenceInformation) {
+                    return ReferenceInformation::find($this->created_by);
+                } elseif ($user instanceof User) {
+                    // If the logged-in user is a regular user, return the relationship
+                    return User::find($this->created_by);
+                }
+            }else{
+                if ($this->created_type == 'reference_agents'){
+                    $created_by = ReferenceInformation::find($this->created_by);
+                }else{
+                    $created_by =  User::find($this->created_by);
+                }
+                return $created_by;
+            }
+
         }
+
+        // Default fallback value if no user is authenticated
+        return null;
     }
 
     public function updatedBy(){
-        if (Auth::user() instanceof User) {
-            return $this->hasOne(User::class,'updated_by','id')->where('created_type', '=', 'users');
-        }else if(Auth::user() instanceof ReferenceInformation){
-            return $this->hasOne(ReferenceInformation::class,'updated_by','id')->where('created_type', '=', 'reference_agents');
+
+        if (auth()->check()) {
+            $user = auth()->user();
+            $role = auth()->user()->roles ? auth()->user()->roles->first():auth()->user()->role;
+
+            if( $role->key !== 'admin' && $role->key !== 'admins' &&  $role->key !== 'super-admin' && $role->key !== 'super-admins' ){
+                if ($user instanceof ReferenceInformation) {
+                    return ReferenceInformation::find($this->updated_by);
+                } elseif ($user instanceof User) {
+                    // If the logged-in user is a regular user, return the relationship
+                    return User::find($this->updated_by);
+                }
+            }else{
+                if ($this->created_type == 'reference_agents'){
+                    $created_by = ReferenceInformation::find($this->updated_by);
+                }else{
+                    $created_by =  User::find($this->updated_by);
+                }
+                return $created_by;
+            }
         }
+
+        return null;
     }
 
     public function scopeActive(Builder $query): void
