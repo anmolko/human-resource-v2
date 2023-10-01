@@ -99,7 +99,7 @@
                                         @endif
                                         <tr>
                                             <th>Branch Office:</th>
-                                            <td class="text-right ">{{ucwords($reference->branchOffice->branch_office_name)}}</td>
+                                            <td class="text-right ">{{ucwords($reference->branchOffice->branch_office_name ?? '')}}</td>
                                         </tr>
 
                                         @if(!empty($reference->company))

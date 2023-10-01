@@ -1565,6 +1565,12 @@ table.dataTable thead > tr > td.sorting {
 }
 .page-wrapper > .content {
     padding: 30px;
+    margin-top: 50px;
+}
+
+.page-wrapper > .custom-content {
+    padding: 30px;
+    margin-top: 50px;
 }
 .page-header {
 	margin-bottom: 1.875rem;

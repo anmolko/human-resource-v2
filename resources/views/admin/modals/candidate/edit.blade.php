@@ -174,54 +174,6 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Receipt No: </label>
-                                            <input type="text" class="form-control" name="receipt_no" id="receipt_no" >
-                                            <div class="invalid-feedback">
-                                                Please enter the receipt number.
-                                            </div>
-                                            @if($errors->has('receipt_no'))
-                                                <div class="invalid-feedback">
-                                                    {{$errors->first('receipt_no')}}
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Document Processing Fee: </label>
-                                            <input type="number" class="form-control" name="document_processing_fee" id="document_processing_fee"/>
-                                            <div class="invalid-feedback">
-                                                Please enter the document processing fee.
-                                            </div>
-                                            @if($errors->has('document_processing_fee'))
-                                                <div class="invalid-feedback">
-                                                    {{$errors->first('document_processing_fee')}}
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Advance Fee: </label>
-                                            <input type="number" class="form-control" name="advance_fee" id="advance_fee"/>
-                                            <div class="invalid-feedback">
-                                                Please enter Advance Fee
-                                            </div>
-                                            @if($errors->has('advance_fee'))
-                                                <div class="invalid-feedback">
-                                                    {{$errors->first('advance_fee')}}
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
                                             <label>Passport Status: </label>
                                             {!! Form::select('passport_status', [0=>'Out',1=>'In'], 0,['class'=>'custom-select mb-3 select2','id'=>'passport_status']) !!}
                                             <div class="invalid-feedback">
@@ -234,7 +186,69 @@
                                             @endif
                                         </div>
                                     </div>
+{{--                                    <div class="col-md-6">--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <label>Receipt No: </label>--}}
+{{--                                            <input type="text" class="form-control" name="receipt_no" id="receipt_no" >--}}
+{{--                                            <div class="invalid-feedback">--}}
+{{--                                                Please enter the receipt number.--}}
+{{--                                            </div>--}}
+{{--                                            @if($errors->has('receipt_no'))--}}
+{{--                                                <div class="invalid-feedback">--}}
+{{--                                                    {{$errors->first('receipt_no')}}--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
                                 </div>
+
+{{--                                <div class="row">--}}
+{{--                                    <div class="col-md-6">--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <label>Document Processing Fee: </label>--}}
+{{--                                            <input type="number" class="form-control" name="document_processing_fee" id="document_processing_fee"/>--}}
+{{--                                            <div class="invalid-feedback">--}}
+{{--                                                Please enter the document processing fee.--}}
+{{--                                            </div>--}}
+{{--                                            @if($errors->has('document_processing_fee'))--}}
+{{--                                                <div class="invalid-feedback">--}}
+{{--                                                    {{$errors->first('document_processing_fee')}}--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-md-6">--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <label>Advance Fee: </label>--}}
+{{--                                            <input type="number" class="form-control" name="advance_fee" id="advance_fee"/>--}}
+{{--                                            <div class="invalid-feedback">--}}
+{{--                                                Please enter Advance Fee--}}
+{{--                                            </div>--}}
+{{--                                            @if($errors->has('advance_fee'))--}}
+{{--                                                <div class="invalid-feedback">--}}
+{{--                                                    {{$errors->first('advance_fee')}}--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
+{{--                                <div class="row">--}}
+{{--                                    <div class="col-md-12">--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <label>Passport Status: </label>--}}
+{{--                                            {!! Form::select('passport_status', [0=>'Out',1=>'In'], 0,['class'=>'custom-select mb-3 select2','id'=>'passport_status']) !!}--}}
+{{--                                            <div class="invalid-feedback">--}}
+{{--                                                Please enter the passport status.--}}
+{{--                                            </div>--}}
+{{--                                            @if($errors->has('passport_status'))--}}
+{{--                                                <div class="invalid-feedback">--}}
+{{--                                                    {{$errors->first('passport_status')}}--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
 
 
                             </div>

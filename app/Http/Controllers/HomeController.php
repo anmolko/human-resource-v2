@@ -34,19 +34,34 @@ class HomeController extends Controller
      *
      * @return Renderable
      */
+//    public function index()
+//    {
+//        // session()->put('role_id',Auth::user()->roles[0]->id);
+//        $recent_user    = User::with('roles')->orderBy('created_at','desc')->limit(5)->get();
+//        $contra_voucher = ContraVoucher::with('contraParticulars')->orderBy('created_at','desc')->limit(5)->get();
+//        $payment_voucher = PaymentVoucher::with('PaymentParticulars')->orderBy('created_at','desc')->limit(3)->get();
+//        $receipt_voucher = ReceiptVoucher::with('receiptParticulars')->orderBy('created_at','desc')->limit(3)->get();
+//        $all_roles = Role::latest()->get();
+//        $journal_total = JournalEntry::count();
+//        $receipt_total = ReceiptVoucher::count();
+//        $payment_total = PaymentVoucher::count();
+//        $contra_total = ContraVoucher::count();
+//        return view('dashboard',compact('journal_total','receipt_total','payment_total','contra_total','recent_user','all_roles','contra_voucher','payment_voucher','receipt_voucher'));
+//    }
+
     public function index()
     {
-        // session()->put('role_id',Auth::user()->roles[0]->id);
-        $recent_user    = User::with('roles')->orderBy('created_at','desc')->limit(5)->get();
-        $contra_voucher = ContraVoucher::with('contraParticulars')->orderBy('created_at','desc')->limit(5)->get();
-        $payment_voucher = PaymentVoucher::with('PaymentParticulars')->orderBy('created_at','desc')->limit(3)->get();
-        $receipt_voucher = ReceiptVoucher::with('receiptParticulars')->orderBy('created_at','desc')->limit(3)->get();
+        $overseas_agent    = OverseasAgent::orderBy('created_at','desc')->limit(3)->get();
+        $demand_information = DemandInformation::orderBy('created_at','desc')->limit(3)->get();
+        $candidate_information = CandidatePersonalInformation::orderBy('created_at','desc')->limit(3)->get();
+        $reference_information = ReferenceInformation::orderBy('created_at','desc')->limit(3)->get();
         $all_roles = Role::latest()->get();
-        $journal_total = JournalEntry::count();
-        $receipt_total = ReceiptVoucher::count();
-        $payment_total = PaymentVoucher::count();
-        $contra_total = ContraVoucher::count();
-        return view('dashboard',compact('journal_total','receipt_total','payment_total','contra_total','recent_user','all_roles','contra_voucher','payment_voucher','receipt_voucher'));
+        $reference_total = ReferenceInformation::count();
+        $candidate_total = CandidatePersonalInformation::count();
+        $demand_total = DemandInformation::count();
+        $overseas_total = OverseasAgent::count();
+
+        return view('dashboard',compact('candidate_total','reference_total','demand_total','overseas_total','overseas_agent','all_roles','demand_information','reference_information','candidate_information'));
     }
 
     public function account()
