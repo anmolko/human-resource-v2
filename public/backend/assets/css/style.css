@@ -8213,3 +8213,20 @@ ul.comment-list li ul.children {
 	text-align: center;
 	text-transform: capitalize;
 }
+
+.custom-modal.show .submit-section{
+    position: sticky;
+    bottom: 0;
+    padding: 1em;
+    margin: -1em;
+}
+
+.custom-modal.show .submit-section button{
+    box-shadow: 0px 20px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease 0s;
+}
+.custom-modal.show .submit-section button:hover{
+    transform: translateY(-7px);
+    transition: all 0.3s ease 0s;
+
+}
