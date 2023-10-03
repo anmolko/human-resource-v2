@@ -28,8 +28,15 @@ use App\Models\OverseasAgent;
 use App\Models\ReferenceInformation;
 use App\Models\SecondaryGroup;
 use App\Models\SubStatus;
+use App\Models\User;
+use App\Services\CandidatePersonalInfoService;
+use App\Services\PackageService;
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -39,16 +46,13 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class CandidatePersonalInformationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
-    public function __construct()
+    private CandidatePersonalInfoService $candidatePersonalInfoService;
+
+    public function __construct(CandidatePersonalInfoService $candidatePersonalInfoService)
     {
         $this->middleware('auth:web,agent');
-
+        $this->candidatePersonalInfoService   = $candidatePersonalInfoService;
     }
 
     public function index()
@@ -57,15 +61,21 @@ class CandidatePersonalInformationController extends Controller
         $reference = ReferenceInformation::latest()->get();
         $countries = CountryState::getCountries();
         $provinces = get_provinces();
+        $createdBy = getCreatedByForFilter();
 
-        return view('admin.candidate.index',compact('candidate_personal','reference','provinces','countries'));
+        return view('admin.candidate.index',compact('candidate_personal','reference','provinces','countries','createdBy'));
+    }
 
+
+    public function getData(Request $request)
+    {
+        return $this->candidatePersonalInfoService->getDataForDatatable($request);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
      */
     public function create()
     {
@@ -76,7 +86,7 @@ class CandidatePersonalInformationController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -251,7 +261,7 @@ class CandidatePersonalInformationController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -262,7 +272,7 @@ class CandidatePersonalInformationController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -275,7 +285,7 @@ class CandidatePersonalInformationController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -546,7 +556,7 @@ class CandidatePersonalInformationController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
@@ -688,8 +698,6 @@ class CandidatePersonalInformationController extends Controller
         $name = strtoupper($candidate_personal->candidate_firstname)." ".strtoupper($candidate_personal->candidate_middlename)." ".strtoupper($candidate_personal->candidate_lastname);
         return view('admin.application.'.$redirect_to, compact('candidate_personal','company_settings','countries','name','languages'));
     }
-
-
 
     public function genapplication(Request $request){
         $can_list = [];

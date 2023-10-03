@@ -183,7 +183,7 @@
 
                                             <td>{{@$candidate->contact_no}}</td>
                                             <td>
-                                                <span class="badge bg-inverse-warning">{{ucwords(App\Models\User::find($candidate->created_by)->name)}}</span>
+                                                <span class="badge bg-inverse-warning">{{ucwords( $candidate->createdBy() ? $candidate->createdBy()->name :'' )}}</span>
                                             </td>
                                         </tr>
                                     @endforeach

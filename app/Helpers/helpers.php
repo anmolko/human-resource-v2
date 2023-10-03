@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\ReferenceInformation;
+use App\Models\User;
+
 function flashSession(){
     if (session()->has('success')){
         $message = session()->get('success');
@@ -1479,7 +1482,6 @@ if (!function_exists('get_districts')) {
     if (!function_exists('get_user_image')) {
         function get_user_image(): string
         {
-
             if (auth()->user()->image){
                 return asset('/images/user/'.auth()->user()->image);
             }else{
@@ -1497,5 +1499,45 @@ if (!function_exists('get_districts')) {
     }
 
 
+    if (!function_exists('getCreatedByForFilter')) {
 
+        function getCreatedByForFilter()
+        {
+            if (auth()->user() instanceof ReferenceInformation) {
+                return ReferenceInformation::whereNotNull('role_id')->selectRaw('CONCAT("reference_agents", "_", id) as id, name')->pluck('name','id');
+            } elseif (auth()->user() instanceof User) {
+                // If the logged-in user is a regular user, return the relationship
+                $users = User::has('roles')->selectRaw('CONCAT("users", "_", id) as id, name')->pluck('name','id');
+                $agent = ReferenceInformation::whereNotNull('role_id')->selectRaw('CONCAT("reference_agents", "_", id) as id, name')->pluck('name','id');
+
+                $data =  $users->union($agent);
+
+                return $data;
+            }
+
+            return null;
+        }
+    }
+
+    if (!function_exists('separateTypeAndId')) {
+
+        function separateTypeAndId($value)
+        {
+            $lastUnderscorePosition = strrpos($value, '_');
+            $data['type'] = substr($value, 0, $lastUnderscorePosition);
+            $data['id']   = substr($value, $lastUnderscorePosition + 1);
+
+            return $data;
+        }
+    }
+
+    if (!function_exists('get_user_role')) {
+
+        function get_user_role()
+        {
+            $role = auth()->user()->roles ? auth()->user()->roles->first():auth()->user()->role;
+
+            return $role->key;
+        }
+    }
 }

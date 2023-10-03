@@ -291,6 +291,7 @@ Route::post('/visa-stamp', 'App\Http\Controllers\VisaStampController@store')->na
 
 
 //Candidate Personal Information
+Route::post('/candidate-personal-info/data', 'App\Http\Controllers\CandidatePersonalInformationController@getData')->name('candidate-personal-info.data');
 Route::get('/candidate-personal-info/get-districts', 'App\Http\Controllers\CandidatePersonalInformationController@getDistrictsByProvince')->name('candidate-personal-info.get_districts');
 Route::get('/candidate-personal-info', 'App\Http\Controllers\CandidatePersonalInformationController@index')->name('candidate-personal-info.index');
 Route::get('/candidate-personal-info/create', 'App\Http\Controllers\CandidatePersonalInformationController@create')->name('candidate-personal-info.create')->middleware('checkpermission:create_candidate_personal_info');

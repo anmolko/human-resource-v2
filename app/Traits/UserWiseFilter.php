@@ -21,18 +21,16 @@ trait UserWiseFilter {
 
             // Check if a user is logged in
             if (auth()->check()) {
-                $user = auth()->user();
+                $role = get_user_role();
                 $type = '';
 
-                if ($user instanceof User) {
-                    $role = auth()->user()->roles->first();
+                if (auth()->user() instanceof User) {
                     $type = 'users';
-                }else if($user instanceof ReferenceInformation){
-                    $role = auth()->user()->role;
+                }else if(auth()->user() instanceof ReferenceInformation){
                     $type = 'reference_agents';
                 }
 
-                if( $role->key !== 'admin' && $role->key !== 'admins' &&  $role->key !== 'super-admin' && $role->key !== 'super-admins' ){
+                if( $role !== 'admin' && $role !== 'admins' &&  $role !== 'super-admin' && $role !== 'super-admins' ){
                     $builder->where('created_by', auth()->id())->where('created_type', $type);
                 }
                 // Apply a where clause to filter data for this user

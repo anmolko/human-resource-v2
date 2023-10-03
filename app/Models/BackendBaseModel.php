@@ -16,13 +16,11 @@ class BackendBaseModel extends Authenticatable
     public function createdBy(){
 
         if (auth()->check()) {
-            $user = auth()->user();
-            $role = auth()->user()->roles ? auth()->user()->roles->first():auth()->user()->role;
-
-            if( $role->key !== 'admin' && $role->key !== 'admins' &&  $role->key !== 'super-admin' && $role->key !== 'super-admins' ){
-                if ($user instanceof ReferenceInformation) {
+            $role = get_user_role();
+            if( $role !== 'admin' && $role !== 'admins' &&  $role !== 'super-admin' && $role !== 'super-admins' ){
+                if (auth()->user() instanceof ReferenceInformation) {
                     return ReferenceInformation::find($this->created_by);
-                } elseif ($user instanceof User) {
+                } elseif (auth()->user() instanceof User) {
                     // If the logged-in user is a regular user, return the relationship
                     return User::find($this->created_by);
                 }
@@ -44,13 +42,12 @@ class BackendBaseModel extends Authenticatable
     public function updatedBy(){
 
         if (auth()->check()) {
-            $user = auth()->user();
-            $role = auth()->user()->roles ? auth()->user()->roles->first():auth()->user()->role;
+            $role = get_user_role();
 
-            if( $role->key !== 'admin' && $role->key !== 'admins' &&  $role->key !== 'super-admin' && $role->key !== 'super-admins' ){
-                if ($user instanceof ReferenceInformation) {
+            if( $role !== 'admin' && $role !== 'admins' && $role !== 'super-admin' && $role !== 'super-admins' ){
+                if (auth()->user() instanceof ReferenceInformation) {
                     return ReferenceInformation::find($this->updated_by);
-                } elseif ($user instanceof User) {
+                } elseif (auth()->user() instanceof User) {
                     // If the logged-in user is a regular user, return the relationship
                     return User::find($this->updated_by);
                 }
