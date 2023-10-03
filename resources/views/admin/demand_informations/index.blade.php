@@ -87,7 +87,7 @@
                         <thead>
                         <tr>
                             <th></th>
-                            <th>Demand Ref No</th>
+                            <th>Demand Ref (L.T) No.</th>
                             <th>Company</th>
                             <th>Country - State</th>
                             <th>Exp Date</th>
@@ -101,7 +101,7 @@
                             <tr data-child-value="{{$demand}}">
                                 <td class="details-control"><i class="fa fa-plus-square" aria-hidden="true"></i></td>
                                 <td>{{$demand->ref_no ?? ''}} </td>
-                                <td>{{ucwords(@$demand->company_name ?? '')}}</td>
+                                <td>{{ucwords(@$demand->company_name ?? '-')}}</td>
                                 <td>{{ucwords(@$demand->countryState->country ?? '')}}
                                                {{@$demand->countryState ? ' - '.$demand->countryState->state:'' }} </td>
                                 <td>{{ $demand->expired_date ? \Carbon\Carbon::parse($demand->expired_date)->isoFormat('MMMM Do, YYYY'):''}}</td>

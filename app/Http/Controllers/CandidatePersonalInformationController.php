@@ -62,8 +62,9 @@ class CandidatePersonalInformationController extends Controller
         $countries = CountryState::getCountries();
         $provinces = get_provinces();
         $createdBy = getCreatedByForFilter();
+        $ref_num = 'CAN-REG-'.str_pad(time() + 1, 8, "0", STR_PAD_LEFT);
 
-        return view('admin.candidate.index',compact('candidate_personal','reference','provinces','countries','createdBy'));
+        return view('admin.candidate.index',compact('candidate_personal','ref_num','reference','provinces','countries','createdBy'));
     }
 
 

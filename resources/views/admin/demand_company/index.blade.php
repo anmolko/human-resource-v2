@@ -103,9 +103,9 @@
                                     </td>
                                     <td>{{ucwords($row->email ?? '')}}</td>
                                     <td>{{ucwords($row->number ?? '')}}</td>
-                                    <td>{{ucwords($row->overseasAgent->company_name ?? $row->overseasAgent->fullname ?? '')}}</td>
-                                    <td>{{ucwords($row->countryState->country ?? '')}}
-                                           {{ucwords($row->countryState ? ' - '.$row->countryState->state:'')}} </td>
+                                    <td>{{ucwords($row->overseasAgent->company_name ?? $row->overseasAgent->fullname ?? '-')}}</td>
+                                    <td>{{ucwords($row->demandCompanyCountryStates->first() ? $row->demandCompanyCountryStates->first()->country. ' - ' : '-')}}
+                                           {{ implode(', ', $row->demandCompanyCountryStates->pluck('state')->toArray()) }} </td>
                                     <td>
                                         <div class="dropdown">
 
@@ -220,7 +220,7 @@
 
         $(document).on('change','#addcountry', function (e) {
             e.preventDefault();
-            var value=$(this).val();
+            $('#country_state_id').html('');
             var action = "{{ route('company.state') }}?country_code=" + $(this).val();
             $.ajax({
                 url: action,
@@ -244,7 +244,8 @@
 
         $(document).on('change','#country', function (e) {
             e.preventDefault();
-            var value=$(this).val();
+
+            $('#country_state_id').html('');
             var action = "{{ route('company.state') }}?country_code=" + $(this).val();
             $.ajax({
                 url: action,

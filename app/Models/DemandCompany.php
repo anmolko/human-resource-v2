@@ -14,8 +14,6 @@ class DemandCompany extends BackendBaseModel
     protected $table ='demand_companies';
     protected $fillable =['id','title','email','phone','mobile','overseas_agent_id','address','fax_number','website','country','status','created_by','updated_by'];
 
-
-
     public function overseasAgent(){
         return $this->belongsTo('App\Models\OverseasAgent','overseas_agent_id', 'id');
     }
@@ -23,5 +21,4 @@ class DemandCompany extends BackendBaseModel
     public function demandCompanyCountryStates(){
         return $this->belongsToMany('App\Models\CountrySetting','company_country_states', 'demand_company_id','country_state_id');
     }
-
 }

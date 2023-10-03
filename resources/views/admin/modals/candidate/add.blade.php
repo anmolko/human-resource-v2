@@ -32,8 +32,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Registration No: <span class="text-danger">*</span></label>
-                                            <?php $ref = 'CAN-REG-'.str_pad(time() + 1, 8, "0", STR_PAD_LEFT); ?>
-                                            <input type="text" class="form-control" name="registration_no" value="{{@$ref}}" readonly required>
+                                            <input type="text" class="form-control" name="registration_no" value="{{@$ref_num}}" readonly required>
                                             <div class="invalid-feedback">
                                                 Please enter the registration number.
                                             </div>

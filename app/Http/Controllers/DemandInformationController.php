@@ -37,8 +37,9 @@ class DemandInformationController extends Controller
         $demands            = DemandInformation::latest()->get();
         $country_settings   = CountrySetting::latest()->get();
         $companies          = DemandCompany::latest()->pluck('title','id');
+        $serial_num         = 'DS-'.str_pad(time() + 1, 8, "0", STR_PAD_LEFT);
 
-        return view('admin.demand_informations.index',compact('demand_info','companies','country_settings','countries','agents','categories','demands'));
+        return view('admin.demand_informations.index',compact('demand_info','serial_num','companies','country_settings','countries','agents','categories','demands'));
     }
 
     /**

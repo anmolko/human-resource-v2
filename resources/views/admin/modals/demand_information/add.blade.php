@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Demand Ref No. <span class="text-danger">*</span></label>
+                            <label>Demand Ref (L.T) No. <span class="text-danger">*</span></label>
                             <input class="form-control" name="ref_no" type="text" required>
                             <div class="invalid-feedback">
                                 Please enter Demand Ref number.
@@ -37,7 +37,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Serial No. <span class="text-danger">*</span></label>
-                            <input class="form-control" name="serial_no" type="text" required>
+                            <input class="form-control" name="serial_no" type="text" value="{{$serial_num}}" readonly required>
                             <div class="invalid-feedback">
                                 Please enter Serial Number.
                             </div>
