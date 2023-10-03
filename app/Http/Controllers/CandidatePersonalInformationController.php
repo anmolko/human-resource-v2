@@ -35,6 +35,8 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -57,7 +59,7 @@ class CandidatePersonalInformationController extends Controller
 
     public function index()
     {
-        $candidate_personal = CandidatePersonalInformation::with('professionalInfo')->get();
+        $candidate_personal = CandidatePersonalInformation::with('professionalInfo','qualificationInfo')->get();
         $reference = ReferenceInformation::latest()->get();
         $countries = CountryState::getCountries();
         $provinces = get_provinces();
@@ -86,8 +88,8 @@ class CandidatePersonalInformationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
@@ -154,14 +156,22 @@ class CandidatePersonalInformationController extends Controller
             }
 
 
+
             $personal_info = CandidatePersonalInformation::create($data);
+
+            $request->request->add(['candidate_personal_information_id' => $personal_info->id ]);
+
+
 
             Folder::create([
                 'candidate_id'       => $personal_info->id,
                 'folder_name'        => $personal_info->candidate_firstname.'_'.$personal_info->id,
                 'created_by'         => Auth::user()->id,
-
             ]);
+
+            if($request['school_college_name'] && $request['academic_level']){
+                (new CandidateQualificationController)->storeQualifications($request);
+            }
 
 //        if ($personal_info) {
 //
@@ -273,18 +283,19 @@ class CandidatePersonalInformationController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return JsonResponse
      */
     public function edit($id)
     {
         $candidate_personal = CandidatePersonalInformation::find($id);
-        return response()->json($candidate_personal);
+        $qualification = $candidate_personal->qualificationInfo->first();
+        return response()->json(['personal'=>$candidate_personal,'education'=>$qualification]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
      * @return Response
      */
@@ -292,11 +303,11 @@ class CandidatePersonalInformationController extends Controller
     {
         DB::beginTransaction();
         try {
-            $candidate_personal                             =  CandidatePersonalInformation::find($id);
-            $old_firstname = $candidate_personal->candidate_firstname;
-            $old_middlename = $candidate_personal->candidate_middlename;
-            $old_lastname = $candidate_personal->candidate_lastname;
-            $old_regno = $candidate_personal->registration_no;
+            $candidate_personal     =  CandidatePersonalInformation::find($id);
+            $old_firstname          = $candidate_personal->candidate_firstname;
+            $old_middlename         = $candidate_personal->candidate_middlename;
+            $old_lastname           = $candidate_personal->candidate_lastname;
+            $old_regno              = $candidate_personal->registration_no;
 
             $candidate_personal->registration_no            =  $request->input('registration_no');
             $candidate_personal->province                   =  $request->input('province');
@@ -359,13 +370,11 @@ class CandidatePersonalInformationController extends Controller
                 }
             }
 
-
-
             $status = $candidate_personal->update();
+            $request->request->add(['candidate_personal_information_id' => $candidate_personal->id ]);
 
 
             $candidate_folder                               =  Folder::where('candidate_id',$id)->first();
-
             if($candidate_folder !== null){
                 $candidate_folder->folder_name              =  $request->input('candidate_firstname').'_'.$id;
                 $candidate_folder->update();
@@ -377,8 +386,12 @@ class CandidatePersonalInformationController extends Controller
                 ]);
             }
 
-//
-//
+            if($request['school_college_name'] && $request['academic_level'] && $request['qualification_id']){
+                (new CandidateQualificationController)->updateQualifications($request, $request['qualification_id']);
+            }elseif($request['school_college_name'] && $request['academic_level'] && !$request['qualification_id']){
+                (new CandidateQualificationController)->storeQualifications($request);
+            }
+
 //            if($status){
 //        //            $oldfirst           = str_replace(" ","_",strtolower($old_firstname));
 //        //            $oldmiddle          = str_replace(" ","_",strtolower($old_middlename));
@@ -557,7 +570,7 @@ class CandidatePersonalInformationController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return string
      */
     public function destroy($id)
     {
@@ -763,7 +776,6 @@ class CandidatePersonalInformationController extends Controller
             return view('admin.application.cv.ten',compact('candidate_personal','name','languages','countries'));
         }
     }
-
 
     public function getDistrictsByProvince(){
         $key = \request('key');

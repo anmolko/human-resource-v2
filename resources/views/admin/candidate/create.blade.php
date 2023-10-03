@@ -1537,7 +1537,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Reference Agent's Name:</label>
-                                        <input type="text" class="form-control demand-reference-agent" value="{{$candidate_personal->referenceInfo->name}}" name="reference_agent" readonly/>
+                                        <input type="text" class="form-control demand-reference-agent" value="{{$candidate_personal->referenceInfo->name ?? ''}}" name="reference_agent" readonly/>
                                         <div class="invalid-feedback">
                                             Please enter the receivable salary.
                                         </div>

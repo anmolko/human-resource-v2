@@ -8,7 +8,9 @@ use App\Models\CandidateQualificationInformation;
 use App\Models\File;
 use App\Models\Folder;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -18,7 +20,7 @@ class CandidateQualificationController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
 
     public function __construct()
@@ -41,7 +43,7 @@ class CandidateQualificationController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -57,43 +59,13 @@ class CandidateQualificationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
-         $data=[
-            'candidate_personal_information_id'     => $request->input('candidate_personal_information_id'),
-            'school_college_name'                   => $request->input('school_college_name'),
-            'academic_level'                        => $request->input('academic_level'),
-            'address'                               => $request->input('address'),
-            'completed_on'                          => $request->input('completed_on'),
-            'division'                              => $request->input('division'),
-            'result'                                => $request->input('result'),
-            'created_by'                            => Auth::user()->id,
-        ];
 
-
-        if(!empty($request->file('document'))) {
-            $image          = $request->file('document');
-            $name1          = 'qualification_'.uniqid() . '_' . $image->getClientOriginalName();
-            $path           = base_path() . '/public/images/professional/' . $name1;
-            $image_resize   = Image::make($image->getRealPath())->orientate();
-            if ($image_resize->save($path, 80)) {
-                $data['document'] = $name1;
-            }
-            $folder_info = Folder::where('candidate_id',$request->input('candidate_personal_information_id'))->first();
-
-            File::create([
-                'folder_id'         => $folder_info->id,
-                'filename'          => $name1,
-                'type'              => 'professional_experience',
-                'created_by'        => Auth::user()->id,
-
-            ]);
-        }
-
-        $qualification_info = CandidateQualificationInformation::create($data);
+        $qualification_info = $this->storeQualifications($request);
 
         if ($qualification_info) {
             Session::flash('success', 'Candidate Qualification Info Created Successfully');
@@ -126,7 +98,7 @@ class CandidateQualificationController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id){
         $show         = CandidateQualificationInformation::find($id);
@@ -145,7 +117,7 @@ class CandidateQualificationController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -162,53 +134,21 @@ class CandidateQualificationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function update(Request $request, $id)
     {
-        $candidate_qualification                                      =  CandidateQualificationInformation::find($id);
-        $candidate_qualification->candidate_personal_information_id   =  $request->input('candidate_personal_information_id');
-        $candidate_qualification->school_college_name                 =  $request->input('school_college_name');
-        $candidate_qualification->academic_level                      =  $request->input('academic_level');
-        $candidate_qualification->address                             =  $request->input('address');
-        $candidate_qualification->completed_on                        =  $request->input('completed_on');
-        $candidate_qualification->division                            =  $request->input('division');
-        $candidate_qualification->result                              =  $request->input('result');
-        $candidate_qualification->updated_by                          = Auth::user()->id;
+        $status = $this->updateQualifications($request,$id);
 
-
-        $old_image                                                    =  $candidate_qualification->document;
-
-        if (!empty($request->file('document'))){
-            $image          = $request->file('document');
-            $name1          = 'qualification_'.uniqid().'_'.$image->getClientOriginalName();
-            $path           = base_path().'/public/images/professional/'.$name1;
-            $image_resize   = Image::make($image->getRealPath())->orientate();
-            if ($image_resize->save($path,80)){
-                $candidate_qualification->document= $name1;
-                if (!empty($old_image) && file_exists(public_path().'/images/professional/'.$old_image)){
-                    @unlink(public_path().'/images/professional/'.$old_image);
-                }
-
-            }
-
-
-            $folder_info = File::where('filename',$old_image)->first();
-            $folder_info->filename             =  $name1;
-            $folder_info->update();
-
-        }
-
-
-        $status                                                       = $candidate_qualification->update();
         if($status){
             Session::flash('success','Candidate Qualification Updated Successfully');
         }
         else{
             Session::flash('error','Something Went Wrong. Candidate Qualification could not be Updated');
         }
+
         return redirect()->back();
     }
 
@@ -235,7 +175,7 @@ class CandidateQualificationController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
@@ -272,4 +212,77 @@ class CandidateQualificationController extends Controller
             return response()->json('failed');
         }
     }
+
+
+    public function storeQualifications($request){
+        $data=[
+            'candidate_personal_information_id'     => $request->input('candidate_personal_information_id'),
+            'school_college_name'                   => $request->input('school_college_name'),
+            'academic_level'                        => $request->input('academic_level'),
+            'address'                               => $request->input('address'),
+            'completed_on'                          => $request->input('completed_on'),
+            'division'                              => $request->input('division'),
+            'result'                                => $request->input('result'),
+            'created_by'                            => Auth::user()->id,
+        ];
+
+
+        if(!empty($request->file('document'))) {
+            $image          = $request->file('document');
+            $name1          = 'qualification_'.uniqid() . '_' . $image->getClientOriginalName();
+            $path           = base_path() . '/public/images/professional/' . $name1;
+            $image_resize   = Image::make($image->getRealPath())->orientate();
+            if ($image_resize->save($path, 80)) {
+                $data['document'] = $name1;
+            }
+            $folder_info = Folder::where('candidate_id',$request->input('candidate_personal_information_id'))->first();
+
+            File::create([
+                'folder_id'         => $folder_info->id,
+                'filename'          => $name1,
+                'type'              => 'professional_experience',
+                'created_by'        => Auth::user()->id,
+            ]);
+        }
+
+        return CandidateQualificationInformation::create($data);
+    }
+
+    public function updateQualifications($request, $id){
+        $candidate_qualification                                      =  CandidateQualificationInformation::find($id);
+        $candidate_qualification->candidate_personal_information_id   =  $request->input('candidate_personal_information_id');
+        $candidate_qualification->school_college_name                 =  $request->input('school_college_name');
+        $candidate_qualification->academic_level                      =  $request->input('academic_level');
+        $candidate_qualification->address                             =  $request->input('address');
+        $candidate_qualification->completed_on                        =  $request->input('completed_on');
+        $candidate_qualification->division                            =  $request->input('division');
+        $candidate_qualification->result                              =  $request->input('result');
+        $candidate_qualification->updated_by                          = Auth::user()->id;
+
+
+        $old_image                                                    =  $candidate_qualification->document;
+
+        if (!empty($request->file('document'))){
+            $image          = $request->file('document');
+            $name1          = 'qualification_'.uniqid().'_'.$image->getClientOriginalName();
+            $path           = base_path().'/public/images/professional/'.$name1;
+            $image_resize   = Image::make($image->getRealPath())->orientate();
+            if ($image_resize->save($path,80)){
+                $candidate_qualification->document= $name1;
+                if (!empty($old_image) && file_exists(public_path().'/images/professional/'.$old_image)){
+                    @unlink(public_path().'/images/professional/'.$old_image);
+                }
+
+            }
+
+
+            $folder_info = File::where('filename',$old_image)->first();
+            $folder_info->filename             =  $name1;
+            $folder_info->update();
+
+        }
+
+        return $candidate_qualification->update();
+    }
+
 }

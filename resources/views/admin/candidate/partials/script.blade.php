@@ -48,6 +48,20 @@
             dateFormat :'YYYY-MM-DD',
             language: "english",
         });
+        $('.datepicker-completed-on').nepaliDatePicker({
+            ndpYear: true,
+            ndpMonth: true,
+            ndpYearCount: 10,
+            dateFormat :'YYYY-MM-DD',
+            language: "english",
+        });
+        $('#edit-datepicker-completed-on').nepaliDatePicker({
+            ndpYear: true,
+            ndpMonth: true,
+            ndpYearCount: 10,
+            dateFormat :'YYYY-MM-DD',
+            language: "english",
+        });
 
         $('#expiredatetimepicker').nepaliDatePicker({
             ndpYear: true,
@@ -129,6 +143,12 @@
             useCurrent: false
 
         });
+        $('.datepicker-completed-on').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+        $('#edit-datepicker-completed-on').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
         $('#dobdatetimepicker').datetimepicker({
             format: 'YYYY-MM-DD'
 
@@ -204,6 +224,12 @@
         $('#datepicker-to').datetimepicker({
             format: 'YYYY-MM-DD'
         });
+        $('.datepicker-completed-on').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+        $('#edit-datepicker-completed-on').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
         $("#dobdatetimepicker").on("dp.change", function() {
             var today = new Date(),
                 dob = new Date($(this).val()),
@@ -267,71 +293,91 @@
             cache: false,
             dataType: 'json',
             success: function(dataResult){
-                // console.log(dataResult);
-                if(dataResult.image == null && dataResult.gender === "male"){
+                console.log(dataResult);
+                if(dataResult.personal.image == null && dataResult.personal.gender === "male"){
                     src = '/images/profiles/male.png';
-                }else if(dataResult.image == null && dataResult.gender === "female"){
+                }else if(dataResult.personal.image == null && dataResult.personal.gender === "female"){
                     src = '/images/profiles/female.png';
-                }else if(dataResult.image == null && dataResult.gender === "others"){
+                }else if(dataResult.personal.image == null && dataResult.personal.gender === "others"){
                     src = '/images/profiles/others.png';
                 }else{
-                    src = '/images/candidate_info/'+dataResult.image;
+                    src = '/images/candidate_info/'+dataResult.personal.image;
                 }
 
-                showHideMaritialDetails(dataResult.martial_status, $('#martial_status').attr('data-id'));
+                showHideMaritialDetails(dataResult.personal.martial_status, $('#martial_status').attr('data-id'));
                 $("#edit_candidate_personal_info").modal("toggle");
-                $('#registration_no').attr('value',dataResult.registration_no);
-                $('#serial_no').attr('value',dataResult.serial_no);
-                $('.update_registration_date_ad').attr('value',dataResult.registration_date_ad);
-                $('.update_registration_date_bs').attr('value',dataResult.registration_date_bs);
-                $('.update_issued_date').attr('value',dataResult.issued_date);
-                $('.update_expiry_date').attr('value',dataResult.expiry_date);
-                $('#passport_no').attr('value',dataResult.passport_no);
-                $('#birth_place').attr('value',dataResult.birth_place);
-                $('#receipt_no').attr('value',dataResult.receipt_no);
-                $('#document_processing_fee').attr('value',dataResult.document_processing_fee);
-                $('#advance_fee').attr('value',dataResult.advance_fee);
-                $('#passport_status').val(dataResult.passport_status ?? 0).trigger('change');
-                $('#candidate_firstname').attr('value',dataResult.candidate_firstname);
-                $('#candidate_middlename').attr('value',dataResult.candidate_middlename);
-                $('#candidate_lastname').attr('value',dataResult.candidate_lastname);
-                $('#age').attr('value',dataResult.age);
-                $('#next_of_kin').attr('value',dataResult.next_of_kin);
-                $('#select2-kin_relationship-container').text(dataResult.kin_relationship);
-                $('#select2-gender-container').text(dataResult.gender);
-                $('#kin_relationship option[value="'+dataResult.kin_relationship+'"]').prop('selected', true);
-                $('#reference_information_id option[value="'+dataResult.reference_information_id+'"]').prop('selected', true);
-                $('#gender option[value="'+dataResult.gender+'"]').prop('selected', true);
-                $('#kin_contact_no').attr('value',dataResult.kin_contact_no);
-                $('#nationality').val(dataResult.nationality ?? 'nepali').trigger('change');
-                $('#select2-religion-container').text(dataResult.religion);
-                $('#religion option[value="'+dataResult.religion+'"]').prop('selected', true);
-                $('.update_date_of_birth').attr('value',dataResult.date_of_birth);
-                $('#mobile_no').attr('value',dataResult.mobile_no);
-                $('#contact_no').attr('value',dataResult.contact_no);
-                $('#martial_status').val(dataResult.martial_status).trigger('change');
+                $('#registration_no').attr('value',dataResult.personal.registration_no);
+                $('#serial_no').attr('value',dataResult.personal.serial_no);
+                $('.update_registration_date_ad').attr('value',dataResult.personal.registration_date_ad);
+                $('.update_registration_date_bs').attr('value',dataResult.personal.registration_date_bs);
+                $('.update_issued_date').attr('value',dataResult.personal.issued_date);
+                $('.update_expiry_date').attr('value',dataResult.personal.expiry_date);
+                $('#passport_no').attr('value',dataResult.personal.passport_no);
+                $('#birth_place').attr('value',dataResult.personal.birth_place);
+                $('#receipt_no').attr('value',dataResult.personal.receipt_no);
+                $('#document_processing_fee').attr('value',dataResult.personal.document_processing_fee);
+                $('#advance_fee').attr('value',dataResult.personal.advance_fee);
+                $('#passport_status').val(dataResult.personal.passport_status ?? 0).trigger('change');
+                $('#candidate_firstname').attr('value',dataResult.personal.candidate_firstname);
+                $('#candidate_middlename').attr('value',dataResult.personal.candidate_middlename);
+                $('#candidate_lastname').attr('value',dataResult.personal.candidate_lastname);
+                $('#age').attr('value',dataResult.personal.age);
+                $('#next_of_kin').attr('value',dataResult.personal.next_of_kin);
+                $('#select2-kin_relationship-container').text(dataResult.personal.kin_relationship);
+                $('#select2-gender-container').text(dataResult.personal.gender);
+                $('#kin_relationship option[value="'+dataResult.personal.kin_relationship+'"]').prop('selected', true);
+                $('#reference_information_id option[value="'+dataResult.personal.reference_information_id+'"]').prop('selected', true);
+                $('#gender option[value="'+dataResult.personal.gender+'"]').prop('selected', true);
+                $('#kin_contact_no').attr('value',dataResult.personal.kin_contact_no);
+                $('#nationality').val(dataResult.personal.nationality ?? 'nepali').trigger('change');
+                $('#select2-religion-container').text(dataResult.personal.religion);
+                $('#religion option[value="'+dataResult.personal.religion+'"]').prop('selected', true);
+                $('.update_date_of_birth').attr('value',dataResult.personal.date_of_birth);
+                $('#mobile_no').attr('value',dataResult.personal.mobile_no);
+                $('#contact_no').attr('value',dataResult.personal.contact_no);
+                $('#martial_status').val(dataResult.personal.martial_status).trigger('change');
 
-                $('#province').val(dataResult.province).trigger('change');
+                $('#province').val(dataResult.personal.province).trigger('change');
+
+                //education
+                if (dataResult.education){
+                    $('#qualification_id').attr('value',dataResult.education.id);
+                    $('#school_college_name').attr('value',dataResult.education.school_college_name);
+                    $('#academic_level').val(dataResult.education.academic_level).trigger('change');
+                    $('#result').val(dataResult.education.result).trigger('change');
+                    $('#division').val(dataResult.education.division).trigger('change');
+                    $('#address').attr('value',dataResult.education.address);
+                    $('#completed_on').attr('value',dataResult.education.completed_on);
+                }else{
+                    $('#qualification_id').attr('value','');
+                    $('#school_college_name').attr('value','');
+                    $('#academic_level').val('').trigger('change');
+                    $('#result').val('waiting').trigger('change');
+                    $('#division').val('none').trigger('change');
+                    $('#address').attr('value','');
+                    $('#completed_on').attr('value','');
+                }
+
 
                 setTimeout(function() {
-                    $('#district').val(dataResult.district).trigger('change');
+                    $('#district').val(dataResult.personal.district).trigger('change');
                 }, 1000);
 
-                $('#spouse').attr('value',dataResult.spouse);
-                $('#children').attr('value',dataResult.children);
-                $('#email_address').attr('value',dataResult.email_address);
-                $('#height').attr('value',dataResult.height);
-                $('#weight').attr('value',dataResult.weight);
-                $('#father_name').attr('value',dataResult.father_name);
-                $('#father_contact_no').attr('value',dataResult.father_contact_no);
-                $('#mother_name').attr('value',dataResult.mother_name);
-                $('#mother_contact_no').attr('value',dataResult.mother_contact_no);
-                $('#permanent_address').attr('value',dataResult.permanent_address);
-                $('#temporary_address').attr('value',dataResult.temporary_address);
-                $('#aboard_contact_no').attr('value',dataResult.aboard_contact_no);
-                $('#select2-candidate_type-container').text(dataResult.candidate_type);
+                $('#spouse').attr('value',dataResult.personal.spouse);
+                $('#children').attr('value',dataResult.personal.children);
+                $('#email_address').attr('value',dataResult.personal.email_address);
+                $('#height').attr('value',dataResult.personal.height);
+                $('#weight').attr('value',dataResult.personal.weight);
+                $('#father_name').attr('value',dataResult.personal.father_name);
+                $('#father_contact_no').attr('value',dataResult.personal.father_contact_no);
+                $('#mother_name').attr('value',dataResult.personal.mother_name);
+                $('#mother_contact_no').attr('value',dataResult.personal.mother_contact_no);
+                $('#permanent_address').attr('value',dataResult.personal.permanent_address);
+                $('#temporary_address').attr('value',dataResult.personal.temporary_address);
+                $('#aboard_contact_no').attr('value',dataResult.personal.aboard_contact_no);
+                $('#select2-candidate_type-container').text(dataResult.personal.candidate_type);
                 $('#currentedit-img').attr('src',src);
-                $('#candidate_type option[value="'+dataResult.candidate_type+'"]').prop('selected', true);
+                $('#candidate_type option[value="'+dataResult.personal.candidate_type+'"]').prop('selected', true);
                 $('.updatecandidatepersonal').attr('action',action);
             },
             error: function(error){
