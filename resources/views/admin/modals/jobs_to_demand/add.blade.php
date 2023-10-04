@@ -170,7 +170,7 @@
                         <div class="form-group">
                             <label>Working</label>
                             <div class="input-group">
-                                <input type="number" min="1" class="form-control" name="working" />
+                                <input type="number" min="1" max="7" class="form-control working_per_day" name="working" data-id="create"/>
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2">per days/weeks</span>
                                 </div>
@@ -192,9 +192,9 @@
                         <div class="form-group">
                             <label>Holidays </label>
                             <div class="input-group">
-                                <input type="number" min="1" class="form-control" name="holidays"  />
+                                <input type="number" min="0" max="7" class="form-control holidays" name="holidays"  />
                                 <div class="input-group-append">
-                                    <span class="input-group-text" id="basic-addon2">per days/year</span>
+                                    <span class="input-group-text" id="basic-addon2">per days/Week</span>
                                 </div>
                             </div>
                             <div class="invalid-feedback">
@@ -211,7 +211,7 @@
                         <div class="form-group">
                             <label>Hours </label>
                             <div class="input-group">
-                                <input type="number" min="1" class="form-control" name="hours"  />
+                                <input type="number" min="1" class="form-control hours" name="hours"  />
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2">per days</span>
                                 </div>

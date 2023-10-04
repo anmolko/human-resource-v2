@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                {!! Form::open(['method'=>'PUT','class'=>'needs-validation updatecandidatepersonal','enctype'=>'multipart/form-data','novalidate'=>'','enctype'=>'multipart/form-data']) !!}
+                {!! Form::open(['method'=>'PUT','class'=>'updatecandidatepersonal submit_form','enctype'=>'multipart/form-data']) !!}
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">

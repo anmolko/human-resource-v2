@@ -266,6 +266,7 @@
 @section('js')
     <script src="{{asset('backend/assets/js/nepali.datepicker.v3.5.min.js')}}"></script>
     <script src="{{asset('backend/assets/js/bootstrap-datetimepicker.min.js')}}"></script>
+    <script src="{{asset('backend/assets/common/general.js')}}"></script>
     @include('admin.candidate.partials.script')
 
     <script>
