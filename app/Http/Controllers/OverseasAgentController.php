@@ -5,9 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\OverseasAgent;
 use App\Models\SecondaryGroup;
 use App\Models\CountrySetting;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use CountryState;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 use Intervention\Image\ImageManagerStatic as Image;
@@ -17,7 +24,7 @@ class OverseasAgentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
 
     public function __construct()
@@ -38,7 +45,7 @@ class OverseasAgentController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -48,77 +55,80 @@ class OverseasAgentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();
+        try {
+            $data=[
+                'client_no'             =>$request->input('client_no'),
+                'type_of_company'       =>$request->input('type_of_company'),
+                'company_name'          =>$request->input('company_name'),
+                'company_address'       =>$request->input('company_address'),
+                'company_contact_num'   =>$request->input('company_contact_num'),
+                'fax_num'               =>$request->input('fax_num'),
+                'company_email'         =>$request->input('company_email'),
+                'website'               =>$request->input('website'),
+                'postal_address'        =>$request->input('postal_address'),
+                'status'                =>$request->input('status'),
+                'fullname'              =>$request->input('fullname'),
+                'designation'           =>$request->input('designation'),
+                'personal_email'        =>$request->input('personal_email'),
+                'personal_mobile'       =>$request->input('personal_mobile'),
+                'personal_contact_num'  =>$request->input('personal_contact_num'),
+                'created_by'            =>Auth::user()->id,
+            ];
 
-        $data=[
-            'client_no'             =>$request->input('client_no'),
-            'type_of_company'       =>$request->input('type_of_company'),
-            'company_name'          =>$request->input('company_name'),
-            'company_address'       =>$request->input('company_address'),
-            'company_contact_num'   =>$request->input('company_contact_num'),
-            'fax_num'               =>$request->input('fax_num'),
-            'company_email'         =>$request->input('company_email'),
-            'website'               =>$request->input('website'),
-            'postal_address'        =>$request->input('postal_address'),
-            'status'                =>$request->input('status'),
-            'fullname'              =>$request->input('fullname'),
-            'designation'           =>$request->input('designation'),
-            'personal_email'        =>$request->input('personal_email'),
-            'personal_mobile'       =>$request->input('personal_mobile'),
-            'personal_contact_num'  =>$request->input('personal_contact_num'),
-            'created_by'            =>Auth::user()->id,
-        ];
-
-        if($request->input('type_of_company') == 'individual'){
-            $data["country"]           =  $request->input('country_personal');
-            $data["country_state_id"]  =  $request->input('country_personal');
-        }else{
-            $data["country"]           =  $request->input('country');
-            $data["country_state_id"]  =  $request->input('state');
-        }
-
-        if(!empty($request->file('image'))) {
-            $image = $request->file('image');
-            $name1 = uniqid() . '_' . $image->getClientOriginalName();
-            $path = base_path() . '/public/images/agent/' . $name1;
-            $image_resize = Image::make($image->getRealPath())->orientate();
-            $image_resize->resize(500, 500, function ($constraint) {
-                $constraint->aspectRatio(); //maintain image ratio
-            });
-            if ($image_resize->save($path, 80)) {
-                $data['image'] = $name1;
+            if($request->input('type_of_company') == 'individual'){
+                $data["country"]           =  $request->input('country_personal');
+                $data["country_state_id"]  =  $request->input('state_personal');
+            }else{
+                $data["country"]           =  $request->input('country');
+                $data["country_state_id"]  =  $request->input('state');
             }
-        }
 
-        $agent = OverseasAgent::create($data);
+            if(!empty($request->file('image'))) {
+                $image = $request->file('image');
+                $name1 = uniqid() . '_' . $image->getClientOriginalName();
+                $path = base_path() . '/public/images/agent/' . $name1;
+                $image_resize = Image::make($image->getRealPath())->orientate();
+                $image_resize->resize(500, 500, function ($constraint) {
+                    $constraint->aspectRatio(); //maintain image ratio
+                });
+                if ($image_resize->save($path, 80)) {
+                    $data['image'] = $name1;
+                }
+            }
+
+            $agent = OverseasAgent::create($data);
 
 
-        if($agent){
-
-//            $lower = str_replace(" ","_",strtolower($request->input('company_name')));
-//            $slug     = $lower."_".$request->input('client_no');
-//            $secondarygroup = SecondaryGroup::create([
-//                'primary_group_id' =>9,
-//                'imported_from' => 'true',
-//                'name'        =>$request->input('company_name'),
-//                'status'      =>1,
-//                'slug'        =>$slug,
-//                'created_by'  => Auth::user()->id,
-//            ]);
-//
-//            if($secondarygroup){
-//                Session::flash('success','Overseas Agent Created Successfully');
-//                return redirect()->back();
-//            }else{
-//                Session::flash('error','Secondary Group not created.');
-//                return redirect()->back();
-//            }
-        }
-        else{
+        //    if($agent){
+        //            $lower = str_replace(" ","_",strtolower($request->input('company_name')));
+        //            $slug     = $lower."_".$request->input('client_no');
+        //            $secondarygroup = SecondaryGroup::create([
+        //                'primary_group_id' =>9,
+        //                'imported_from' => 'true',
+        //                'name'        =>$request->input('company_name'),
+        //                'status'      =>1,
+        //                'slug'        =>$slug,
+        //                'created_by'  => Auth::user()->id,
+        //            ]);
+        //
+        //            if($secondarygroup){
+        //                Session::flash('success','Overseas Agent Created Successfully');
+        //                return redirect()->back();
+        //            }else{
+        //                Session::flash('error','Secondary Group not created.');
+        //                return redirect()->back();
+        //            }
+        //       }
+            Session::flash('success','Overseas Agent Created Successfully');
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
             Session::flash('error','Overseas Agent Creation Failed');
         }
         return redirect()->back();
@@ -127,8 +137,8 @@ class OverseasAgentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $client_no
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
      */
     public function show($client_no)
     {
@@ -144,7 +154,7 @@ class OverseasAgentController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function edit($id)
     {
@@ -157,96 +167,99 @@ class OverseasAgentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function update(Request $request, $id)
     {
+
         $agent                         =  OverseasAgent::find($id);
 
-        $old_c_name                 = $agent->company_name;
-        $old_c_no                   = $agent->client_no;
+        DB::beginTransaction();
+        try {
+            $old_c_name                 = $agent->company_name;
+            $old_c_no                   = $agent->client_no;
 
-        $agent->client_no              =  $request->input('client_no');
-        $agent->type_of_company        =  $request->input('type_of_company');
-        $agent->company_name           =  $request->input('company_name');
-        $agent->company_address        =  $request->input('company_address');
-        $agent->company_contact_num    =  $request->input('company_contact_num');
-        $agent->fax_num                =  $request->input('fax_num');
-        $agent->company_email          =  $request->input('company_email');
-        $agent->website                =  $request->input('website');
-        $agent->postal_address         =  $request->input('postal_address');
-        $agent->fullname               =  $request->input('fullname');
-        $agent->status                 =  $request->input('status');
-        $agent->designation            =  $request->input('designation');
-        $agent->personal_email         =  $request->input('personal_email');
-        $agent->personal_mobile        =  $request->input('personal_mobile');
-        $agent->personal_contact_num   =  $request->input('personal_contact_num');
+            $agent->client_no              =  $request->input('client_no');
+            $agent->type_of_company        =  $request->input('type_of_company');
+            $agent->company_name           =  $request->input('company_name');
+            $agent->company_address        =  $request->input('company_address');
+            $agent->company_contact_num    =  $request->input('company_contact_num');
+            $agent->fax_num                =  $request->input('fax_num');
+            $agent->company_email          =  $request->input('company_email');
+            $agent->website                =  $request->input('website');
+            $agent->postal_address         =  $request->input('postal_address');
+            $agent->fullname               =  $request->input('fullname');
+            $agent->status                 =  $request->input('status');
+            $agent->designation            =  $request->input('designation');
+            $agent->personal_email         =  $request->input('personal_email');
+            $agent->personal_mobile        =  $request->input('personal_mobile');
+            $agent->personal_contact_num   =  $request->input('personal_contact_num');
 
-        if($request->input('type_of_company') == 'individual'){
-            $agent->country                =  $request->input('country_personal');
-            $agent->country_state_id       =  $request->input('state_personal');
-        }else{
-            $agent->country                =  $request->input('country');
-            $agent->country_state_id       =  $request->input('state');
-        }
+            if($request->input('type_of_company') == 'individual'){
+                $agent->country                =  $request->input('country_personal');
+                $agent->country_state_id       =  $request->input('state_personal');
+            }else{
+                $agent->country                =  $request->input('country');
+                $agent->country_state_id       =  $request->input('state');
+            }
 
+            $agent->updated_by             = Auth::user()->id;
+            $oldimage                      = $agent->image;
 
-
-
-
-        $agent->updated_by             = Auth::user()->id;
-        $oldimage                      = $agent->image;
-
-        if (!empty($request->file('image'))){
-            $image =$request->file('image');
-            $name1 = uniqid().'_'.$image->getClientOriginalName();
-            $path = base_path().'/public/images/agent/'.$name1;
-            $image_resize = Image::make($image->getRealPath())->orientate();
-            $image_resize->resize(500, 500, function ($constraint) {
-                $constraint->aspectRatio(); //maintain image ratio
-            });
-            if ($image_resize->save($path,80)){
-                $agent->image= $name1;
-                if (!empty($oldimage) && file_exists(public_path().'/images/agent/'.$oldimage)){
-                    @unlink(public_path().'/images/agent/'.$oldimage);
+            if (!empty($request->file('image'))){
+                $image =$request->file('image');
+                $name1 = uniqid().'_'.$image->getClientOriginalName();
+                $path = base_path().'/public/images/agent/'.$name1;
+                $image_resize = Image::make($image->getRealPath())->orientate();
+                $image_resize->resize(500, 500, function ($constraint) {
+                    $constraint->aspectRatio(); //maintain image ratio
+                });
+                if ($image_resize->save($path,80)){
+                    $agent->image= $name1;
+                    if (!empty($oldimage) && file_exists(public_path().'/images/agent/'.$oldimage)){
+                        @unlink(public_path().'/images/agent/'.$oldimage);
+                    }
                 }
             }
-        }
 
-        $status = $agent->update();
-        if($status){
+            $status = $agent->update();
+            if($status){
 
-//            $lower           = str_replace(" ","_",strtolower($old_c_name));
-//            $oldslug     = $lower."_".$old_c_no;
-//
-//            $secondarygroup     = SecondaryGroup::where("slug",$oldslug)->first();
-//
-//            $companynew = str_replace(" ","_",strtolower($request->input('company_name')));
-//            $slug     = $companynew."_".$request->input('client_no');
-//
-//            $secondarygroup->name        = $request->input('company_name');
-//            $secondarygroup->slug        = $slug;
-//            $secondarygroup->updated_by  = Auth::user()->id;
-//            $secondarygroup->update();
-//
+    //            $lower           = str_replace(" ","_",strtolower($old_c_name));
+    //            $oldslug     = $lower."_".$old_c_no;
+    //
+    //            $secondarygroup     = SecondaryGroup::where("slug",$oldslug)->first();
+    //
+    //            $companynew = str_replace(" ","_",strtolower($request->input('company_name')));
+    //            $slug     = $companynew."_".$request->input('client_no');
+    //
+    //            $secondarygroup->name        = $request->input('company_name');
+    //            $secondarygroup->slug        = $slug;
+    //            $secondarygroup->updated_by  = Auth::user()->id;
+    //            $secondarygroup->update();
+    //
 
 
-            Session::flash('success','Overseas Agent Updated Successfully');
-        }
-        else{
+                Session::flash('success','Overseas Agent Updated Successfully');
+            }
+
+            Session::flash('success','Overseas Agent Created Successfully');
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
             Session::flash('error','Something Went Wrong. Overseas Agent could not be Updated');
         }
-        return redirect()->back();
 
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function destroy($id)
     {

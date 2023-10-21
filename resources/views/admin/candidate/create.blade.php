@@ -1398,7 +1398,7 @@
                                         <select class="custom-select demand-company-name select-height" name="demand_info_id" disabled>
                                             <option value disabled selected> Select Company Name </option>
                                             @foreach($demandinfo as $demand)
-                                                <option value="{{$demand->id}}">{{ucwords($demand->company_name)}} </option>
+                                                <option value="{{$demand->id}}">{{ucwords(@$demand->demandCompany->title ?? '-')}} </option>
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">
